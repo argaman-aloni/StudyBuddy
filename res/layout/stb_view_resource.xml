@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <TextView
+        android:id="@+id/resource_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <com.technion.coolie.studybuddy.views.NowLayout
+        android:id="@+id/stb_resource_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/resource_type"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:clipToPadding="true"
+        android:numColumns="@integer/stb_num_of_columns_resourse"
+        android:paddingLeft="20dp"
+        android:stretchMode="columnWidth" >
+    </com.technion.coolie.studybuddy.views.NowLayout>
+
+    <!-- drag and drop is disabled for now
+     <View
+        android:id="@+id/divdier1"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/listView1"
+        android:background="@android:color/darker_gray" />
+
+    <com.technion.coolie.studybuddy.views.NowLayout
+        android:id="@+id/done_items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divdier1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:clipToPadding="true"
+        android:minHeight="200dp"
+        android:minWidth="200dp"
+        android:numColumns="@integer/stb_num_of_columns_resourse"
+        android:paddingLeft="20dp" >
+    </com.technion.coolie.studybuddy.views.NowLayout>
+ -->
+</RelativeLayout>

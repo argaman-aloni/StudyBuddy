@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ProgressWheel="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/stb_resourse_card_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="24dp"
+        android:fontFamily="sans-serif-thin"
+        android:text="@string/stb_title"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/stb_resourse_card_items"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/stb_resourse_card_title"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="24dp"
+        android:text="@string/stb_items_ten"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="48sp" />
+
+    <TextView
+        android:id="@+id/stb_items_behind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/stb_resourse_card_items"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/stb_resourse_card_items"
+        android:layout_marginLeft="24dp"
+        android:text="@string/stb_items_behind"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <com.todddavies.components.progressbar.ProgressWheel
+        android:id="@+id/stb_rsc_progressBar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="16dp"
+        ProgressWheel:barColor="#339BB9"
+        ProgressWheel:barLength="60dp"
+        ProgressWheel:barWidth="12dp"
+        ProgressWheel:rimColor="#44000000"
+        ProgressWheel:rimWidth="12dp"
+        ProgressWheel:spinSpeed="3dp"
+        ProgressWheel:text="6/14"
+        ProgressWheel:textColor="#222222"
+        ProgressWheel:textSize="14sp" />
+
+    <View
+        android:id="@+id/stb_dotted_sep"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/stb_items_behind"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/stb_dotted_separator"
+        android:layerType="software" />
+
+    <TextView
+        android:id="@+id/stb_resourse_card_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/stb_resourse_card_items"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/stb_dotted_sep"
+        android:layout_margin="8dp"
+        android:layout_marginLeft="24dp"
+        android:text="@string/stb_items_next"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <View
+        android:id="@+id/stb_resource_stripe"
+        android:layout_width="16dip"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/stb_resourse_card_next"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="#FF0000"
+        android:contentDescription="@string/stb_color_stripe" />
+
+</RelativeLayout>

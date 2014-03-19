@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/stb_main_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_settings"/>
+    <item
+        android:id="@+id/stb_add_curse"
+        android:icon="@drawable/stb_new"
+        android:showAsAction="always"
+        android:title="@string/stb_add_course">
+    </item>
+    <item
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:showAsAction="ifRoom"
+        android:title="@string/stb_sort">
+        <menu>
+            <item
+                android:id="@+id/stb_menu_sort_progress"
+                android:title="@string/stb_menu_sort_progress_str"/>
+            <item
+                android:id="@+id/stb_menu_sort_name"
+                android:title="@string/stb_menu_sort_name_str"/>
+            <item
+                android:id="@+id/stb_menu_sort_number"
+                android:title="@string/stb_menu_sort_number_str"/>
+        </menu>
+    </item>
+
+</menu>

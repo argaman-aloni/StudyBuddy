@@ -1,0 +1,17 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <ListPreference
+        android:defaultValue="14"
+        android:entries="@array/stb_pref_weeks"
+        android:entryValues="@array/stb_pref_weeks_vals"
+        android:key="stb_simester_length"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/stb_num_of_weeeks" />
+
+    <com.technion.coolie.studybuddy.views.DatePreference
+        android:defaultValue="2013.10.13"
+        android:key="stb_semester_start"
+        android:title="@string/stb_semester_start" />
+
+</PreferenceScreen>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <EditText
+        android:inputType="text"
+        android:id="@+id/stb_resourse_rename_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/stb_resourse_rename_name"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="17dp"
+        android:text="@string/stb_resourse_rename_str"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+ <!--    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:divider="@drawable/stb_vertical_divider"
+        android:showDividers="middle"
+        android:weightSum="2" >
+
+        <Button
+            android:id="@+id/stb_resourse_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/stb_button_selector"
+            android:text="@string/stb_cancel" />
+
+        <Button
+            android:id="@+id/stb_resourse_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/stb_button_selector"
+            android:text="@string/stb_save" />
+    </LinearLayout>
+ -->
+</RelativeLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+     <item
+        android:id="@+id/stb_discard_curse"
+        android:title="@string/stb_course_discard">
+    </item>
+    <item
+        android:id="@+id/stb_course_card_add_exam"
+        android:title="@string/stb_course_card_add_exam_str"/>
+
+</menu>

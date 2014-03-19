@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="stb_course_name_hint">Course name eg: Biology</string>
+    <string name="stb_course_number_hint">Course number eg: 236321</string>
+    <string name="stb_cancel">Cancel</string>
+    <string name="stb_save">Save</string>
+    <string name="stb_title_activity_edit_course">EditCourse</string>
+    <string name="stb_add_course">Add course</string>
+    <string name="stb_sort">Sort</string>
+    <string name="stb_include_lectures">Include lectures as resourse</string>
+    <string name="stb_include_tutorials">Include tutorials as resourse</string>
+    <string name="stb_lecture_count_hint"># of lectures</string>
+    <string name="stb_tutorials_count_hint"># of tutorials</string>
+    <string name="stb_semester_start">Semester start date</string>
+    <string name="stb_course_discard">Delete</string>
+    <string name="stb_color_stripe">Color Stripe</string>
+    <string name="stb_title">Title</string>
+    <string name="stb_desc">Desc</string>
+    <string name="stb_overflow">Menu Overflow</string>
+    <string name="stb_coursemenu_diss_str">Dismiss</string>
+    <string name="stb_course_card_add_exam_str">Add exam</string>
+    <string name="stb_items_left"> Items left</string>
+    <string name="stb_days_left"> Days left</string>
+    <string name="stb_items_behind"> Items behind</string>
+    <string name="stb_items_ten">10</string>
+    <string name="stb_items_next">Next Item</string>
+    <string name="stb_review_material"> Review material</string>
+    <string name="stb_resourse_rename_str">Rename</string>
+    <string name="stb_review_point_title_str">Review Point name</string>
+    <string name="stb_review_point_hint">Review point name eg: midterm </string>
+    <string name="stb_exam_card_start_str">Start studying</string>
+    <string name="stb_empty_state_title">No courses</string>
+    <string name="stb_empty_state_button"><u>Add course</u></string>
+    <string name="stb_lecture_str">Lectures</string>
+    <string name="stb_tutorials_str">Tutorials</string>
+    <string name="stb_menu_sort_progress_str">Sort by progrss</string>
+    <string name="stb_menu_sort_name_str">Sort by name</string>
+    <string name="stb_menu_sort_number_str">Sort by number</string>
+    <string name="stb_add_all_str">Add all</string>
+    <string name="stb_title_activity_create_review_point">Create Review Point</string>
+
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <com.technion.coolie.studybuddy.views.DatePreference
+        android:defaultValue="2013.10.13"
+        android:key="stb_semester_start"
+        android:title="@string/stb_semester_start" />
+
+</PreferenceScreen>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/stb_exam_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="24dp"
+        android:fontFamily="sans-serif-thin"
+        android:text="@string/stb_title"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/stb_exam_card_items"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/stb_exam_item_title"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="24dp"
+        android:text="@string/stb_items_ten"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="48sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/stb_exam_card_items"
+        android:layout_marginLeft="24dp"
+        android:layout_toRightOf="@id/stb_exam_card_items"
+        android:text="@string/stb_days_left"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/stb_exam_review"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stb_exam_card_items"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/abs__btn_cab_done_holo_light"
+        android:text="@string/stb_review_material"
+        android:textAppearance="?android:attr/textAppearanceButton" />
+
+  <!--   <ImageView
+        android:id="@+id/overflow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/abs__btn_cab_done_holo_light"
+        android:contentDescription="@string/stb_overflow"
+        android:padding="2dip"
+        android:src="@drawable/stb_overflow" />
+ -->
+    <View
+        android:id="@+id/stb_exam_stripe"
+        android:layout_width="16dip"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/stb_exam_review"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="#FF0000"
+        android:contentDescription="@string/stb_color_stripe" />
+
+</RelativeLayout>

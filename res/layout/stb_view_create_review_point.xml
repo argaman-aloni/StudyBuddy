@@ -1,0 +1,99 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".CreateReviewPointActivity" >
+
+    <EditText
+        android:id="@+id/stb_review_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/stb_review_point_hint"
+        android:inputType="text" />
+
+    <DatePicker
+        android:id="@+id/stb_review_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/stb_review_name"
+        android:calendarViewShown="@bool/stb_date_picker" />
+
+    <!-- <CheckBox
+        android:id="@+id/stb_review_lecture_chk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/stb_review_date"
+        android:layout_below="@+id/stb_review_date"
+        android:text="@string/stb_lecture_str" />
+
+    <ImageButton
+        android:id="@+id/stb_review_lecture_settings"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/stb_review_lecture_chk"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/stb_review_date"
+        android:clickable="false"
+        android:focusable="false"
+        android:contentDescription="@string/stb_description"
+        android:src="@drawable/stb_settings" />
+
+    <CheckBox
+        android:id="@+id/stb_review_tutorial_chk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/stb_review_date"
+        android:layout_below="@+id/stb_review_lecture_chk"
+        android:text="@string/stb_tutorials_str" />
+
+    <ImageButton
+        android:id="@+id/stb_review_tutorial_settings"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/stb_review_tutorial_chk"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/stb_review_lecture_settings"
+        android:clickable="false"
+        android:focusable="false"
+        android:contentDescription="@string/stb_description"
+        android:src="@drawable/stb_settings" />
+ -->
+    <LinearLayout
+        android:id="@+id/stb_buttonbar"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:divider="?android:dividerVertical"
+        android:showDividers="middle"
+        android:weightSum="2" >
+
+        <Button
+            android:id="@+id/stb_review_cancel"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/stb_cancel" />
+
+        <Button
+            android:id="@+id/stb_review_save"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/stb_save" />
+    </LinearLayout>
+
+</RelativeLayout>

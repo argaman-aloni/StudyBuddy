@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    
+
+    <color name="stb_golden">#f2a400</color>
+    <color name="stb_cyan">#00FFFF</color>
+    <color name="stb_red">#e00707</color>
+    <color name="stb_green">#4ac925</color>
+    <color name="stb_skyblue">#0000ff</color>
+    <color name="stb_holoblue">#ff33b6ea</color>
+    <color name="stb_white">#FFFFFF</color>
+
+</resources>

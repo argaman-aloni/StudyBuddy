@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/stb_nowCardStyle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="right"
+    android:padding="8dp" >
+
+    <ImageView
+        android:id="@+id/stb_overflow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/abs__btn_cab_done_holo_light"
+        android:contentDescription="@string/stb_overflow"
+        android:src="@drawable/stb_overflow" />
+
+    <com.technion.coolie.studybuddy.views.StrikeThroughTextView
+        android:id="@+id/stb_strike_text"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="16dp"
+        android:layout_marginTop="24dp"
+        android:maxLines="3"
+        android:minHeight="48dp"
+        android:minWidth="48dp"
+        android:text="@string/stb_desc"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</RelativeLayout>

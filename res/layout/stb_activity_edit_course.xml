@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <EditText
+        android:id="@+id/stb_course_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:hint="@string/stb_course_name_hint"
+        android:inputType="text" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/stb_course_number"
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stb_course_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:hint="@string/stb_course_number_hint"
+        android:inputType="number" />
+
+    <CheckBox
+        android:id="@+id/stb_include_lectures"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/stb_course_number"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/stb_include_lectures" />
+
+    <EditText
+        android:id="@+id/stb_lecture_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stb_include_lectures"
+        android:layout_marginLeft="24dp"
+        android:ems="10"
+        android:enabled="false"
+        android:hint="@string/stb_lecture_count_hint"
+        android:inputType="number" />
+
+    <CheckBox
+        android:id="@+id/stb_include_tutorials"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/stb_include_lectures"
+        android:layout_below="@id/stb_lecture_count"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/stb_include_tutorials" />
+
+    <EditText
+        android:id="@+id/stb_tutorial_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stb_include_tutorials"
+        android:layout_marginLeft="24dp"
+        android:ems="10"
+        android:enabled="false"
+        android:hint="@string/stb_tutorials_count_hint"
+        android:inputType="number" />
+
+    <LinearLayout
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="0dp"
+        android:weightSum="2" >
+
+        <Button
+            android:id="@+id/stb_btn_cancel"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/stb_cancel" />
+
+        <Button
+            android:id="@+id/stb_btn_save"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/stb_save" />
+    </LinearLayout>
+
+</RelativeLayout>

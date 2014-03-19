@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/stb_lecturesProgress"
+        style="@style/stb_nowCardStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/stb_simester_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" >
+
+            <TextView
+                android:id="@+id/stb_simester"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/darker_gray" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/stb_lecture_progress_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/stb_simester_data"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:weightSum="4" >
+
+            <TextView
+                android:id="@+id/stb_lecturesProgressLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:text="@string/stb_lecture_str"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+            <com.wvr.widget.TextProgressBar
+                android:id="@+id/stb_lecturesProgressBar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:max="100"
+                android:minHeight="35dp"
+                android:progress="20"
+                android:progressDrawable="@drawable/stb_progress_gradient"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/stb_tutorials_progress_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/stb_lecture_progress_layout"
+            android:layout_marginTop="8dp"
+            android:weightSum="4" >
+
+            <TextView
+                android:id="@+id/stb_tutorialsProgressLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:text="@string/stb_tutorials_str"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+            <com.wvr.widget.TextProgressBar
+                android:id="@+id/stb_tutorialsProgressBar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:max="100"
+                android:minHeight="35dp"
+                android:progress="50"
+                android:progressDrawable="@drawable/stb_progress_gradient"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <com.technion.coolie.studybuddy.views.NowLayout
+        android:id="@+id/course_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/stb_lecturesProgress"
+        android:numColumns="1">
+    </com.technion.coolie.studybuddy.views.NowLayout>
+
+</RelativeLayout>
