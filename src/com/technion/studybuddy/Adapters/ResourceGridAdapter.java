@@ -2,7 +2,6 @@ package com.technion.studybuddy.Adapters;
 
 import java.util.List;
 
-import android.R;
 import android.animation.AnimatorSet.Builder;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,8 +22,8 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.technion.studybuddy.R;
 import com.technion.studybuddy.Models.StudyItem;
-import com.technion.studybuddy.Views.PopupMenu;
 import com.technion.studybuddy.Views.StrikeThroughTextView;
 
 

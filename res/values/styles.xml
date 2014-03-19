@@ -72,20 +72,8 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">#ffffff</item>
     </style>
-    <!-- TechLibrary -->
-    <style name="lib_LoginFormContainer">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">16dp</item>
-    </style>
-
-    <!-- AssignMentor -->
-    <style name="fade_animation">
-        <item name="@android:windowEnterAnimation">@anim/am_popup_show</item>
-        <item name="@android:windowExitAnimation">@anim/am_popup_hide</item>
-    </style>
-
-    <style name="Theme.Transparent" parent="Theme.Sherlock.Light">
+    
+    <style name="Theme.Transparent" parent="android:Theme.Light">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>

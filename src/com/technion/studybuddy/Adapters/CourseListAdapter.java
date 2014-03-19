@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
-import android.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +15,7 @@ import android.widget.BaseAdapter;
 
 import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.objects.RecyclableCard;
+import com.technion.studybuddy.R;
 import com.technion.studybuddy.Models.ExamDate;
 import com.technion.studybuddy.Views.AnimatedCardUI;
 import com.technion.studybuddy.Views.CourseActivity;

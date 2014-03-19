@@ -1,6 +1,5 @@
 package com.technion.studybuddy.Adapters;
 
-import android.R;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -10,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.technion.studybuddy.R;
 import com.technion.studybuddy.Views.CourseActivity;
 import com.technion.studybuddy.data.DataStore;
 

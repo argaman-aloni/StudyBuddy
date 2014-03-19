@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.technion.studybuddy.R;
 import com.technion.studybuddy.Models.StudyItem;
 import com.technion.studybuddy.Views.StrikeThroughView;
 import com.technion.studybuddy.data.DataStore;

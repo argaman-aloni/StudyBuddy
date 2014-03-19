@@ -39,5 +39,35 @@
     <string name="stb_menu_sort_number_str">Sort by number</string>
     <string name="stb_add_all_str">Add all</string>
     <string name="stb_title_activity_create_review_point">Create Review Point</string>
+    <string name="action_settings">Settings</string>
+    
+
+    <string name="title_activity_stb_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+	<string name="stb_num_of_weeeks">select # of weeks in semester</string>
+	<string name="stb_general_title">Semester settings</string>
+    <string-array name="stb_pref_weeks">
+        <item>10 Weeks</item>
+        <item>11 Weeks</item>
+        <item>12 Weeks</item>
+        <item>13 Weeks</item>
+        <item>14 Weeks</item>
+        <item>15 Weeks</item>
+        <item>16 Weeks</item>
+    </string-array>
+    <string-array name="stb_pref_weeks_vals">
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+    </string-array>
+
+
+
 
 </resources>

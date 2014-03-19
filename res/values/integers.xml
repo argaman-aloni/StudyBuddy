@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <bool name="stb_date_picker">false</bool>
+    <integer name="stb_config_slide_time">800</integer>
+    <integer name="stb_in_time">500</integer>
+    <integer name="stb_num_of_columns_course_Items">1</integer>
+    <integer name="stb_num_of_columns">1</integer>
+    <integer name="stb_num_of_columns_resourse">3</integer>
+    <integer name="numDefaultResources">2</integer>
+
+</resources>
