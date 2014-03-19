@@ -3,6 +3,7 @@ package com.technion.studybuddy.Views;
 import java.util.Date;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,14 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.technion.coolie.studybuddy.data.DataStore;
-import com.technion.coolie.studybuddy.exceptions.NoSuchResourceException;
-import com.technion.coolie.tmp.R;
-import com.technion.coolie.tmp.studybuddy.adapters.ResourceGridAdapter;
-import com.technion.coolie.tmp.studybuddy.models.StudyResource;
+import com.technion.studybuddy.R;
+import com.technion.studybuddy.Models.StudyResource;
+import com.technion.studybuddy.adapters.ResourceGridAdapter;
+import com.technion.studybuddy.data.DataStore;
+import com.technion.studybuddy.exceptions.NoSuchResourceException;
 
-public class ResourceFragment extends SherlockFragment // implements
+
+public class ResourceFragment extends Fragment // implements
 // CrossGesture
 {
 

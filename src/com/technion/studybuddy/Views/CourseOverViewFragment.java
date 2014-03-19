@@ -13,15 +13,15 @@ import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.technion.coolie.studybuddy.data.DataStore;
-import com.technion.coolie.studybuddy.presenters.CoursePresenter;
-import com.technion.coolie.tmp.R;
-import com.technion.coolie.tmp.studybuddy.adapters.TaskAdapter;
-import com.technion.coolie.tmp.studybuddy.views.SwipeDismissListViewTouchListener.DismissCallbacks;
+import android.app.Fragment;
+import com.technion.studybuddy.data.DataStore;
+import com.technion.studybuddy.presenters.CoursePresenter;
+import com.technion.studybuddy.R;
+import com.technion.studybuddy.adapters.TaskAdapter;
+import com.technion.studybuddy.Views.SwipeDismissListViewTouchListener.DismissCallbacks;
 import com.wvr.widget.TextProgressBar;
 
-public class CourseOverViewFragment extends SherlockFragment implements
+public class CourseOverViewFragment extends Fragment implements
 		Observer, MessageBar.OnMessageClickListener
 {
 	public static final String courseNumberArg = "courseNameArg";

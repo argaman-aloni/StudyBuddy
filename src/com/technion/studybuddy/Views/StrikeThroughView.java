@@ -8,7 +8,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 
-import com.technion.coolie.tmp.R;
+import com.technion.studybuddy.R;
+
 
 public class StrikeThroughView extends FontFitTextView
 {

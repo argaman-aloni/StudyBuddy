@@ -1,4 +1,4 @@
-package com.technion.studybuddy.Adapters;
+package com.technion.studybuddy.adapters;
 
 import java.util.List;
 
@@ -24,6 +24,7 @@ import android.widget.ImageView;
 
 import com.technion.studybuddy.R;
 import com.technion.studybuddy.Models.StudyItem;
+import com.technion.studybuddy.Views.PopupMenu;
 import com.technion.studybuddy.Views.StrikeThroughTextView;
 
 

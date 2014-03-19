@@ -5,17 +5,17 @@ import java.util.Date;
 
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
-import com.technion.coolie.studybuddy.data.DataStore;
-import com.technion.coolie.tmp.R;
+import com.technion.studybuddy.data.DataStore;
+import com.technion.studybuddy.R;
 
-public class CreateReviewPointActivity extends StudyBuddyActivity
-{
+public class CreateReviewPointActivity extends StudyBuddyActivity {
 	private String courseID;
 	public static final String COURSEID = "courseID";
 	// private List<StudyItem> lectures, tutorials;
@@ -23,8 +23,7 @@ public class CreateReviewPointActivity extends StudyBuddyActivity
 	private EditText name;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stb_view_create_review_point);
 
@@ -33,30 +32,25 @@ public class CreateReviewPointActivity extends StudyBuddyActivity
 		dueDate = (DatePicker) findViewById(R.id.stb_review_date);
 		name = (EditText) findViewById(R.id.stb_review_name);
 
-		if (getIntent().getExtras().containsKey(COURSEID))
-		{
+		if (getIntent().getExtras().containsKey(COURSEID)) {
 			courseID = getIntent().getExtras().getString(COURSEID);
 		}
 
 		setTitle("Add exam for " + courseID);
 
 		Button cancel = (Button) findViewById(R.id.stb_review_cancel);
-		cancel.setOnClickListener(new OnClickListener()
-		{
+		cancel.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 				finish();
 			}
 		});
 		Button saveButton = (Button) findViewById(R.id.stb_review_save);
-		saveButton.setOnClickListener(new OnClickListener()
-		{
+		saveButton.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 				Calendar calendar = Calendar.getInstance();
 				calendar.set(dueDate.getYear(), dueDate.getMonth(),
 						dueDate.getDayOfMonth());
@@ -73,11 +67,8 @@ public class CreateReviewPointActivity extends StudyBuddyActivity
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(
-			com.actionbarsherlock.view.MenuItem item)
-	{
-		switch (item.getItemId())
-		{
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
 		case android.R.id.home:
 
 			NavUtils.navigateUpFromSameTask(this);

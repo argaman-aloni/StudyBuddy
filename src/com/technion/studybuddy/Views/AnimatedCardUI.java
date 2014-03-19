@@ -1,6 +1,5 @@
 package com.technion.studybuddy.Views;
 
-import android.R;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -9,6 +8,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.fima.cardsui.views.CardUI;
+import com.technion.studybuddy.R;
 
 
 public class AnimatedCardUI extends CardUI implements OnGlobalLayoutListener

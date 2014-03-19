@@ -1,4 +1,4 @@
-package com.technion.studybuddy.Adapters;
+package com.technion.studybuddy.adapters;
 
 import android.content.Context;
 import android.content.Intent;

@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -15,15 +18,14 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.technion.coolie.studybuddy.data.DataStore;
-import com.technion.coolie.studybuddy.exceptions.CourseAlreadyExistsException;
-import com.technion.coolie.studybuddy.presenters.EditCoursePresenter;
-import com.technion.coolie.tmp.R;
-import com.technion.coolie.tmp.studybuddy.models.StudyResource;
+import com.technion.studybuddy.R;
+import com.technion.studybuddy.Models.StudyResource;
+import com.technion.studybuddy.data.DataStore;
+import com.technion.studybuddy.exceptions.CourseAlreadyExistsException;
+import com.technion.studybuddy.presenters.EditCoursePresenter;
 
-public class EditCourse extends StudyBuddyActivity
+
+public class EditCourse extends Activity
 {
 
 	private final class CancelButtonListener implements OnClickListener
@@ -103,7 +105,7 @@ public class EditCourse extends StudyBuddyActivity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		getSherlock().getMenuInflater().inflate(R.menu.stb_edit_course, menu);
+		getMenuInflater().inflate(R.menu.stb_edit_course, menu);
 		return true;
 	}
 
@@ -121,7 +123,7 @@ public class EditCourse extends StudyBuddyActivity
 
 	private void loadCourseData(Bundle extras)
 	{
-		getSherlock().getActionBar().setTitle("Edit Course");
+		getActionBar().setTitle("Edit Course");
 
 		String courseIdentificator = extras.getString(COURSE_ID);
 		presenter.setCourse(courseIdentificator);
@@ -148,7 +150,7 @@ public class EditCourse extends StudyBuddyActivity
 		tutorialsCount = (EditText) findViewById(R.id.stb_tutorial_count);
 
 		Bundle extras = getIntent().getExtras();
-		getSherlock().getActionBar().setTitle("Add course");
+		getActionBar().setTitle("Add course");
 
 		if (extras != null && extras.containsKey(COURSE_ID))
 		{

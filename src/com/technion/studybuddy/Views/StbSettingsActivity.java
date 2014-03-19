@@ -13,11 +13,12 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.app.SherlockPreferenceActivity;
-import com.actionbarsherlock.view.MenuItem;
-import com.technion.coolie.studybuddy.data.DataStore;
-import com.technion.coolie.tmp.R;
+import com.technion.studybuddy.R;
+import com.technion.studybuddy.data.DataStore;
+
+
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -30,7 +31,7 @@ import com.technion.coolie.tmp.R;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class StbSettingsActivity extends SherlockPreferenceActivity
+public class StbSettingsActivity extends PreferenceActivity
 {
 	/**
 	 * This fragment shows general preferences only. It is used when the

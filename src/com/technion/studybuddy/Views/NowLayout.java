@@ -8,7 +8,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.GridView;
 
-import com.technion.coolie.tmp.R;
+import com.technion.studybuddy.R;
+
 
 public class NowLayout extends GridView implements OnGlobalLayoutListener
 {

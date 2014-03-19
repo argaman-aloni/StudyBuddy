@@ -1,4 +1,4 @@
-package com.technion.studybuddy.Adapters;
+package com.technion.studybuddy.adapters;
 
 import java.util.List;
 

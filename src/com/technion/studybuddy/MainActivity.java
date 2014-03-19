@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,13 +22,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.technion.studybuddy.Adapters.CourseListAdapter;
 import com.technion.studybuddy.Models.Courses;
 import com.technion.studybuddy.Models.StudyItem;
 import com.technion.studybuddy.Views.EditCourse;
 import com.technion.studybuddy.Views.NowLayout;
 import com.technion.studybuddy.Views.StbSettingsActivity;
 import com.technion.studybuddy.Views.StudyBuddyActivity;
+import com.technion.studybuddy.adapters.CourseListAdapter;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.CourseAlreadyExistsException;
 import com.technion.studybuddy.exceptions.NoSuchResourceException;
@@ -35,7 +36,7 @@ import com.technion.studybuddy.graphs.GraphFactory;
 import com.technion.studybuddy.presenters.EditCoursePresenter;
 
 
-public class MainActivity extends StudyBuddyActivity implements Observer
+public class MainActivity extends Activity implements Observer
 {
 
 	private GraphicalView graphView;

@@ -14,7 +14,8 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.TextView;
 
-import com.technion.coolie.tmp.R;
+import com.technion.studybuddy.R;
+
 
 public class MessageBar
 {

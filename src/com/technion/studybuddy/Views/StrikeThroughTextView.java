@@ -6,7 +6,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 
-import com.technion.coolie.tmp.R;
+import com.technion.studybuddy.R;
+
 
 public class StrikeThroughTextView extends FontFitTextView
 {

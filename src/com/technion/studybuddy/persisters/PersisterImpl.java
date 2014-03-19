@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
-import com.technion.coolie.studybuddy.utils.Action;
+import com.technion.studybuddy.utils.Action;
 
 public class PersisterImpl<Interface extends Persistable<Parent>, Implementation extends Interface, Parent>
 				implements Persister<Interface, Implementation, Parent>
