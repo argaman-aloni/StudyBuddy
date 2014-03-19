@@ -42,7 +42,7 @@
         android:layout_below="@id/stb_exam_card_items"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/abs__btn_cab_done_holo_light"
+        android:background="@null"
         android:text="@string/stb_review_material"
         android:textAppearance="?android:attr/textAppearanceButton" />
 
