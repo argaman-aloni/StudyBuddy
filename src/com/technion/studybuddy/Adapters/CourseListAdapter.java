@@ -1,4 +1,4 @@
-package com.technion.studybuddy.adapters;
+package com.technion.studybuddy.Adapters;
 
 import java.util.Date;
 import java.util.Observable;
@@ -132,10 +132,17 @@ public class CourseListAdapter extends BaseAdapter implements Observer
 			@Override
 			public void onClick(View v)
 			{
-				Intent intent = new Intent(v.getContext(), CourseActivity.class);
-				intent.putExtra(CourseActivity.COURSE_ID,
-						presenter.getIdByPosition(position));
-				v.getContext().startActivity(intent);
+				try
+				{
+					Intent intent = new Intent(v.getContext(), CourseActivity.class);
+					intent.putExtra(CourseActivity.COURSE_ID,
+							presenter.getIdByPosition(position));
+					v.getContext().startActivity(intent);		
+				} catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			
 
 			}
 		};

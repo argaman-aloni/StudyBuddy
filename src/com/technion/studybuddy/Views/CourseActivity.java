@@ -1,12 +1,12 @@
 package com.technion.studybuddy.Views;
 
 import android.app.ActionBar;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
@@ -17,6 +17,7 @@ import com.technion.studybuddy.R;
 import com.technion.studybuddy.Views.ResourceFragment.OnFragmentInteractionListener;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.presenters.CoursePresenter;
+
 
 public class CourseActivity extends Activity implements
 		ActionBar.OnNavigationListener, OnFragmentInteractionListener {

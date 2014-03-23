@@ -24,17 +24,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.technion.studybuddy.Adapters.CourseListAdapter;
 import com.technion.studybuddy.Views.EditCourse;
 import com.technion.studybuddy.Views.NowLayout;
 import com.technion.studybuddy.Views.StbSettingsActivity;
-import com.technion.studybuddy.adapters.CourseListAdapter;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.CourseAlreadyExistsException;
 import com.technion.studybuddy.exceptions.NoSuchResourceException;
 import com.technion.studybuddy.graphs.GraphFactory;
 import com.technion.studybuddy.models.Courses;
 import com.technion.studybuddy.models.StudyItem;
-import com.technion.studybuddy.R;
 
 
 

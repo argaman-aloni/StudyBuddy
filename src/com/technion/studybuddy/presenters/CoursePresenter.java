@@ -21,7 +21,8 @@ public class CoursePresenter extends Observable {
 	Course course;
 	// Arik please check this.... I added this field so that the file would
 	// compile but I don't know if it's what I was supposed to do.
-	private Semester semester;
+	
+	
 
 	public CoursePresenter(String courseNumber) {
 		this.courseNumber = courseNumber;
@@ -74,7 +75,7 @@ public class CoursePresenter extends Observable {
 
 		try {
 			return course.getResourceByName(resourceName).getNumOfItemsBehind(
-					semester.getSemesterWeek(date), semester.getTotalWeeks());
+					DataStore.semester.getSemesterWeek(date), DataStore.semester.getTotalWeeks());
 		} catch (NoSuchResourceException e) {
 			return 0;
 		}
@@ -84,7 +85,7 @@ public class CoursePresenter extends Observable {
 
 		try {
 			return course.getResourceByName(resourceName).getNumOfItemsDue(
-					semester.getSemesterWeek(date), semester.getTotalWeeks());
+					DataStore.semester.getSemesterWeek(date), DataStore.semester.getTotalWeeks());
 		} catch (NoSuchResourceException e) {
 			return 0;
 		}
@@ -92,14 +93,14 @@ public class CoursePresenter extends Observable {
 
 	public int getNumOfItemsBehind(Date date) {
 
-		return course.getNumOfItemsBehind(semester.getSemesterWeek(date),
-				semester.getTotalWeeks());
+		return course.getNumOfItemsBehind(DataStore.semester.getSemesterWeek(date),
+				DataStore.semester.getTotalWeeks());
 	}
 
 	public int getNumOfItemsDue(Date date) {
 
-		return course.getNumOfItemsDue(semester.getSemesterWeek(date),
-				semester.getTotalWeeks());
+		return course.getNumOfItemsDue(DataStore.semester.getSemesterWeek(date),
+				DataStore.semester.getTotalWeeks());
 	}
 
 	public String getNextItem(String resourseName) {
