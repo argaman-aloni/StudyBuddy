@@ -40,6 +40,7 @@ import com.technion.studybuddy.models.StudyItem;
 public class MainActivity extends Activity implements Observer
 {
 
+	public static final int USER_PERMISSION1 = 0;
 	private GraphicalView graphView;
 	private LinearLayout chartLayout;
 	private CourseListAdapter adapter;
