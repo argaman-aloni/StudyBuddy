@@ -7,7 +7,7 @@
     android:background="#e3e3e3"
     android:orientation="vertical"
     android:weightSum="100" >
-    <com.technion.coolie.studybuddy.views.NowLayout
+    <com.technion.studybuddy.Views.NowLayout
         android:numColumns="@integer/stb_num_of_columns"
         android:id="@+id/stb_task_list"
         android:layout_width="match_parent"

@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.technion.studybuddy.R;
-import com.technion.studybuddy.Models.StudyResource;
 import com.technion.studybuddy.adapters.ResourceGridAdapter;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.NoSuchResourceException;
+import com.technion.studybuddy.models.StudyResource;
 
 
 public class ResourceFragment extends Fragment // implements

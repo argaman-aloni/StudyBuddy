@@ -7,7 +7,9 @@ import java.util.Map;
 
 import android.graphics.Color;
 import android.graphics.Paint.Align;
-import android.graphics.drawable.GradientDrawable.Orientation;
+import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.renderer.SimpleSeriesRenderer;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
 
 public class CourseProgress

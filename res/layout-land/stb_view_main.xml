@@ -22,12 +22,12 @@
         android:layout_weight="2"
         android:orientation="vertical" >
 
-        <com.technion.coolie.studybuddy.views.NowLayout
+        <com.technion.studybuddy.Views.NowLayout
             android:id="@+id/course_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:numColumns="@integer/stb_num_of_columns" >
-        </com.technion.coolie.studybuddy.views.NowLayout>
+        </com.technion.studybuddy.Views.NowLayout>
 
         <LinearLayout
             android:id="@+id/stb_main_empty_state"

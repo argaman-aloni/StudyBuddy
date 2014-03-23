@@ -98,12 +98,12 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <com.technion.coolie.studybuddy.views.NowLayout
+    <com.technion.studybuddy.Views.NowLayout
         android:id="@+id/course_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/stb_lecturesProgress"
         android:numColumns="1">
-    </com.technion.coolie.studybuddy.views.NowLayout>
+    </com.technion.studybuddy.Views.NowLayout>
 
 </RelativeLayout>

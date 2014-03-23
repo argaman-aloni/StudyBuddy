@@ -1,4 +1,4 @@
-package com.technion.studybuddy.Models;
+package com.technion.studybuddy.models;
 
 import java.util.Date;
 import java.util.UUID;
@@ -16,7 +16,6 @@ import com.technion.studybuddy.utils.OnEventListener;
 public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 				StudyItem
 {
-	@SuppressWarnings("unused")
 	@DatabaseField(generatedId = true)
 	private UUID id;
 

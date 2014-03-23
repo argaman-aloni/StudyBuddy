@@ -1,10 +1,11 @@
 package com.technion.studybuddy;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+
+import org.achartengine.GraphicalView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.support.v4.app.NavUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -22,18 +24,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.technion.studybuddy.Models.Courses;
-import com.technion.studybuddy.Models.StudyItem;
 import com.technion.studybuddy.Views.EditCourse;
 import com.technion.studybuddy.Views.NowLayout;
 import com.technion.studybuddy.Views.StbSettingsActivity;
-import com.technion.studybuddy.Views.StudyBuddyActivity;
 import com.technion.studybuddy.adapters.CourseListAdapter;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.CourseAlreadyExistsException;
 import com.technion.studybuddy.exceptions.NoSuchResourceException;
 import com.technion.studybuddy.graphs.GraphFactory;
-import com.technion.studybuddy.presenters.EditCoursePresenter;
+import com.technion.studybuddy.models.Courses;
+import com.technion.studybuddy.models.StudyItem;
+import com.technion.studybuddy.R;
+
 
 
 public class MainActivity extends Activity implements Observer
@@ -113,22 +115,22 @@ public class MainActivity extends Activity implements Observer
 			createExmapleCourse();
 		}
 
-		if (CoolieAccount.UG.isAlreadyLoggedIn())
-		{
-			loadCoursesFromUG();
-		}
+//		if (CoolieAccount.UG.isAlreadyLoggedIn())
+//		{
+//			loadCoursesFromUG();
+//		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		getSherlock().getMenuInflater().inflate(R.menu.stb_main_menu, menu);
+		getMenuInflater().inflate(R.menu.stb_main_menu, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(
-			com.actionbarsherlock.view.MenuItem item)
+			MenuItem item)
 	{
 
 		Intent intent = null;
@@ -160,35 +162,35 @@ public class MainActivity extends Activity implements Observer
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void loadCoursesFromUG()
-	{
-		EditCoursePresenter editPresenter = DataStore.getEditCoursePresenter();
-
-		// FIXME: me so it doesnt crash because of colliding db helpers from ug
-		UGDBProvider provider = new UGDBProvider(this);
-		String studentId = CoolieAccount.UG.getUsername();
-		ArrayList<CourseItem> clist = provider.getCoursesAndExams(studentId);
-
-		for (CourseItem item : clist)
-		{
-			String num = item.getCourseId();
-			String name = item.getCoursName();
-
-			int lecturesAmount = DataStore.taskForCourse;
-			int tutorialsAmount = DataStore.taskForCourse;
-
-			try
-			{
-				editPresenter.commitCourse(num, name, lecturesAmount,
-						tutorialsAmount);
-			} catch (CourseAlreadyExistsException e)
-			{
-				// skip, we already have it
-			}
-		}
-
-		provider.close();
-	}
+//	private void loadCoursesFromUG()
+//	{
+//		EditCoursePresenter editPresenter = DataStore.getEditCoursePresenter();
+//
+//		// FIXME: me so it doesnt crash because of colliding db helpers from ug
+//		UGDBProvider provider = new UGDBProvider(this);
+//		String studentId = CoolieAccount.UG.getUsername();
+//		ArrayList<CourseItem> clist = provider.getCoursesAndExams(studentId);
+//
+//		for (CourseItem item : clist)
+//		{
+//			String num = item.getCourseId();
+//			String name = item.getCoursName();
+//
+//			int lecturesAmount = DataStore.taskForCourse;
+//			int tutorialsAmount = DataStore.taskForCourse;
+//
+//			try
+//			{
+//				editPresenter.commitCourse(num, name, lecturesAmount,
+//						tutorialsAmount);
+//			} catch (CourseAlreadyExistsException e)
+//			{
+//				// skip, we already have it
+//			}
+//		}
+//
+//		provider.close();
+//	}
 
 	private void createExmapleCourse()
 	{

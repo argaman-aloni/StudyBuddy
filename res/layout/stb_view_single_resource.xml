@@ -16,7 +16,7 @@
         android:contentDescription="@string/stb_overflow"
         android:src="@drawable/stb_overflow" />
 
-    <com.technion.coolie.studybuddy.views.StrikeThroughTextView
+    <com.technion.studybuddy.Views.StrikeThroughTextView
         android:id="@+id/stb_strike_text"
         android:layout_width="70dp"
         android:layout_height="50dp"

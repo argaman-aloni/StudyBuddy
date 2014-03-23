@@ -2,9 +2,9 @@ package com.technion.studybuddy.factories;
 
 import java.util.List;
 
-import com.technion.studybuddy.Models.StudyItem;
-import com.technion.studybuddy.Models.StudyResource;
-import com.technion.studybuddy.Models.StudyResourceImpl;
+import com.technion.studybuddy.models.StudyItem;
+import com.technion.studybuddy.models.StudyResource;
+import com.technion.studybuddy.models.StudyResourceImpl;
 
 public class StudyResourceFactory {
 

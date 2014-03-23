@@ -19,9 +19,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.technion.studybuddy.R;
-import com.technion.studybuddy.Models.StudyResource;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.CourseAlreadyExistsException;
+import com.technion.studybuddy.models.StudyResource;
 import com.technion.studybuddy.presenters.EditCoursePresenter;
 
 

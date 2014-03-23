@@ -3,9 +3,9 @@ package com.technion.studybuddy.factories;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.technion.studybuddy.Models.StudyItem;
-import com.technion.studybuddy.Models.StudyItemImpl;
-import com.technion.studybuddy.Models.StudyItems;
+import com.technion.studybuddy.models.StudyItem;
+import com.technion.studybuddy.models.StudyItemImpl;
+import com.technion.studybuddy.models.StudyItems;
 
 public class StudyItemsFactory {
 

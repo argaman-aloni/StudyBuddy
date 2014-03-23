@@ -2,15 +2,14 @@ package com.technion.studybuddy.adapters;
 
 import java.util.List;
 
-import android.animation.AnimatorSet.Builder;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -23,9 +22,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.technion.studybuddy.R;
-import com.technion.studybuddy.Models.StudyItem;
 import com.technion.studybuddy.Views.PopupMenu;
 import com.technion.studybuddy.Views.StrikeThroughTextView;
+import com.technion.studybuddy.models.StudyItem;
 
 
 public class ResourceGridAdapter extends BaseAdapter {
@@ -192,7 +191,7 @@ public class ResourceGridAdapter extends BaseAdapter {
 		@Override
 		public void onClick(final View v) {
 			PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
-			popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			popupMenu.setOnMenuItemClickListener(new com.technion.studybuddy.Views.PopupMenu.OnMenuItemClickListener() {
 
 				@Override
 				public boolean onMenuItemClick(MenuItem item) {

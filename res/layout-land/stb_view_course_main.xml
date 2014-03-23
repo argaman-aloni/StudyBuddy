@@ -14,12 +14,12 @@
         android:layout_weight="2"
         android:orientation="vertical" />
 
-    <com.technion.coolie.studybuddy.views.NowLayout
+    <com.technion.studybuddy.Views.NowLayout
         android:id="@+id/course_list"
         android:layout_width="0px"
         android:layout_height="match_parent"
         android:layout_weight="2"
         android:numColumns="@integer/stb_num_of_columns" >
-    </com.technion.coolie.studybuddy.views.NowLayout>
+    </com.technion.studybuddy.Views.NowLayout>
 
 </LinearLayout>

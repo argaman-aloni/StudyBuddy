@@ -2,7 +2,7 @@ package com.technion.studybuddy.factories;
 
 import java.util.Date;
 
-import com.technion.studybuddy.Models.ExamDateImpl;
+import com.technion.studybuddy.models.ExamDateImpl;
 
 public class ExamFactory {
 

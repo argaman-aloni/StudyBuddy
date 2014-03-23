@@ -1,4 +1,4 @@
-package com.technion.studybuddy.Models;
+package com.technion.studybuddy.models;
 
 import com.technion.studybuddy.utils.Utils.Mapper;
 import com.technion.studybuddy.utils.Utils.Predicate;

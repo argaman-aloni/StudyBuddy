@@ -2,11 +2,9 @@ package com.technion.studybuddy.Views.cards;
 
 import java.util.Date;
 
-import android.R;
 import android.content.Context;
 import android.content.Intent;
 import android.view.MenuItem;
-import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -15,6 +13,7 @@ import android.widget.TextView;
 
 import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.views.CardUI;
+import com.technion.studybuddy.R;
 import com.technion.studybuddy.Views.CreateReviewPointActivity;
 import com.technion.studybuddy.Views.PopupMenu;
 import com.technion.studybuddy.data.DataStore;
@@ -84,7 +83,7 @@ public class CourseOverviewCard extends BaseCard
 			public void onClick(View v)
 			{
 				PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
-				popupMenu.setOnMenuItemClickListener(new PopupMenuListner(v
+				popupMenu.setOnMenuItemClickListener( new PopupMenuListner(v
 						.getContext()));
 				popupMenu.inflate(R.menu.stb_course_card_menu);
 				popupMenu.show();
@@ -98,7 +97,7 @@ public class CourseOverviewCard extends BaseCard
 		return R.layout.stb_view_course_item;
 	}
 
-	private class PopupMenuListner implements OnMenuItemClickListener
+	private class PopupMenuListner implements com.technion.studybuddy.Views.PopupMenu.OnMenuItemClickListener
 	{
 		private Context context;
 

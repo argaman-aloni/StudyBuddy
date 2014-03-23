@@ -1,11 +1,11 @@
 package com.technion.studybuddy.data;
 
-import com.technion.studybuddy.Models.Course;
-import com.technion.studybuddy.Models.ExamDate;
-import com.technion.studybuddy.Models.Semester;
-import com.technion.studybuddy.Models.StudyItem;
-import com.technion.studybuddy.Models.StudyResource;
-import com.technion.studybuddy.Models.WorkStats;
+import com.technion.studybuddy.models.Course;
+import com.technion.studybuddy.models.ExamDate;
+import com.technion.studybuddy.models.Semester;
+import com.technion.studybuddy.models.StudyItem;
+import com.technion.studybuddy.models.StudyResource;
+import com.technion.studybuddy.models.WorkStats;
 
 
 

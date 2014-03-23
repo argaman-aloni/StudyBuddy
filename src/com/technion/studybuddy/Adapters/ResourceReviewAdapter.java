@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
 
-import com.technion.studybuddy.Models.StudyItem;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.NoSuchResourceException;
+import com.technion.studybuddy.models.StudyItem;
 
 public class ResourceReviewAdapter extends BaseAdapter
 {

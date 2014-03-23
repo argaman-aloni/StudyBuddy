@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.technion.studybuddy.R;
-import com.technion.studybuddy.Models.StudyItem;
 import com.technion.studybuddy.Views.StrikeThroughView;
 import com.technion.studybuddy.data.DataStore;
+import com.technion.studybuddy.models.StudyItem;
 import com.technion.studybuddy.presenters.CoursePresenter;
 
 

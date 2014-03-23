@@ -4,8 +4,11 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.achartengine.ChartFactory;
+import org.achartengine.GraphicalView;
+import org.achartengine.chart.BarChart.Type;
+
 import android.content.Context;
-import android.renderscript.Type;
 import android.view.View;
 
 

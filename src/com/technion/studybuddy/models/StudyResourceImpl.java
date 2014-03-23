@@ -1,4 +1,4 @@
-package com.technion.studybuddy.Models;
+package com.technion.studybuddy.models;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +13,8 @@ import com.technion.studybuddy.exceptions.ItemNotDoneError;
 import com.technion.studybuddy.exceptions.NoItemsLeftException;
 import com.technion.studybuddy.persisters.AbstractPersistable;
 import com.technion.studybuddy.utils.Action;
+import com.technion.studybuddy.utils.Utils;
+
 
 
 @DatabaseTable
@@ -20,7 +22,6 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 				StudyResource
 {
 
-	@SuppressWarnings("unused")
 	@DatabaseField(generatedId = true)
 	private UUID id;
 
@@ -91,7 +92,8 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	 */
 	@Override
 	public List<StudyItem> getDoneItems() {
-		return (filter(itemList, StudyItems.isDoneMatcher));
+		//ARIK check this
+		return (Utils.filter(itemList, StudyItems.isDoneMatcher));
 	}
 
 	/*
@@ -102,7 +104,8 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	 */
 	@Override
 	public List<StudyItem> getRemainingItems() {
-		return (filter(itemList, StudyItems.isNotDoneMatcher));
+		//ARIK check this
+		return (Utils.filter(itemList, StudyItems.isNotDoneMatcher));
 	}
 
 	/*

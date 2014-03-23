@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.swarly.projectview.StrikeThrowView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.technion.studybuddy.Views.StrikeThroughView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/stb_nowCardStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -31,4 +31,4 @@
         android:layout_alignRight="@+id/course"
         android:text="desc"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-</com.swarly.projectview.StrikeThrowView>
+</com.technion.studybuddy.Views.StrikeThroughView>

@@ -1,4 +1,4 @@
-package com.technion.studybuddy.Models;
+package com.technion.studybuddy.models;
 
 import java.util.Collection;
 import java.util.Date;

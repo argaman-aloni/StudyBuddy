@@ -2,12 +2,12 @@ package com.technion.studybuddy.Views.cards;
 
 import java.util.Date;
 
-import android.R;
 import android.view.View;
 import android.widget.TextView;
 
 import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.views.CardUI;
+import com.technion.studybuddy.R;
 import com.technion.studybuddy.data.ColorTable;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.presenters.CoursePresenter;

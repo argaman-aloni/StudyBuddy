@@ -1,4 +1,4 @@
-package com.technion.studybuddy.Models;
+package com.technion.studybuddy.models;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +13,7 @@ import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.NoExamsForCourse;
 import com.technion.studybuddy.exceptions.NoSuchResourceException;
 import com.technion.studybuddy.persisters.AbstractPersistable;
+import com.technion.studybuddy.utils.Utils;
 import com.technion.studybuddy.utils.Utils.Predicate;
 
 
@@ -353,7 +354,8 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 
 	@Override
 	public List<ExamDate> getRelevantExams(final Date d) {
-		return filter(getAllExams(), new Predicate<ExamDate>() {
+		//Arik please check this as well.
+		return Utils.filter(getAllExams(), new Predicate<ExamDate>() {
 
 			@Override
 			public boolean isTrueFor(ExamDate item) {

@@ -1,4 +1,4 @@
-package com.technion.studybuddy.Models;
+package com.technion.studybuddy.models;
 
 import java.util.Date;
 import java.util.UUID;
@@ -14,11 +14,9 @@ public class ExamDateImpl extends AbstractPersistable<Course> implements
 		ExamDate
 {
 
-	@SuppressWarnings("unused")
 	@DatabaseField(generatedId = true)
 	private UUID id;
 
-	@SuppressWarnings("unused")
 	@DatabaseField
 	private String name;
 

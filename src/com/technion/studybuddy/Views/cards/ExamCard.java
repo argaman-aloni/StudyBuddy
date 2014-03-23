@@ -4,15 +4,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import android.R;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
 import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.views.CardUI;
-import com.technion.studybuddy.Models.ExamDate;
+import com.technion.studybuddy.R;
 import com.technion.studybuddy.data.ColorTable;
+import com.technion.studybuddy.models.ExamDate;
 
 public class ExamCard extends BaseCard
 {

@@ -16,10 +16,13 @@ import android.widget.BaseAdapter;
 import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.objects.RecyclableCard;
 import com.technion.studybuddy.R;
-import com.technion.studybuddy.Models.ExamDate;
 import com.technion.studybuddy.Views.AnimatedCardUI;
 import com.technion.studybuddy.Views.CourseActivity;
+import com.technion.studybuddy.Views.cards.CourseOverviewCard;
+import com.technion.studybuddy.Views.cards.ExamCard;
+import com.technion.studybuddy.Views.cards.ResourseCard;
 import com.technion.studybuddy.data.DataStore;
+import com.technion.studybuddy.models.ExamDate;
 import com.technion.studybuddy.presenters.CourseListPresenter;
 import com.technion.studybuddy.presenters.CoursePresenter;
 

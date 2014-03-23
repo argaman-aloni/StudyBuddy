@@ -11,12 +11,12 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.field.types.UuidType;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.technion.studybuddy.Models.CourseImpl;
-import com.technion.studybuddy.Models.ExamDateImpl;
-import com.technion.studybuddy.Models.Semester;
-import com.technion.studybuddy.Models.StudyItemImpl;
-import com.technion.studybuddy.Models.StudyResourceImpl;
-import com.technion.studybuddy.Models.WorkStats;
+import com.technion.studybuddy.models.CourseImpl;
+import com.technion.studybuddy.models.ExamDateImpl;
+import com.technion.studybuddy.models.Semester;
+import com.technion.studybuddy.models.StudyItemImpl;
+import com.technion.studybuddy.models.StudyResourceImpl;
+import com.technion.studybuddy.models.WorkStats;
 
 public class SBDatabaseHelper extends OrmLiteSqliteOpenHelper {
 
