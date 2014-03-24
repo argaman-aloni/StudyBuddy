@@ -24,7 +24,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gcm.GCMRegistrar;
 import com.technion.studybuddy.Adapters.CourseListAdapter;
+import com.technion.studybuddy.GCM.*;
 import com.technion.studybuddy.Views.EditCourse;
 import com.technion.studybuddy.Views.NowLayout;
 import com.technion.studybuddy.Views.StbSettingsActivity;
@@ -34,8 +36,6 @@ import com.technion.studybuddy.exceptions.NoSuchResourceException;
 import com.technion.studybuddy.graphs.GraphFactory;
 import com.technion.studybuddy.models.Courses;
 import com.technion.studybuddy.models.StudyItem;
-
-
 
 public class MainActivity extends Activity implements Observer
 {
@@ -115,10 +115,10 @@ public class MainActivity extends Activity implements Observer
 			createExmapleCourse();
 		}
 
-//		if (CoolieAccount.UG.isAlreadyLoggedIn())
-//		{
-//			loadCoursesFromUG();
-//		}
+		// if (CoolieAccount.UG.isAlreadyLoggedIn())
+		// {
+		// loadCoursesFromUG();
+		// }
 	}
 
 	@Override
@@ -129,11 +129,11 @@ public class MainActivity extends Activity implements Observer
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(
-			MenuItem item)
+	public boolean onOptionsItemSelected(MenuItem item)
 	{
 
 		Intent intent = null;
+		Object regid;
 		switch (item.getItemId())
 		{
 		case android.R.id.home:
@@ -156,41 +156,20 @@ public class MainActivity extends Activity implements Observer
 			return true;
 		case R.id.stb_menu_sort_number:
 			DataStore.getInstance().sortCourses(Courses.byNumber);
+
+			return true;
+		case R.id.stb_main_register:
+			ServerUtilities.setActivity(this);
+			regid = CommonUtilities.register(this);
+			if (regid == null)
+			{
+				GCMRegistrar.register(this, CommonUtilities.SENDER_ID);
+			}
 			return true;
 		}
 
 		return super.onOptionsItemSelected(item);
 	}
-
-//	private void loadCoursesFromUG()
-//	{
-//		EditCoursePresenter editPresenter = DataStore.getEditCoursePresenter();
-//
-//		// FIXME: me so it doesnt crash because of colliding db helpers from ug
-//		UGDBProvider provider = new UGDBProvider(this);
-//		String studentId = CoolieAccount.UG.getUsername();
-//		ArrayList<CourseItem> clist = provider.getCoursesAndExams(studentId);
-//
-//		for (CourseItem item : clist)
-//		{
-//			String num = item.getCourseId();
-//			String name = item.getCoursName();
-//
-//			int lecturesAmount = DataStore.taskForCourse;
-//			int tutorialsAmount = DataStore.taskForCourse;
-//
-//			try
-//			{
-//				editPresenter.commitCourse(num, name, lecturesAmount,
-//						tutorialsAmount);
-//			} catch (CourseAlreadyExistsException e)
-//			{
-//				// skip, we already have it
-//			}
-//		}
-//
-//		provider.close();
-//	}
 
 	private void createExmapleCourse()
 	{
@@ -281,5 +260,18 @@ public class MainActivity extends Activity implements Observer
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		adapter.notifyDataSetChanged();
+		switch (requestCode)
+		{
+
+		// if the user approved the use of the account make another request
+		// for the auth token else display a message
+		case GoogleHttpContext.USER_PERMISSION:
+			if (resultCode == RESULT_OK)
+			{
+				Toast.makeText(getApplicationContext(),
+						"connection confirmed please register",
+						Toast.LENGTH_SHORT).show();
+			}
+		}
 	}
 }

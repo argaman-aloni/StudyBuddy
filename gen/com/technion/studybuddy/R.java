@@ -621,7 +621,7 @@ containing a value of this type.
         public static final int stackRoot=0x7f08000f;
         public static final int stackTitle=0x7f080010;
         public static final int stb_accounts_list=0x7f08002d;
-        public static final int stb_add_curse=0x7f080063;
+        public static final int stb_add_curse=0x7f080064;
         public static final int stb_btn_cancel=0x7f080027;
         public static final int stb_btn_save=0x7f080028;
         public static final int stb_buttonbar=0x7f080043;
@@ -652,14 +652,15 @@ containing a value of this type.
         public static final int stb_main_empty_state=0x7f08004b;
         public static final int stb_main_empty_state_button=0x7f08004d;
         public static final int stb_main_empty_txt=0x7f08004c;
-        public static final int stb_main_settings=0x7f080062;
-        public static final int stb_menu_sort_name=0x7f080065;
-        public static final int stb_menu_sort_number=0x7f080066;
-        public static final int stb_menu_sort_progress=0x7f080064;
+        public static final int stb_main_register=0x7f080062;
+        public static final int stb_main_settings=0x7f080063;
+        public static final int stb_menu_sort_name=0x7f080066;
+        public static final int stb_menu_sort_number=0x7f080067;
+        public static final int stb_menu_sort_progress=0x7f080065;
         public static final int stb_navigation_drawer=0x7f08004e;
         public static final int stb_overflow=0x7f080031;
         public static final int stb_progressBar=0x7f080032;
-        public static final int stb_rename=0x7f080067;
+        public static final int stb_rename=0x7f080068;
         public static final int stb_resource_list=0x7f080050;
         public static final int stb_resource_stripe=0x7f080056;
         public static final int stb_resourse_card_items=0x7f080052;
@@ -743,6 +744,7 @@ containing a value of this type.
         public static final int stb_resource_menu=0x7f0e0005;
     }
     public static final class string {
+        public static final int action_register=0x7f060043;
         public static final int action_settings=0x7f060042;
         public static final int app_name=0x7f060001;
         /**   Title for notification shown when GooglePlayServices needs to be
@@ -840,7 +842,7 @@ containing a value of this type.
          */
         public static final int common_signin_button_text_long=0x7f060015;
         public static final int hello=0x7f060000;
-        public static final int stb_account_picker=0x7f060045;
+        public static final int stb_account_picker=0x7f060046;
         public static final int stb_add_all_str=0x7f060040;
         public static final int stb_add_course=0x7f060021;
         public static final int stb_cancel=0x7f06001e;
@@ -855,7 +857,7 @@ containing a value of this type.
         public static final int stb_empty_state_button=0x7f06003a;
         public static final int stb_empty_state_title=0x7f060039;
         public static final int stb_exam_card_start_str=0x7f060038;
-        public static final int stb_general_title=0x7f060046;
+        public static final int stb_general_title=0x7f060047;
         public static final int stb_include_lectures=0x7f060023;
         public static final int stb_include_tutorials=0x7f060024;
         public static final int stb_items_behind=0x7f060031;
@@ -869,7 +871,7 @@ containing a value of this type.
         public static final int stb_menu_sort_progress_str=0x7f06003d;
         /**  Strings related to Settings 
          */
-        public static final int stb_num_of_weeeks=0x7f060044;
+        public static final int stb_num_of_weeeks=0x7f060045;
         public static final int stb_overflow=0x7f06002c;
         public static final int stb_resourse_rename_str=0x7f060035;
         public static final int stb_review_material=0x7f060034;
@@ -883,7 +885,7 @@ containing a value of this type.
         public static final int stb_title_activity_edit_course=0x7f060020;
         public static final int stb_tutorials_count_hint=0x7f060026;
         public static final int stb_tutorials_str=0x7f06003c;
-        public static final int title_activity_stb_settings=0x7f060043;
+        public static final int title_activity_stb_settings=0x7f060044;
     }
     public static final class style {
         /** 

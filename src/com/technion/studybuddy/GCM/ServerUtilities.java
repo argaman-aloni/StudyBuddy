@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -42,13 +43,13 @@ import com.google.android.gcm.GCMRegistrar;
  */
 public final class ServerUtilities
 {
-//	private static String name;
+	// private static String name;
 
 	private static final int MAX_ATTEMPTS = 5;
 	private static final int BACKOFF_MILLI_SECONDS = 2000;
 	private static final Random random = new Random();
 	// TODO chenge to actual user selection
-	public static  String username = "4ortik@gmail.com";
+	public static String username = "4ortik@gmail.com";
 	private static Activity activity;
 
 	/**
@@ -179,8 +180,8 @@ public final class ServerUtilities
 					Secure.getString(activity.getContentResolver(),
 							Secure.ANDROID_ID)));
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-			client.execute(httpPost, httpContext);
-
+			HttpResponse res = client.execute(httpPost, httpContext);
+			res.toString();
 		} finally
 		{
 			client.close();
