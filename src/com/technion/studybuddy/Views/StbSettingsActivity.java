@@ -4,21 +4,20 @@ import java.util.List;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
-
+import com.technion.studybuddy.utils.Constants;
 import com.technion.studybuddy.R;
 import com.technion.studybuddy.data.DataStore;
-
-
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -45,6 +44,7 @@ public class StbSettingsActivity extends PreferenceActivity
 		{
 			super.onCreate(savedInstanceState);
 			addPreferencesFromResource(R.xml.stb_pref_general);
+
 		}
 	}
 
@@ -54,13 +54,24 @@ public class StbSettingsActivity extends PreferenceActivity
 		@Override
 		public boolean onPreferenceChange(Preference preference, Object value)
 		{
+			Context context = preference.getContext();
+			SharedPreferences preferences = context.getSharedPreferences(
+					Constants.PrefsContext, 0);
+			Editor editor = preferences.edit();
 			String stringValue = value.toString();
-			if (preference instanceof ListPreference)
+			String key = preference.getKey();
+			if (key.equals("stb_pref_account_peecker"))
 			{
-				preference.setSummary("simister is " + stringValue
+				preference.setSummary("Sync account is " + stringValue);
+				editor.putString(Constants.ACCOUNT_NAME, stringValue);
+				editor.commit();
+			} else if ("stb_simester_length".equals(key))
+			{
+				preference.setSummary("semester is " + stringValue
 						+ " weeks long");
 			}
 			return true;
+
 		}
 	}
 
@@ -71,13 +82,13 @@ public class StbSettingsActivity extends PreferenceActivity
 	 * shown on tablets.
 	 */
 
-	private static final boolean							ALWAYS_SIMPLE_PREFS						= false;
+	private static final boolean ALWAYS_SIMPLE_PREFS = false;
 
 	/**
 	 * A preference value change listener that updates the preference's summary
 	 * to reflect its new value.
 	 */
-	private static Preference.OnPreferenceChangeListener	sBindPreferenceSummaryToValueListener	= new OnPreferenceChangeListenerImplementation();
+	private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new OnPreferenceChangeListenerImplementation();
 
 	/**
 	 * Binds a preference's summary to its value. More specifically, when the
@@ -190,6 +201,7 @@ public class StbSettingsActivity extends PreferenceActivity
 		// to reflect the new value, per the Android Design guidelines.
 		bindPreferenceSummaryToValue(findPreference(DataStore.SEMESTERLENGTH));
 		bindPreferenceSummaryToValue(findPreference(DataStore.SEMESTERSTART));
+		bindPreferenceSummaryToValue(findPreference("stb_pref_account_peecker"));
 	}
 
 	@Override

@@ -9,9 +9,16 @@
         android:positiveButtonText="@null"
         android:title="@string/stb_num_of_weeeks" />
 
-    <com.technion.coolie.studybuddy.views.DatePreference
+    <com.technion.studybuddy.Views.DatePreference
         android:defaultValue="2013.10.13"
         android:key="stb_semester_start"
         android:title="@string/stb_semester_start" />
+
+    <com.technion.studybuddy.Views.AccountListPreference
+        android:key="stb_pref_account_peecker"
+        android:negativeButtonText="Cancel"
+        android:positiveButtonText="OK"
+        android:title="@string/stb_account_picker" >
+    </com.technion.studybuddy.Views.AccountListPreference>
 
 </PreferenceScreen>

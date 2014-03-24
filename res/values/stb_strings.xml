@@ -47,6 +47,7 @@
     <!-- Strings related to Settings -->
 
 	<string name="stb_num_of_weeeks">select # of weeks in semester</string>
+	<string name="stb_account_picker">Select Account</string>
 	<string name="stb_general_title">Semester settings</string>
     <string-array name="stb_pref_weeks">
         <item>10 Weeks</item>

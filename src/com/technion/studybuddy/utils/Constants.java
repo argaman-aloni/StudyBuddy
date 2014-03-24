@@ -15,4 +15,5 @@ public class Constants
 			: "http://"+ServerName;
 	public static final String SERVER_URL = debug ? "192.168.1.104:8888"
 			: ServerName;
+	
 }

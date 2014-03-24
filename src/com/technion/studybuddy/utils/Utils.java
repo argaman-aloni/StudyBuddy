@@ -10,65 +10,84 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public enum Utils {
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.Context;
+import android.util.Log;
+
+public enum Utils
+{
 	INSTANCE;
 
-	public static class ListAttacher<E> implements Reducer<List<E>, E> {
+	public static class ListAttacher<E> implements Reducer<List<E>, E>
+	{
 
 		@Override
-		public List<E> op(List<E> target, E element) {
+		public List<E> op(List<E> target, E element)
+		{
 			target.add(element);
 			return target;
 		}
 
 	}
 
-	public interface Mapper<E, K> {
+	public interface Mapper<E, K>
+	{
 
 		public K map(E item);
 
 	}
 
-	public interface Predicate<E> {
+	public interface Predicate<E>
+	{
 
 		boolean isTrueFor(E item);
 	}
 
-	public interface Reducer<T, E> {
+	public interface Reducer<T, E>
+	{
 
 		public T op(T target, E element);
 
 	}
 
-	public static class SumReducer<E> implements Reducer<Integer, E> {
+	public static class SumReducer<E> implements Reducer<Integer, E>
+	{
 
 		private final Mapper<E, Integer> mapper;
 
-		public SumReducer(Mapper<E, Integer> mapper) {
+		public SumReducer(Mapper<E, Integer> mapper)
+		{
 			this.mapper = mapper;
 		}
 
 		@Override
-		public Integer op(Integer target, E element) {
+		public Integer op(Integer target, E element)
+		{
 			return target + mapper.map(element);
 		}
 	}
 
 	private final static Random r = new Random((new Date()).getTime());
 
-	public static <T> Set<T> asSet(T... args) {
+	public static <T> Set<T> asSet(T... args)
+	{
 		return new HashSet<T>(Arrays.asList(args));
 	}
 
-	public static <T extends Comparable<T>> List<T> asSortedList(T... args) {
+	public static <T extends Comparable<T>> List<T> asSortedList(T... args)
+	{
 		return sorted(Arrays.asList(args));
 	}
 
-	public static <E> List<E> filter(Collection<E> list, Predicate<E> p) {
+	public static <E> List<E> filter(Collection<E> list, Predicate<E> p)
+	{
 		List<E> filtered = new ArrayList<E>();
 
-		for (E item : list) {
-			if (p.isTrueFor(item)) {
+		for (E item : list)
+		{
+			if (p.isTrueFor(item))
+			{
 				filtered.add(item);
 			}
 		}
@@ -77,10 +96,12 @@ public enum Utils {
 
 	}
 
-	public static <E, K> List<K> map(List<E> list, Mapper<E, K> mapper) {
+	public static <E, K> List<K> map(List<E> list, Mapper<E, K> mapper)
+	{
 		List<K> $ = new ArrayList<K>(list.size());
 
-		for (E item : list) {
+		for (E item : list)
+		{
 			$.add(mapper.map(item));
 		}
 
@@ -88,24 +109,26 @@ public enum Utils {
 
 	}
 
-	public static int randomInt(int num) {
+	public static int randomInt(int num)
+	{
 		return r.nextInt(num);
 	}
 
-	public static <T, E> T reduce(	Collection<E> list,
-									T target,
-									Reducer<T, E> reducer)
+	public static <T, E> T reduce(Collection<E> list, T target,
+			Reducer<T, E> reducer)
 	{
 		T $ = target;
 
-		for (E e : list) {
+		for (E e : list)
+		{
 			reducer.op($, e);
 		}
 
 		return $;
 	}
 
-	public static <T extends Comparable<T>> List<T> sorted(Collection<T> collection)
+	public static <T extends Comparable<T>> List<T> sorted(
+			Collection<T> collection)
 	{
 		List<T> $ = new ArrayList<T>();
 		$.addAll(collection);
@@ -113,4 +136,12 @@ public enum Utils {
 		return $;
 	}
 
+	public static Account[] getAccouts(Context context)
+	{
+
+		AccountManager accountManager = AccountManager.get(context);
+
+		return accountManager.getAccountsByType("com.google");
+
+	}
 }
