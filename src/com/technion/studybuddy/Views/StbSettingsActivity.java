@@ -62,7 +62,7 @@ public class StbSettingsActivity extends PreferenceActivity
 			String key = preference.getKey();
 			if (key.equals("stb_pref_account_peecker"))
 			{
-				preference.setSummary("Sync account is " + stringValue);
+				preference.setSummary("Sync account is: " + stringValue);
 				editor.putString(Constants.ACCOUNT_NAME, stringValue);
 				editor.commit();
 			} else if ("stb_simester_length".equals(key))

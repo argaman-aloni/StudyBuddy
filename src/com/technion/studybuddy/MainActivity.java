@@ -1,53 +1,35 @@
 package com.technion.studybuddy;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-
-import org.achartengine.GraphicalView;
-
 import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.app.FragmentManager;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.NavUtils;
-import android.text.format.DateUtils;
-import android.view.LayoutInflater;
-import android.view.Menu;
+import android.preference.Preference;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gcm.GCMRegistrar;
-import com.technion.studybuddy.Adapters.CourseListAdapter;
-import com.technion.studybuddy.GCM.*;
-import com.technion.studybuddy.Views.EditCourse;
-import com.technion.studybuddy.Views.NowLayout;
-import com.technion.studybuddy.Views.StbSettingsActivity;
-import com.technion.studybuddy.data.DataStore;
-import com.technion.studybuddy.exceptions.CourseAlreadyExistsException;
-import com.technion.studybuddy.exceptions.NoSuchResourceException;
-import com.technion.studybuddy.graphs.GraphFactory;
-import com.technion.studybuddy.models.Courses;
-import com.technion.studybuddy.models.StudyItem;
+import com.technion.studybuddy.Adapters.DrawerAdapter;
+import com.technion.studybuddy.listeners.DrawerItemClickListener;
+import com.technion.studybuddy.utils.Constants;
 
-public class MainActivity extends Activity implements Observer
-{
+public class MainActivity extends Activity {
 
 	public static final int USER_PERMISSION1 = 0;
-	private GraphicalView graphView;
-	private LinearLayout chartLayout;
-	private CourseListAdapter adapter;
-	private NowLayout layout;
-	private LinearLayout emptyState;
-	private SharedPreferences sharedPreferences;
-	private View semesterData;
+	private DrawerLayout mDrawerLayout;
+	private ActionBarDrawerToggle mDrawerToggle;
+	private ListView mDrawerList;
+	private RelativeLayout mRelativeLayout;
+	private TextView loginTitle;
+	private TextView loginState;
+	private ImageView loginImage;
+	DrawerAdapter adapter;
+	
 
 	/*
 	 * (non-Javadoc)
@@ -55,223 +37,102 @@ public class MainActivity extends Activity implements Observer
 	 * @see com.technion.coolie.CoolieActivity#onCreate(android.os.Bundle)
 	 */
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.stb_view_main);
+		setContentView(R.layout.stb_navigation_drawer);
 
-		DataStore.setContext(this);
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.stb_drawer_layout);
+		mDrawerList = (ListView) findViewById(R.id.list_drawer_stb);
+		mRelativeLayout = (RelativeLayout) findViewById(R.id.drawer_content_layout);
+		initloginState();
+		
+		adapter = new DrawerAdapter(getApplicationContext());
 
-		layout = (NowLayout) findViewById(R.id.course_list);
-		emptyState = (LinearLayout) findViewById(R.id.stb_main_empty_state);
-		adapter = new CourseListAdapter(this);
-		layout.setAdapter(adapter);
-		Button btn = (Button) findViewById(R.id.stb_main_empty_state_button);
-		btn.setOnClickListener(new OnClickListener()
-		{
+		mDrawerList.setAdapter(adapter);
 
-			@Override
-			public void onClick(View v)
-			{
-				startActivityForResult(new Intent(v.getContext(),
-						EditCourse.class), RESULT_CANCELED);
-			}
-		});
-		DataStore.getInstance().addObserver(adapter);
-		DataStore.getStats().addObserver(this);
-		// WeeklyGraph
-		chartLayout = (LinearLayout) findViewById(R.id.Chart_layout);
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+				GravityCompat.START);
 
-		if (adapter.getCount() == 0)
-		{
-			emptyState.setVisibility(View.VISIBLE);
-			layout.setVisibility(View.GONE);
-		} else
-		{
-			layout.setVisibility(View.VISIBLE);
-			emptyState.setVisibility(View.GONE);
-		}
-		DataStore.getInstance().addObserver(this);
+		setToggleDrawerParams();
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-		semesterData = LayoutInflater.from(this).inflate(
-				R.layout.stb_view_simester_data, null);
-		TextView simterTextView = (TextView) semesterData
-				.findViewById(R.id.stb_simester);
-		TextView weekCount = (TextView) semesterData
-				.findViewById(R.id.stb_week_count);
-		simterTextView.setText("Semester : Winter");
-		int currentWeek = DataStore.semester.getSemesterWeek(new Date());
-		weekCount.setText("week "
-				+ String.valueOf(currentWeek < DataStore.semester
-						.getTotalWeeks() ? currentWeek : DataStore.semester
-						.getTotalWeeks()
-						+ " / "
-						+ DataStore.semester.getTotalWeeks()));
-		updateGraphView();
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		boolean firstUse = sharedPreferences.getBoolean("firstUse", true);
-		if (firstUse)
-		{
-			createExmapleCourse();
-		}
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setHomeButtonEnabled(true);
 
-		// if (CoolieAccount.UG.isAlreadyLoggedIn())
-		// {
-		// loadCoursesFromUG();
-		// }
+		if (savedInstanceState == null)
+			selectItem(-1);
+
+		 mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+	}
+
+
+
+
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		adapter.notifyDataSetChanged();
+	}
+
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// Sync the toggle state after onRestoreInstanceState has occurred.
+		mDrawerToggle.syncState();
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
-		getMenuInflater().inflate(R.menu.stb_main_menu, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-
-		Intent intent = null;
-		Object regid;
-		switch (item.getItemId())
-		{
-		case android.R.id.home:
-
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		case R.id.stb_add_curse:
-			intent = new Intent(this, EditCourse.class);
-			startActivityForResult(intent, RESULT_CANCELED);
-			return true;
-		case R.id.stb_main_settings:
-			intent = new Intent(this, StbSettingsActivity.class);
-			startActivity(intent);
-			return true;
-		case R.id.stb_menu_sort_progress:
-			DataStore.getInstance().sortCourses(Courses.byProgress);
-			return true;
-		case R.id.stb_menu_sort_name:
-			DataStore.getInstance().sortCourses(Courses.byName);
-			return true;
-		case R.id.stb_menu_sort_number:
-			DataStore.getInstance().sortCourses(Courses.byNumber);
-
-			return true;
-		case R.id.stb_main_register:
-			ServerUtilities.setActivity(this);
-			regid = CommonUtilities.register(this);
-			if (regid == null)
-			{
-				GCMRegistrar.register(this, CommonUtilities.SENDER_ID);
-			}
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Pass the event to ActionBarDrawerToggle, if it returns
+		// true, then it has handled the app icon touch event
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
+		// Handle your other action bar items...
 
 		return super.onOptionsItemSelected(item);
 	}
-
-	private void createExmapleCourse()
-	{
-		sharedPreferences.edit().putBoolean("firstUse", false).commit();
-		String num = "123456";
-		String name = "Example course";
-
-		int lecturesAmount = 6;
-		int tutorialsAmount = 6;
-
-		try
-		{
-			DataStore.getInstance().addCourse(num, name, lecturesAmount,
-					tutorialsAmount);
-		} catch (CourseAlreadyExistsException e)
-		{
-			String errMsg = "A course with num " + num + " already exists.";
-			Toast.makeText(getApplicationContext(), errMsg, Toast.LENGTH_SHORT)
-					.show();
-			return;
-		}
-		try
-		{
-			List<StudyItem> lectureItems = DataStore.coursesById.get("123456")
-					.getResourceByName("Lectures").getItems();
-
-			lectureItems.get(3).toggleDone();
-			lectureItems.get(0).toggleDone();
-			lectureItems.get(4).toggleDone();
-			lectureItems.get(5).toggleDone();
-			lectureItems.get(0).setLabel("example topic");
-			lectureItems.get(1).setLabel("Click for details");
-			lectureItems.get(2).setLabel("Click to Mark");
-			lectureItems.get(3).setLabel("Click to unmark");
-			lectureItems.get(4).setLabel("try to long press to open menu");
-
-			List<StudyItem> tutorialItems = DataStore.coursesById.get("123456")
-					.getResourceByName("Tutorials").getItems();
-			tutorialItems.get(3).toggleDone();
-			tutorialItems.get(0).toggleDone();
-
-			tutorialItems.get(2).toggleDone();
-			tutorialItems.get(4).toggleDone();
-			tutorialItems.get(5).toggleDone();
-			tutorialItems.get(0).setLabel("example topic");
-			tutorialItems.get(1).setLabel("Click for details");
-			tutorialItems.get(2).setLabel("Click to Mark");
-			tutorialItems.get(3).setLabel("Click to unmark");
-			tutorialItems.get(4).setLabel("try to long press to open menu");
-		} catch (NoSuchResourceException e)
-		{
-			e.printStackTrace();
-		}
-		DataStore.getInstance().addExam(
-				num,
-				"example exam ",
-				new Date(System.currentTimeMillis() + 8
-						* DateUtils.DAY_IN_MILLIS));
+	
+	private void initloginState() {
+		loginTitle = (TextView) findViewById(R.id.login_tv);
+		loginState = (TextView) findViewById(R.id.status_tv);
+		loginImage = (ImageView) findViewById(R.id.profile_pic_iv);
 	}
+	
+	private void setToggleDrawerParams() {
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+				R.drawable.ic_drawer, R.string.drawer_open,
+				R.string.drawer_close) {
 
-	private void updateGraphView()
-	{
-		chartLayout.removeAllViews();
-		Date today = new Date();
-		graphView = GraphFactory.getWeeklyProgressGraph(getBaseContext(),
-				today, DataStore.getInstance().getWorkStats(today, 7));
-		chartLayout.addView(semesterData);
-		chartLayout.addView(graphView);
-	}
-
-	@Override
-	public void update(Observable observable, Object data)
-	{
-		updateGraphView();
-		adapter.notifyDataSetChanged();
-		if (adapter.getCount() == 0)
-		{
-			emptyState.setVisibility(View.VISIBLE);
-			layout.setVisibility(View.GONE);
-		} else
-		{
-			layout.setVisibility(View.VISIBLE);
-			emptyState.setVisibility(View.GONE);
-		}
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
-		adapter.notifyDataSetChanged();
-		switch (requestCode)
-		{
-
-		// if the user approved the use of the account make another request
-		// for the auth token else display a message
-		case GoogleHttpContext.USER_PERMISSION:
-			if (resultCode == RESULT_OK)
-			{
-				Toast.makeText(getApplicationContext(),
-						"connection confirmed please register",
-						Toast.LENGTH_SHORT).show();
+			public void onDrawerClosed(View view) {
+				super.onDrawerClosed(view);
+				getActionBar().setTitle(getTitle());
+				invalidateOptionsMenu();
 			}
-		}
+
+			public void onDrawerOpened(View drawerView) {
+				super.onDrawerOpened(drawerView);
+				getActionBar().setTitle(getTitle());
+				invalidateOptionsMenu(); // creates call to
+											// onPrepareOptionsMenu()
+			}
+		};
 	}
+
+	private void selectItem(int position) {
+		// update the main content by replacing fragments
+		if (position == -1) {
+			MainFragment fragment = new MainFragment();
+			FragmentManager fragmentManager = getFragmentManager();
+			fragmentManager.beginTransaction()
+					.replace(R.id.content_frame, fragment).commit();
+		}
+
+		// update selected item and title, then close the drawer
+		mDrawerList.setItemChecked(position, true);
+		mDrawerLayout.closeDrawer(mRelativeLayout);
+	}
+	
 }

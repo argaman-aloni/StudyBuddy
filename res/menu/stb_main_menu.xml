@@ -13,7 +13,7 @@
         android:title="@string/action_settings"/>
     <item
         android:id="@+id/stb_add_curse"
-        android:icon="@drawable/stb_new"
+        android:icon="@drawable/ic_action_new"
         android:showAsAction="always"
         android:title="@string/stb_add_course">
     </item>
