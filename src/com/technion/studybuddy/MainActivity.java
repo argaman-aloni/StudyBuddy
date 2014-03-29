@@ -3,10 +3,8 @@ package com.technion.studybuddy;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.provider.ContactsContract.Profile;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -150,6 +148,7 @@ public class MainActivity extends Activity
 		if (position == -1)
 		{
 			MainFragment fragment = new MainFragment();
+			fragment.setDrawerAdapter(adapter);
 			FragmentManager fragmentManager = getFragmentManager();
 			fragmentManager.beginTransaction()
 					.replace(R.id.content_frame, fragment).commit();

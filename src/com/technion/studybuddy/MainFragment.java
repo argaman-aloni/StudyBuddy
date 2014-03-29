@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import com.google.android.gcm.GCMRegistrar;
 import com.technion.studybuddy.Adapters.CourseListAdapter;
+import com.technion.studybuddy.Adapters.DrawerAdapter;
 import com.technion.studybuddy.GCM.CommonUtilities;
 import com.technion.studybuddy.GCM.GoogleHttpContext;
 import com.technion.studybuddy.GCM.ServerUtilities;
@@ -60,7 +61,7 @@ public class MainFragment extends Fragment implements Observer {
 	private SharedPreferences sharedPreferences;
 	private View semesterData;
 	private View rootView;
-
+	private DrawerAdapter drawerAdapter;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -143,6 +144,7 @@ public class MainFragment extends Fragment implements Observer {
 	public void update(Observable observable, Object data) {
 		updateGraphView();
 		adapter.notifyDataSetChanged();
+		drawerAdapter.notifyDataSetChanged();
 		setVisibilityEmptyState();
 	}
 	
@@ -264,6 +266,13 @@ public class MainFragment extends Fragment implements Observer {
 				DataStore.getInstance().getWorkStats(today, 7));
 		chartLayout.addView(semesterData);
 		chartLayout.addView(graphView);
+	}
+
+
+
+	public void setDrawerAdapter(DrawerAdapter adapter2)
+	{
+		drawerAdapter = adapter2;
 	}
 
 
