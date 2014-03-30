@@ -3,6 +3,7 @@ package com.technion.studybuddy;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -11,12 +12,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gcm.GCMRegistrar;
 import com.technion.studybuddy.Adapters.DrawerAdapter;
+import com.technion.studybuddy.GCM.ServerUtilities;
 import com.technion.studybuddy.listeners.DrawerItemClickListener;
 import com.technion.studybuddy.utils.Constants;
 
@@ -24,14 +28,64 @@ public class MainActivity extends Activity
 {
 
 	public static final int USER_PERMISSION1 = 0;
-	private DrawerLayout mDrawerLayout;
-	private ActionBarDrawerToggle mDrawerToggle;
-	private ListView mDrawerList;
-	private RelativeLayout mRelativeLayout;
-	private TextView loginTitle;
-	private TextView loginState;
-	private ImageView loginImage;
 	DrawerAdapter adapter;
+	private ImageView loginImage;
+	private TextView loginState;
+	private TextView loginTitle;
+	private DrawerLayout mDrawerLayout;
+	private ListView mDrawerList;
+	private ActionBarDrawerToggle mDrawerToggle;
+	private RelativeLayout mRelativeLayout;
+
+	private void initloginState()
+	{
+		RelativeLayout loginLayout = (RelativeLayout) findViewById(R.id.login_panel);
+		loginTitle = (TextView) findViewById(R.id.login_tv);
+		loginState = (TextView) findViewById(R.id.status_tv);
+		loginImage = (ImageView) findViewById(R.id.profile_pic_iv);
+
+		SharedPreferences prefs = getSharedPreferences(Constants.PrefsContext,
+				0);
+		if (prefs.getBoolean(Constants.IS_REGISTERED, false))
+		{
+			loginLayout.setVisibility(View.GONE);
+			loginTitle.setText(prefs.getString(Constants.ACCOUNT_NAME, ""));
+			String str = "<html><body><u>log out</u></body></html>";
+			loginState.setText(Html.fromHtml(str));
+
+			loginState.setTextColor(Color.BLUE);
+			loginState.setOnClickListener(new OnClickListener()
+			{
+
+				@Override
+				public void onClick(View v)
+				{
+					SharedPreferences prefs = getSharedPreferences(
+							Constants.PrefsContext, 0);
+					String regid = prefs.getString(Constants.REGID_PREFS, "");
+					ServerUtilities.setActivity(MainActivity.this);
+					ServerUtilities.unregister(v.getContext(), regid);
+					GCMRegistrar.unregister(MainActivity.this);
+					Editor editor = prefs.edit();
+					editor.putBoolean(Constants.IS_REGISTERED, false);
+					editor.putString(Constants.REGID_PREFS, "");
+					editor.commit();
+				}
+			});
+		} else
+		{
+			loginLayout.setOnClickListener(new OnClickListener()
+			{
+
+				@Override
+				public void onClick(View v)
+				{
+					ServerUtilities.registerToServer(MainActivity.this);
+				}
+			});
+		}
+
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -63,16 +117,22 @@ public class MainActivity extends Activity
 		getActionBar().setHomeButtonEnabled(true);
 
 		if (savedInstanceState == null)
+		{
 			selectItem(-1);
+		}
 
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 	}
 
 	@Override
-	protected void onStart()
+	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		super.onStart();
-		adapter.notifyDataSetChanged();
+		// Pass the event to ActionBarDrawerToggle, if it returns
+		// true, then it has handled the app icon touch event
+		if (mDrawerToggle.onOptionsItemSelected(item))
+			return true;
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -84,62 +144,10 @@ public class MainActivity extends Activity
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
+	protected void onStart()
 	{
-		// Pass the event to ActionBarDrawerToggle, if it returns
-		// true, then it has handled the app icon touch event
-		if (mDrawerToggle.onOptionsItemSelected(item))
-		{
-			return true;
-		}
-		// Handle your other action bar items...
-
-		return super.onOptionsItemSelected(item);
-	}
-
-	private void initloginState()
-	{
-		loginTitle = (TextView) findViewById(R.id.login_tv);
-		loginState = (TextView) findViewById(R.id.status_tv);
-		loginImage = (ImageView) findViewById(R.id.profile_pic_iv);
-
-		SharedPreferences prefs = getSharedPreferences(Constants.PrefsContext,
-				0);
-		if (prefs.getBoolean(Constants.IS_REGISTERED, false))
-		{
-
-			loginTitle.setText(prefs.getString(Constants.ACCOUNT_NAME, ""));
-			String str="<html><body><u>log out</u></body></html>";
-			loginState.setText(Html.fromHtml(str));
-
-			loginState.setTextColor(Color.BLUE);
-			
-		}
-
-	}
-
-	private void setToggleDrawerParams()
-	{
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-				R.drawable.ic_drawer, R.string.drawer_open,
-				R.string.drawer_close)
-		{
-
-			public void onDrawerClosed(View view)
-			{
-				super.onDrawerClosed(view);
-				getActionBar().setTitle(getTitle());
-				invalidateOptionsMenu();
-			}
-
-			public void onDrawerOpened(View drawerView)
-			{
-				super.onDrawerOpened(drawerView);
-				getActionBar().setTitle(getTitle());
-				invalidateOptionsMenu(); // creates call to
-											// onPrepareOptionsMenu()
-			}
-		};
+		super.onStart();
+		adapter.notifyDataSetChanged();
 	}
 
 	private void selectItem(int position)
@@ -157,6 +165,32 @@ public class MainActivity extends Activity
 		// update selected item and title, then close the drawer
 		mDrawerList.setItemChecked(position, true);
 		mDrawerLayout.closeDrawer(mRelativeLayout);
+	}
+
+	private void setToggleDrawerParams()
+	{
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+				R.drawable.ic_drawer, R.string.drawer_open,
+				R.string.drawer_close)
+		{
+
+			@Override
+			public void onDrawerClosed(View view)
+			{
+				super.onDrawerClosed(view);
+				getActionBar().setTitle(getTitle());
+				invalidateOptionsMenu();
+			}
+
+			@Override
+			public void onDrawerOpened(View drawerView)
+			{
+				super.onDrawerOpened(drawerView);
+				getActionBar().setTitle(getTitle());
+				invalidateOptionsMenu(); // creates call to
+											// onPrepareOptionsMenu()
+			}
+		};
 	}
 
 }

@@ -30,13 +30,17 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.http.AndroidHttpClient;
 import android.os.Build;
 import android.provider.Settings.Secure;
 import android.util.Log;
-import com.technion.studybuddy.utils.Constants;
+import android.widget.Toast;
 
 import com.google.android.gcm.GCMRegistrar;
+import com.technion.studybuddy.Views.StbSettingsActivity;
+import com.technion.studybuddy.utils.Constants;
 
 /**
  * Helper class used to communicate with the demo server.
@@ -45,12 +49,70 @@ public final class ServerUtilities
 {
 	// private static String name;
 
-	private static final int MAX_ATTEMPTS = 5;
+	private static Activity activity;
 	private static final int BACKOFF_MILLI_SECONDS = 2000;
+	private static final int MAX_ATTEMPTS = 5;
 	private static final Random random = new Random();
 	// TODO chenge to actual user selection
 	public static String username = "4ortik@gmail.com";
-	private static Activity activity;
+
+	private static String capitalize(String s)
+	{
+		if (s == null || s.length() == 0)
+			return "";
+		char first = s.charAt(0);
+		if (Character.isUpperCase(first))
+			return s;
+		else
+			return Character.toUpperCase(first) + s.substring(1);
+	}
+
+	public static String getDeviceName()
+	{
+		String manufacturer = Build.MANUFACTURER;
+		String model = Build.MODEL;
+		if (model.startsWith(manufacturer))
+			return capitalize(model);
+		else
+			return capitalize(manufacturer) + " " + model;
+	}
+
+	/**
+	 * Issue a POST request to the server.
+	 * 
+	 * @param endpoint
+	 *            POST address.
+	 * @param params
+	 *            request parameters.
+	 * 
+	 * @throws IOException
+	 *             propagated from POST.
+	 */
+	public static void post(String endpoint, String regID) throws IOException
+	{
+		AndroidHttpClient client = AndroidHttpClient.newInstance(
+				"GetAuthCookieClient", ServerUtilities.activity);
+		try
+		{
+			GoogleHttpContext httpContext = CommonUtilities.getContext(
+					ServerUtilities.activity, ServerUtilities.username,
+					Constants.SERVER_URL);
+			HttpPost httpPost = new HttpPost(endpoint);
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("regid", regID));
+			nameValuePairs
+					.add(new BasicNameValuePair("model", getDeviceName()));
+			nameValuePairs.add(new BasicNameValuePair("deviceID", Secure
+					.getString(ServerUtilities.activity.getContentResolver(),
+							Secure.ANDROID_ID)));
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			HttpResponse res = client.execute(httpPost, httpContext);
+			res.toString();
+		} finally
+		{
+			client.close();
+		}
+	}
 
 	/**
 	 * Register this account/device pair within the server.
@@ -63,12 +125,13 @@ public final class ServerUtilities
 		String serverUrl = Constants.SERVER_URL + "/register";
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("regId", regId);
-		long backoff = BACKOFF_MILLI_SECONDS + random.nextInt(1000);
+		long backoff = ServerUtilities.BACKOFF_MILLI_SECONDS
+				+ ServerUtilities.random.nextInt(1000);
 		// Once GCM returns a registration id, we need to register it in the
 		// demo server. As the server might be down, we will retry it a couple
 		// times.
 
-		for (int i = 1; i <= MAX_ATTEMPTS; i++)
+		for (int i = 1; i <= ServerUtilities.MAX_ATTEMPTS; i++)
 		{
 			Log.d(CommonUtilities.TAG, "Attempt #" + i + " to register");
 			try
@@ -86,7 +149,7 @@ public final class ServerUtilities
 				// (like HTTP error code 503).
 				Log.e(CommonUtilities.TAG,
 						"Failed to register on attempt " + i, e);
-				if (i == MAX_ATTEMPTS)
+				if (i == ServerUtilities.MAX_ATTEMPTS)
 				{
 					break;
 				}
@@ -110,6 +173,39 @@ public final class ServerUtilities
 		String message = "could not register check connection";
 		CommonUtilities.displayMessage(context, message);
 		return false;
+	}
+
+	public static void registerToServer(Activity activity)
+	{
+		Object regid;
+		setActivity(activity);
+		// check if account was configured
+		SharedPreferences prefs = activity.getSharedPreferences(
+				Constants.PrefsContext, 0);
+		String accountName = prefs.getString(Constants.ACCOUNT_NAME, "");
+		if ("".equals(accountName))
+		{
+			Toast.makeText(activity, "please choose account to sign with",
+					Toast.LENGTH_LONG).show();
+			Intent intent = new Intent(activity, StbSettingsActivity.class);
+			activity.startActivity(intent);
+			return;
+
+		}
+		regid = CommonUtilities.register(activity);
+		if (regid == null)
+		{
+			GCMRegistrar.register(activity, CommonUtilities.SENDER_ID);
+		}
+	}
+
+	/**
+	 * @param activity
+	 *            the activity to set
+	 */
+	public static synchronized void setActivity(Activity activity)
+	{
+		ServerUtilities.activity = activity;
 	}
 
 	/**
@@ -151,79 +247,4 @@ public final class ServerUtilities
 		}).start();
 
 	}
-
-	/**
-	 * Issue a POST request to the server.
-	 * 
-	 * @param endpoint
-	 *            POST address.
-	 * @param params
-	 *            request parameters.
-	 * 
-	 * @throws IOException
-	 *             propagated from POST.
-	 */
-	public static void post(String endpoint, String regID) throws IOException
-	{
-		AndroidHttpClient client = AndroidHttpClient.newInstance(
-				"GetAuthCookieClient", activity);
-		try
-		{
-			GoogleHttpContext httpContext = CommonUtilities.getContext(
-					activity, username, Constants.SERVER_URL);
-			HttpPost httpPost = new HttpPost(endpoint);
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-			nameValuePairs.add(new BasicNameValuePair("regid", regID));
-			nameValuePairs
-					.add(new BasicNameValuePair("model", getDeviceName()));
-			nameValuePairs.add(new BasicNameValuePair("deviceID",
-					Secure.getString(activity.getContentResolver(),
-							Secure.ANDROID_ID)));
-			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-			HttpResponse res = client.execute(httpPost, httpContext);
-			res.toString();
-		} finally
-		{
-			client.close();
-		}
-	}
-
-	public static String getDeviceName()
-	{
-		String manufacturer = Build.MANUFACTURER;
-		String model = Build.MODEL;
-		if (model.startsWith(manufacturer))
-		{
-			return capitalize(model);
-		} else
-		{
-			return capitalize(manufacturer) + " " + model;
-		}
-	}
-
-	private static String capitalize(String s)
-	{
-		if (s == null || s.length() == 0)
-		{
-			return "";
-		}
-		char first = s.charAt(0);
-		if (Character.isUpperCase(first))
-		{
-			return s;
-		} else
-		{
-			return Character.toUpperCase(first) + s.substring(1);
-		}
-	}
-
-	/**
-	 * @param activity
-	 *            the activity to set
-	 */
-	public static synchronized void setActivity(Activity activity)
-	{
-		ServerUtilities.activity = activity;
-	}
-
 }
