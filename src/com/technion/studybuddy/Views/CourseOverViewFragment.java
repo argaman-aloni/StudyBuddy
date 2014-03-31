@@ -21,24 +21,22 @@ import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.presenters.CoursePresenter;
 import com.wvr.widget.TextProgressBar;
 
-
-
-public class CourseOverViewFragment extends Fragment implements
-		Observer, MessageBar.OnMessageClickListener
+public class CourseOverViewFragment extends Fragment implements Observer,
+		MessageBar.OnMessageClickListener
 {
 	public static final String courseNumberArg = "courseNameArg";
-	// private LayoutInflater inflater;
-	private CoursePresenter presenter;
 
 	public static CourseOverViewFragment newInstance(String courseNumber)
 	{
 
 		CourseOverViewFragment fragment = new CourseOverViewFragment();
 		Bundle args = new Bundle();
-		args.putString(courseNumberArg, courseNumber);
+		args.putString(CourseOverViewFragment.courseNumberArg, courseNumber);
 		fragment.setArguments(args);
 		return fragment;
 	}
+
+	private TaskAdapter adapter;
 
 	private String courseNumber;
 
@@ -46,9 +44,25 @@ public class CourseOverViewFragment extends Fragment implements
 
 	// private CoursePresenter presenter;
 	private View fragmentView;
-	private TaskAdapter adapter;
 	private TextProgressBar lectureProgress;
+	// private LayoutInflater inflater;
+	private CoursePresenter presenter;
 	private TextProgressBar tutorialProgress;
+
+	private void drawGraph()
+	{
+
+		int done = presenter.getDoneItemsCount("Lectures");
+		int total = presenter.getTotalItemCount("Lectures");
+		lectureProgress.setProgress(total == 0 ? 0 : 100 * done / total);
+		lectureProgress.setText(done + "/" + total);
+
+		done = presenter.getDoneItemsCount("Tutorials");
+		total = presenter.getTotalItemCount("Tutorials");
+		tutorialProgress.setProgress(total == 0 ? 0 : 100 * done / total);
+		tutorialProgress.setText(done + "/" + total);
+
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -62,7 +76,8 @@ public class CourseOverViewFragment extends Fragment implements
 		DataStore.getInstance().addObserver(this);
 		if (getArguments() != null)
 		{
-			courseNumber = getArguments().getString(courseNumberArg);
+			courseNumber = getArguments().getString(
+					CourseOverViewFragment.courseNumberArg);
 		}
 	}
 
@@ -82,6 +97,7 @@ public class CourseOverViewFragment extends Fragment implements
 				container, false);
 		TextView courseName = (TextView) fragmentView
 				.findViewById(R.id.stb_simester);
+		// TODO check layout land of courseName
 		courseName.setText(DataStore.coursesById.get(courseNumber).getName());
 		lectureProgress = (TextProgressBar) fragmentView
 				.findViewById(R.id.stb_lecturesProgressBar);
@@ -101,18 +117,25 @@ public class CourseOverViewFragment extends Fragment implements
 				{
 
 					@Override
+					public boolean canDismiss(int position)
+					{
+						// TODO Auto-generated method stub
+						return true;
+					}
+
+					@Override
 					public void onDismiss(NowLayout mListView,
 							int[] reverseSortedPositions)
 					{
 						// adapter.remove(i);
 						try
 						{
-//							MessageBar bar = new MessageBar(getActivity());
-//							bar.setOnClickListener(CourseOverViewFragment.this);
-//							Bundle b = new Bundle();
-//							b.putInt("id", reverseSortedPositions[0]);
-//							bar.show("Item marked done", "Button!",
-//									R.drawable.ic_action_undo, b);
+							// MessageBar bar = new MessageBar(getActivity());
+							// bar.setOnClickListener(CourseOverViewFragment.this);
+							// Bundle b = new Bundle();
+							// b.putInt("id", reverseSortedPositions[0]);
+							// bar.show("Item marked done", "Button!",
+							// R.drawable.ic_action_undo, b);
 							adapter.remove(reverseSortedPositions[0]);
 							DataStore.getInstance().notifyObservers();
 							drawGraph();
@@ -122,39 +145,10 @@ public class CourseOverViewFragment extends Fragment implements
 						}
 
 					}
-
-					@Override
-					public boolean canDismiss(int position)
-					{
-						// TODO Auto-generated method stub
-						return true;
-					}
 				});
 		layout.setOnTouchListener(listener);
 		layout.setAdapter(adapter);
 		return fragmentView;
-
-	}
-
-	@Override
-	public void update(Observable observable, Object data)
-	{
-		if (fragmentView != null)
-			drawGraph();
-	}
-
-	private void drawGraph()
-	{
-
-		int done = presenter.getDoneItemsCount("Lectures");
-		int total = presenter.getTotalItemCount("Lectures");
-		lectureProgress.setProgress(total == 0 ? 0 : 100 * done / total);
-		lectureProgress.setText(done + "/" + total);
-
-		done = presenter.getDoneItemsCount("Tutorials");
-		total = presenter.getTotalItemCount("Tutorials");
-		tutorialProgress.setProgress(total == 0 ? 0 : 100 * done / total);
-		tutorialProgress.setText(done + "/" + total);
 
 	}
 
@@ -165,6 +159,15 @@ public class CourseOverViewFragment extends Fragment implements
 		int id = b.getInt("id");
 		adapter.restore(id);
 		drawGraph();
+	}
+
+	@Override
+	public void update(Observable observable, Object data)
+	{
+		if (fragmentView != null)
+		{
+			drawGraph();
+		}
 	}
 
 }

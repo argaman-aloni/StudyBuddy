@@ -24,12 +24,12 @@ import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
-import com.technion.studybuddy.utils.Constants;
 import com.google.android.gcm.GCMRegistrar;
 import com.technion.studybuddy.exceptions.AccessException;
-
+import com.technion.studybuddy.utils.Constants;
 
 /**
  * Helper class providing methods and constants common to other classes in the
@@ -41,20 +41,8 @@ public final class CommonUtilities
 	/**
 	 * Base URL of the Demo Server (such as http://my_host:8080/gcm-demo)
 	 */
-	
-	
+
 	// public static final String SERVER_URL_DEV = "192.168.1.104:8888";
-
-	
-	/**
-	 * Google API project id registered to use GCM.
-	 */
-	public static final String SENDER_ID = "807527031024";
-
-	/**
-	 * Tag used on log messages.
-	 */
-	static final String TAG = "GCMDemo";
 
 	/**
 	 * Intent used to display a message in the screen.
@@ -66,14 +54,55 @@ public final class CommonUtilities
 	 */
 	static final String EXTRA_MESSAGE = "message";
 
+	/**
+	 * Google API project id registered to use GCM.
+	 */
+	public static final String SENDER_ID = "807527031024";
+
+	/**
+	 * Tag used on log messages.
+	 */
+	static final String TAG = "GCMDemo";
+
+	private static void checkNotNull(Object reference, String name)
+	{
+		if (reference == null)
+			throw new NullPointerException(name + " is null");
+	}
+
+	/**
+	 * Notifies UI to display a message.
+	 * <p>
+	 * This method is defined in the common helper because it's used both by the
+	 * UI and the background service.
+	 * 
+	 * @param context
+	 *            application's context.
+	 * @param message
+	 *            message to be displayed.
+	 */
+	static void displayMessage(Context context, String message)
+	{
+		Intent intent = new Intent(CommonUtilities.DISPLAY_MESSAGE_ACTION);
+		intent.putExtra(CommonUtilities.EXTRA_MESSAGE, message);
+		context.sendBroadcast(intent);
+	}
+
+	static String getAccountName(Context context)
+	{
+		SharedPreferences prefs = context.getSharedPreferences(
+				Constants.PrefsContext, 0);
+		return prefs.getString(Constants.ACCOUNT_NAME, "");
+	}
+
 	public static GoogleHttpContext getContext(Activity activity,
 			String username, String baseUrl)
 	{
 		try
 		{
-			return Constants.debug ? new GoogleHttpContextDev(activity, username, baseUrl)
-					: new GoogleHttpContextProduction(activity, username,
-							baseUrl);
+			return Constants.debug ? new GoogleHttpContextDev(activity,
+					username, baseUrl) : new GoogleHttpContextProduction(
+					activity, username, baseUrl);
 		} catch (ClientProtocolException e)
 		{
 			e.printStackTrace();
@@ -93,36 +122,10 @@ public final class CommonUtilities
 		return null;
 	}
 
-	/**
-	 * Notifies UI to display a message.
-	 * <p>
-	 * This method is defined in the common helper because it's used both by the
-	 * UI and the background service.
-	 * 
-	 * @param context
-	 *            application's context.
-	 * @param message
-	 *            message to be displayed.
-	 */
-	static void displayMessage(Context context, String message)
-	{
-		Intent intent = new Intent(DISPLAY_MESSAGE_ACTION);
-		intent.putExtra(EXTRA_MESSAGE, message);
-		context.sendBroadcast(intent);
-	}
-
-	private static void checkNotNull(Object reference, String name)
-	{
-		if (reference == null)
-		{
-			throw new NullPointerException(name + " is null");
-		}
-	}
-
 	public static String register(final Activity context)
 	{
 		checkNotNull(Constants.SERVER_URL, "SERVER_URL");
-		checkNotNull(SENDER_ID, "SENDER_ID");
+		checkNotNull(CommonUtilities.SENDER_ID, "SENDER_ID");
 		// Make sure the device has the proper dependencies.
 		GCMRegistrar.checkDevice(context);
 		// Make sure the manifest was properly set - comment out this line
@@ -133,16 +136,15 @@ public final class CommonUtilities
 		if (regId.equals(""))
 		{
 			// Automatically registers application on startup.
-			GCMRegistrar.register(context, SENDER_ID);
+			GCMRegistrar.register(context, CommonUtilities.SENDER_ID);
 
 		} else
 		{
 			// Device is already registered on GCM, check server.
 			if (GCMRegistrar.isRegisteredOnServer(context))
-			{
 				// Skips registration.
 				return null;
-			} else
+			else
 			{
 				// Try to register again, but not in the UI thread.
 				// It's also necessary to cancel the thread onDestroy(),

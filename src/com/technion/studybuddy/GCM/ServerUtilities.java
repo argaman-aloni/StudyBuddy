@@ -53,8 +53,8 @@ public final class ServerUtilities
 	private static final int BACKOFF_MILLI_SECONDS = 2000;
 	private static final int MAX_ATTEMPTS = 5;
 	private static final Random random = new Random();
+
 	// TODO chenge to actual user selection
-	public static String username = "4ortik@gmail.com";
 
 	private static String capitalize(String s)
 	{
@@ -88,15 +88,17 @@ public final class ServerUtilities
 	 * @throws IOException
 	 *             propagated from POST.
 	 */
-	public static void post(String endpoint, String regID) throws IOException
+	public static void post(String endpoint, String regID, String username)
+			throws IOException
 	{
+
 		AndroidHttpClient client = AndroidHttpClient.newInstance(
 				"GetAuthCookieClient", ServerUtilities.activity);
 		try
 		{
+
 			GoogleHttpContext httpContext = CommonUtilities.getContext(
-					ServerUtilities.activity, ServerUtilities.username,
-					Constants.SERVER_URL);
+					ServerUtilities.activity, username, Constants.SERVER_URL);
 			HttpPost httpPost = new HttpPost(endpoint);
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 			nameValuePairs.add(new BasicNameValuePair("regid", regID));
@@ -121,6 +123,7 @@ public final class ServerUtilities
 	 */
 	public static boolean register(final Context context, final String regId)
 	{
+		String userName = CommonUtilities.getAccountName(context);
 		Log.i(CommonUtilities.TAG, "registering device (regId = " + regId + ")");
 		String serverUrl = Constants.SERVER_URL + "/register";
 		Map<String, String> params = new HashMap<String, String>();
@@ -137,7 +140,7 @@ public final class ServerUtilities
 			try
 			{
 
-				post("http://" + serverUrl, regId);
+				post("http://" + serverUrl, regId, userName);
 				GCMRegistrar.setRegisteredOnServer(context, true);
 
 				// TODO update server with regid
@@ -177,8 +180,9 @@ public final class ServerUtilities
 
 	public static void registerToServer(Activity activity)
 	{
-		Object regid;
+		String regid;
 		setActivity(activity);
+
 		// check if account was configured
 		SharedPreferences prefs = activity.getSharedPreferences(
 				Constants.PrefsContext, 0);
@@ -215,7 +219,6 @@ public final class ServerUtilities
 	{
 		Log.i(CommonUtilities.TAG, "unregistering device (regId = " + regId
 				+ ")");
-		final String serverUrl = Constants.SERVER_URL + "/unregister";
 		new Thread(new Runnable()
 		{
 
@@ -224,7 +227,10 @@ public final class ServerUtilities
 			{
 				try
 				{
-					post("http://" + serverUrl, regId);
+					final String serverUrl = Constants.SERVER_URL
+							+ "/unregister";
+					post("http://" + serverUrl, regId,
+							CommonUtilities.getAccountName(context));
 					GCMRegistrar.setRegisteredOnServer(context, false);
 					String message = "unregistering";
 					CommonUtilities.displayMessage(context, message);
