@@ -39,7 +39,8 @@
         android:layout_alignParentTop="true"
         android:background="@null"
         android:contentDescription="@string/stb_overflow"
-        android:padding="2dip"
+        android:padding="8dp"
+        
         android:src="@drawable/stb_overflow" />
 
     <com.todddavies.components.progressbar.ProgressWheel

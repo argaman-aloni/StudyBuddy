@@ -14,6 +14,8 @@
         android:layout_alignParentTop="true"
         android:background="@android:color/white"
         android:contentDescription="@string/stb_overflow"
+        android:layout_margin="8dp"
+        
         android:src="@drawable/stb_overflow" />
 
     <com.technion.studybuddy.Views.StrikeThroughTextView
