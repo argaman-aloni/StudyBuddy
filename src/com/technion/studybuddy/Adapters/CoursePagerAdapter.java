@@ -49,4 +49,17 @@ public class CoursePagerAdapter extends FragmentStatePagerAdapter
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.support.v4.view.PagerAdapter#getPageTitle(int)
+	 */
+	@Override
+	public CharSequence getPageTitle(int position)
+	{
+		if (position == 0)
+			return "overview";
+		return presenter.getResourceName(position - 1);
+	}
+
 }
