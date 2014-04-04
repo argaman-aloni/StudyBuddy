@@ -1,29 +1,26 @@
 package com.technion.studybuddy.Views;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.ActionBar;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 
 import com.technion.studybuddy.R;
-import com.technion.studybuddy.Views.ResourceFragment.OnFragmentInteractionListener;
+import com.technion.studybuddy.Adapters.CoursePagerAdapter;
 import com.technion.studybuddy.data.DataStore;
-import com.technion.studybuddy.presenters.CoursePresenter;
 
-
-public class CourseActivity extends Activity implements
-		ActionBar.OnNavigationListener, OnFragmentInteractionListener {
-
+public class CourseActivity extends FragmentActivity
+{
 	public static final String COURSE_ID = "COURSE_ID";
 	public static final String FRAGMENT = "fragment";
+	private String courseNumber;
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a
@@ -37,46 +34,44 @@ public class CourseActivity extends Activity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-	private int preselect = -1;
-
-	private String courseNumber;
-
-	private CoursePresenter presenter;
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.stb_activity_course);
+		Bundle data = getIntent().getExtras();
+
+		if (data.containsKey(CourseActivity.COURSE_ID))
+		{
+			courseNumber = data.getString(CourseActivity.COURSE_ID);
+			getActionBar().setTitle(courseNumber);
+		}
+
+		CoursePagerAdapter pagerAdapter = new CoursePagerAdapter(
+				getSupportFragmentManager(), courseNumber);
+		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mViewPager.setAdapter(pagerAdapter);
+		final ActionBar actionBar = getActionBar();
+
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		if (data.containsKey(CourseActivity.FRAGMENT))
+		{
+			data.getString(CourseActivity.FRAGMENT);
+			List<String> resourses = new ArrayList<String>(DataStore
+					.getInstance().getCoursePresenter(courseNumber)
+					.getResourceNames());
+
+			mViewPager.setCurrentItem(resourses.indexOf(data
+					.getString(CourseActivity.FRAGMENT)) + 1);
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
 		getMenuInflater().inflate(R.menu.stb_course, menu);
 
-		return true;
-	}
-
-	@Override
-	public void onFragmentInteraction(Uri uri) {
-	}
-
-	@Override
-	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		if (preselect > -1)
-			itemPosition = preselect;
-		switch (itemPosition) {
-		case 0:
-			Fragment fragment = CourseOverViewFragment
-					.newInstance(courseNumber);
-			ft.replace(R.id.stb_container, fragment).commit();
-			break;
-		case 1:
-		case 2:
-			ResourceFragment fragment1 = ResourceFragment.newInstance(
-					presenter.getResourceName(itemPosition - 1), courseNumber);
-
-			ft.replace(R.id.stb_container, fragment1).commit();
-			break;
-
-		default:
-			break;
-		}
-		preselect = -1;
 		return true;
 	}
 
@@ -87,8 +82,10 @@ public class CourseActivity extends Activity implements
 	 * actionbarsherlock.view.MenuItem)
 	 */
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
 		case android.R.id.home:
 
 			NavUtils.navigateUpFromSameTask(this);
@@ -100,40 +97,8 @@ public class CourseActivity extends Activity implements
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.stb_activity_course);
-		Bundle data = getIntent().getExtras();
-
-		if (data.containsKey(COURSE_ID)) {
-			courseNumber = data.getString(COURSE_ID);
-			getActionBar().setTitle(courseNumber);
-		}
-
-		presenter = DataStore.getInstance().getCoursePresenter(courseNumber);
-		ActionBar actionBar = getActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		actionBar.setListNavigationCallbacks(
-		// Specify a SpinnerAdapter to populate the dropdown list.
-				new ArrayAdapter<String>(actionBar.getThemedContext(),
-						android.R.layout.simple_list_item_1,
-						android.R.id.text1, new String[] { "OverView",
-								"Lectures", "Tutorials" }), this);
-		if (data.containsKey(FRAGMENT)) {
-			String frag = data.getString(FRAGMENT);
-			if (frag.equals("Lectures")) {
-				preselect = 1;
-			} else if (frag.equals("Tutorials")) {
-				preselect = 2;
-			}
-
-		}
 
 	}
-
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
 	 * one of the sections/tabs/pages.

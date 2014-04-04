@@ -3,9 +3,9 @@ package com.technion.studybuddy.Views;
 import java.util.Date;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +16,6 @@ import com.technion.studybuddy.Adapters.ResourceGridAdapter;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.NoSuchResourceException;
 import com.technion.studybuddy.models.StudyResource;
-
 
 public class ResourceFragment extends Fragment // implements
 // CrossGesture
@@ -36,9 +35,9 @@ public class ResourceFragment extends Fragment // implements
 		public void onFragmentInteraction(Uri uri);
 	}
 
-	private static final String RESOURCE_NAME = "resourceName";
-
 	private static final String COURSEID = "courseId";
+
+	private static final String RESOURCE_NAME = "resourceName";
 
 	/**
 	 * Factory Method for new Fragment generation
@@ -51,17 +50,17 @@ public class ResourceFragment extends Fragment // implements
 	{
 		ResourceFragment fragment = new ResourceFragment();
 		Bundle args = new Bundle();
-		args.putString(RESOURCE_NAME, resourceType);
-		args.putString(COURSEID, courseID);
+		args.putString(ResourceFragment.RESOURCE_NAME, resourceType);
+		args.putString(ResourceFragment.COURSEID, courseID);
 		fragment.setArguments(args);
 		return fragment;
 	}
 
-	private OnFragmentInteractionListener mListener;
-
-	private ResourceGridAdapter resourceAdapter;
+	// private OnFragmentInteractionListener mListener;
 
 	private StudyResource resource;
+
+	private ResourceGridAdapter resourceAdapter;
 
 	public ResourceFragment()
 	{
@@ -72,23 +71,23 @@ public class ResourceFragment extends Fragment // implements
 	public void onAttach(Activity activity)
 	{
 		super.onAttach(activity);
-		try
-		{
-			mListener = (OnFragmentInteractionListener) activity;
-		} catch (ClassCastException e)
-		{
-			throw new ClassCastException(activity.toString()
-					+ " must implement OnFragmentInteractionListener");
-		}
+		// try
+		// {
+		// mListener = (OnFragmentInteractionListener) activity;
+		// } catch (ClassCastException e)
+		// {
+		// throw new ClassCastException(activity.toString()
+		// + " must implement OnFragmentInteractionListener");
+		// }
 	}
 
-	public void onButtonPressed(Uri uri)
-	{
-		if (mListener != null)
-		{
-			mListener.onFragmentInteraction(uri);
-		}
-	}
+	// public void onButtonPressed(Uri uri)
+	// {
+	// if (mListener != null)
+	// {
+	// mListener.onFragmentInteraction(uri);
+	// }
+	// }
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -98,8 +97,9 @@ public class ResourceFragment extends Fragment // implements
 		if (getArguments() == null)
 			return;
 
-		String resourceName = getArguments().getString(RESOURCE_NAME);
-		String course = getArguments().getString(COURSEID);
+		String resourceName = getArguments().getString(
+				ResourceFragment.RESOURCE_NAME);
+		String course = getArguments().getString(ResourceFragment.COURSEID);
 
 		try
 		{
@@ -123,7 +123,8 @@ public class ResourceFragment extends Fragment // implements
 		((TextView) view.findViewById(R.id.resource_type)).setText(String
 				.valueOf(resource.getNumOfItemsBehind(
 						DataStore.semester.getSemesterWeek(new Date()),
-						DataStore.semester.getTotalWeeks())) + " " + resource.getName() + " behind");
+						DataStore.semester.getTotalWeeks()))
+				+ " " + resource.getName() + " behind");
 		resourceAdapter = new ResourceGridAdapter(getActivity(),
 				resource.getItems());
 
@@ -137,7 +138,7 @@ public class ResourceFragment extends Fragment // implements
 	public void onDetach()
 	{
 		super.onDetach();
-		mListener = null;
+		// mListener = null;
 	}
 
 }

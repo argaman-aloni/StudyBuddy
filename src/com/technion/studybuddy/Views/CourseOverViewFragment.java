@@ -3,9 +3,9 @@ package com.technion.studybuddy.Views;
 import java.util.Observable;
 import java.util.Observer;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.technion.studybuddy.R;
 import com.technion.studybuddy.Adapters.TaskAdapter;
-import com.technion.studybuddy.Views.SwipeDismissListViewTouchListener.DismissCallbacks;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.presenters.CoursePresenter;
 import com.wvr.widget.TextProgressBar;
@@ -112,41 +111,40 @@ public class CourseOverViewFragment extends Fragment implements Observer,
 		adapter = new TaskAdapter(getActivity(), courseNumber);
 		NowLayout layout = (NowLayout) fragmentView
 				.findViewById(R.id.course_list);
-		SwipeDismissListViewTouchListener listener = new SwipeDismissListViewTouchListener(
-				layout, new DismissCallbacks()
-				{
-
-					@Override
-					public boolean canDismiss(int position)
-					{
-						// TODO Auto-generated method stub
-						return true;
-					}
-
-					@Override
-					public void onDismiss(NowLayout mListView,
-							int[] reverseSortedPositions)
-					{
-						// adapter.remove(i);
-						try
-						{
-							// MessageBar bar = new MessageBar(getActivity());
-							// bar.setOnClickListener(CourseOverViewFragment.this);
-							// Bundle b = new Bundle();
-							// b.putInt("id", reverseSortedPositions[0]);
-							// bar.show("Item marked done", "Button!",
-							// R.drawable.ic_action_undo, b);
-							adapter.remove(reverseSortedPositions[0]);
-							DataStore.getInstance().notifyObservers();
-							drawGraph();
-						} catch (Exception e)
-						{
-							e.printStackTrace();
-						}
-
-					}
-				});
-		layout.setOnTouchListener(listener);
+		// new SwipeDismissListViewTouchListener(layout, new DismissCallbacks()
+		// {
+		//
+		// @Override
+		// public boolean canDismiss(int position)
+		// {
+		// // TODO Auto-generated method stub
+		// return true;
+		// }
+		//
+		// @Override
+		// public void onDismiss(NowLayout mListView,
+		// int[] reverseSortedPositions)
+		// {
+		// // adapter.remove(i);
+		// try
+		// {
+		// // MessageBar bar = new MessageBar(getActivity());
+		// // bar.setOnClickListener(CourseOverViewFragment.this);
+		// // Bundle b = new Bundle();
+		// // b.putInt("id", reverseSortedPositions[0]);
+		// // bar.show("Item marked done", "Button!",
+		// // R.drawable.ic_action_undo, b);
+		// adapter.remove(reverseSortedPositions[0]);
+		// DataStore.getInstance().notifyObservers();
+		// drawGraph();
+		// } catch (Exception e)
+		// {
+		// e.printStackTrace();
+		// }
+		//
+		// }
+		// });
+		// layout.setOnTouchListener(listener);
 		layout.setAdapter(adapter);
 		return fragmentView;
 

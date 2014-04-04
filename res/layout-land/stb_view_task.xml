@@ -3,32 +3,14 @@
     style="@style/stb_nowCardStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="4dp" >
+    android:layout_alignParentLeft="true"
+    android:layout_centerVertical="true"
+    android:layout_margin="16dp"
+    android:layout_marginTop="24dp"
+    android:maxLines="1"
+    android:minHeight="48dp"
+    android:minWidth="48dp"
+    android:text="@string/stb_desc"
+    android:textAppearance="?android:attr/textAppearanceMedium" >
 
-    <CheckBox
-        android:id="@+id/task_done"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="33dp" />
-
-    <TextView
-        android:id="@+id/course"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:minHeight="100dp"
-        android:layout_centerHorizontal="true"
-        android:text="course"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/task_desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/task_done"
-        android:layout_alignRight="@+id/course"
-        android:text="desc"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 </com.technion.studybuddy.Views.StrikeThroughView>
