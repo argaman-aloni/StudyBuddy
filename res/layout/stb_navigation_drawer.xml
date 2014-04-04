@@ -21,13 +21,13 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#22444444" >
+        android:background="#e3e3e3" >
 
         <RelativeLayout
             android:id="@+id/additional_stuff_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#22444444" >
+            android:background="#e3e3e3" >
 
             <TextView
                 android:id="@+id/login_tv"
@@ -36,8 +36,7 @@
                 android:layout_alignLeft="@+id/status_tv"
                 android:layout_alignTop="@+id/profile_pic_iv"
                 android:text="Logged as:"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#FFFFFF" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
                 android:id="@+id/status_tv"
@@ -48,7 +47,7 @@
                 android:layout_toRightOf="@+id/profile_pic_iv"
                 android:text="not logged"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#eee9e9" />
+                android:textColor="#778899" />
 
             <ImageView
                 android:id="@+id/profile_pic_iv"
@@ -59,22 +58,29 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="8dp"
                 android:src="@drawable/profile_pic" />
+        </RelativeLayout>
 
-            <View
-                android:id="@+id/rule_line"
-                android:layout_width="fill_parent"
-                android:layout_height="2dip"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/profile_pic_iv"
-                android:layout_marginTop="8dp"
-                android:background="#8b8682" />
+        <RelativeLayout
+            android:id="@+id/overview_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/additional_stuff_layout"
+            android:background="#8b8989" >
+
+            <TextView
+                android:id="@+id/overview_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:text="Overview"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
         </RelativeLayout>
 
         <ListView
             android:id="@+id/list_drawer_stb"
             android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/additional_stuff_layout"
+            android:layout_below="@+id/overview_layout"
             android:choiceMode="singleChoice"
             android:divider="#838b83"
             android:dividerHeight="0dp" />
@@ -83,7 +89,6 @@
             android:id="@+id/login_panel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            
             android:layout_alignParentBottom="true"
             android:background="#222222" >
 
@@ -102,12 +107,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/imageView1"
-                android:layout_toRightOf="@id/imageView1"
-                android:paddingLeft="4dp"
-                android:textColor="@color/stb_white"
-                android:text="Log In"
                 android:layout_marginTop="8dp"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:layout_toRightOf="@id/imageView1"
+                android:text="Log In"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/stb_white" />
         </RelativeLayout>
     </RelativeLayout>
 

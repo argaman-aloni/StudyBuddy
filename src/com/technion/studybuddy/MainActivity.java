@@ -13,7 +13,6 @@ import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,12 +23,10 @@ import com.technion.studybuddy.GCM.ServerUtilities;
 import com.technion.studybuddy.listeners.DrawerItemClickListener;
 import com.technion.studybuddy.utils.Constants;
 
-public class MainActivity extends Activity
-{
+public class MainActivity extends Activity {
 
 	public static final int USER_PERMISSION1 = 0;
 	DrawerAdapter adapter;
-	private ImageView loginImage;
 	private TextView loginState;
 	private TextView loginTitle;
 	private DrawerLayout mDrawerLayout;
@@ -37,29 +34,24 @@ public class MainActivity extends Activity
 	private ActionBarDrawerToggle mDrawerToggle;
 	private RelativeLayout mRelativeLayout;
 
-	private void initloginState()
-	{
+	private void initloginState() {
 		RelativeLayout loginLayout = (RelativeLayout) findViewById(R.id.login_panel);
 		loginTitle = (TextView) findViewById(R.id.login_tv);
 		loginState = (TextView) findViewById(R.id.status_tv);
-		loginImage = (ImageView) findViewById(R.id.profile_pic_iv);
 
 		SharedPreferences prefs = getSharedPreferences(Constants.PrefsContext,
 				0);
-		if (prefs.getBoolean(Constants.IS_REGISTERED, false))
-		{
+		if (prefs.getBoolean(Constants.IS_REGISTERED, false)) {
 			loginLayout.setVisibility(View.GONE);
 			loginTitle.setText(prefs.getString(Constants.ACCOUNT_NAME, ""));
 			String str = "<html><body><u>log out</u></body></html>";
 			loginState.setText(Html.fromHtml(str));
 
 			loginState.setTextColor(Color.BLUE);
-			loginState.setOnClickListener(new OnClickListener()
-			{
+			loginState.setOnClickListener(new OnClickListener() {
 
 				@Override
-				public void onClick(View v)
-				{
+				public void onClick(View v) {
 					SharedPreferences prefs = getSharedPreferences(
 							Constants.PrefsContext, 0);
 					String regid = prefs.getString(Constants.REGID_PREFS, "");
@@ -72,14 +64,11 @@ public class MainActivity extends Activity
 					editor.commit();
 				}
 			});
-		} else
-		{
-			loginLayout.setOnClickListener(new OnClickListener()
-			{
+		} else {
+			loginLayout.setOnClickListener(new OnClickListener() {
 
 				@Override
-				public void onClick(View v)
-				{
+				public void onClick(View v) {
 					ServerUtilities.registerToServer(MainActivity.this);
 				}
 			});
@@ -93,8 +82,7 @@ public class MainActivity extends Activity
 	 * @see com.technion.coolie.CoolieActivity#onCreate(android.os.Bundle)
 	 */
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stb_navigation_drawer);
 
@@ -116,8 +104,7 @@ public class MainActivity extends Activity
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
 
-		if (savedInstanceState == null)
-		{
+		if (savedInstanceState == null) {
 			selectItem(-1);
 		}
 
@@ -125,8 +112,7 @@ public class MainActivity extends Activity
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
+	public boolean onOptionsItemSelected(MenuItem item) {
 		// Pass the event to ActionBarDrawerToggle, if it returns
 		// true, then it has handled the app icon touch event
 		if (mDrawerToggle.onOptionsItemSelected(item))
@@ -136,25 +122,21 @@ public class MainActivity extends Activity
 	}
 
 	@Override
-	protected void onPostCreate(Bundle savedInstanceState)
-	{
+	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		// Sync the toggle state after onRestoreInstanceState has occurred.
 		mDrawerToggle.syncState();
 	}
 
 	@Override
-	protected void onStart()
-	{
+	protected void onStart() {
 		super.onStart();
 		adapter.notifyDataSetChanged();
 	}
 
-	private void selectItem(int position)
-	{
+	private void selectItem(int position) {
 		// update the main content by replacing fragments
-		if (position == -1)
-		{
+		if (position == -1) {
 			MainFragment fragment = new MainFragment();
 			fragment.setDrawerAdapter(adapter);
 			FragmentManager fragmentManager = getFragmentManager();
@@ -167,24 +149,20 @@ public class MainActivity extends Activity
 		mDrawerLayout.closeDrawer(mRelativeLayout);
 	}
 
-	private void setToggleDrawerParams()
-	{
+	private void setToggleDrawerParams() {
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				R.drawable.ic_drawer, R.string.drawer_open,
-				R.string.drawer_close)
-		{
+				R.string.drawer_close) {
 
 			@Override
-			public void onDrawerClosed(View view)
-			{
+			public void onDrawerClosed(View view) {
 				super.onDrawerClosed(view);
 				getActionBar().setTitle(getTitle());
 				invalidateOptionsMenu();
 			}
 
 			@Override
-			public void onDrawerOpened(View drawerView)
-			{
+			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
 				getActionBar().setTitle(getTitle());
 				invalidateOptionsMenu(); // creates call to
