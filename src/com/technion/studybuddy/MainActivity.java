@@ -13,14 +13,13 @@ import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ListView;
+import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gcm.GCMRegistrar;
 import com.technion.studybuddy.Adapters.DrawerAdapter;
 import com.technion.studybuddy.GCM.ServerUtilities;
-import com.technion.studybuddy.listeners.DrawerItemClickListener;
 import com.technion.studybuddy.utils.Constants;
 
 public class MainActivity extends Activity {
@@ -30,7 +29,7 @@ public class MainActivity extends Activity {
 	private TextView loginState;
 	private TextView loginTitle;
 	private DrawerLayout mDrawerLayout;
-	private ListView mDrawerList;
+	private ExpandableListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private RelativeLayout mRelativeLayout;
 
@@ -87,11 +86,12 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.stb_navigation_drawer);
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.stb_drawer_layout);
-		mDrawerList = (ListView) findViewById(R.id.list_drawer_stb);
+		mDrawerList = (ExpandableListView) findViewById(R.id.list_drawer_stb);
+		mDrawerList.setIndicatorBounds(0, 20);
 		mRelativeLayout = (RelativeLayout) findViewById(R.id.drawer_content_layout);
 		initloginState();
 
-		adapter = new DrawerAdapter(getApplicationContext());
+		adapter = new DrawerAdapter(this);
 
 		mDrawerList.setAdapter(adapter);
 
@@ -107,8 +107,6 @@ public class MainActivity extends Activity {
 		if (savedInstanceState == null) {
 			selectItem(-1);
 		}
-
-		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 	}
 
 	@Override

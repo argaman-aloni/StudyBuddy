@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/course_tv"
         android:layout_below="@+id/course_tv"
-        android:text="TextView" />
+        android:textColor="@android:color/black" />
 
     <TextView
         android:id="@+id/course_tv"
@@ -17,9 +17,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="26dp"
         android:layout_marginTop="14dp"
-        android:text="TextView"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/black" />
 
 </RelativeLayout>

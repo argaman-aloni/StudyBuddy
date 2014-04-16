@@ -64,6 +64,7 @@
             android:id="@+id/overview_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_below="@+id/additional_stuff_layout"
             android:background="#8b8989" >
 
@@ -72,11 +73,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
-                android:text="Overview"
+                android:text="@string/overview"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </RelativeLayout>
 
-        <ListView
+        <ExpandableListView
             android:id="@+id/list_drawer_stb"
             android:layout_width="240dp"
             android:layout_height="wrap_content"

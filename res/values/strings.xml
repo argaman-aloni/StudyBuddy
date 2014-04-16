@@ -3,5 +3,13 @@
     <string name="app_name">StudyBuddy</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="overview">Overview</string>
+    <string name="lectures">Lectures</string>
+    <string name="tutorials">Tutorials</string>
+    <string-array name="resources_array">
+        <item>Overview</item>
+        <item>Lectures</item>
+        <item>Tutorials</item>
+    </string-array>
 
 </resources>
