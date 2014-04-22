@@ -85,6 +85,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.technion.studybuddy.MainActivity" />
         </activity>
+        
+        
+        
+        <activity
+            android:name="com.technion.studybuddy.charts.PieChartBuilder"
+            android:parentActivityName="com.technion.studybuddy.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.studybuddy.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

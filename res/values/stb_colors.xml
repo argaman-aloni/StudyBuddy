@@ -10,6 +10,13 @@
     <color name="stb_green">#4ac925</color>
     <color name="stb_skyblue">#0000ff</color>
     <color name="stb_holoblue">#ff33b6ea</color>
-    <color name="stb_white">#FFFFFF</color>
+    
+    <color name="Navy">#000080</color>
+    <color name="Thistle">#d8bfd8</color>
+    <color name="Medium_Purple">#9370db</color>
+    <color name="Blue_Violet">#8a2be2</color>
+    <color name="Violet">#ee82ee</color>
+    <color name="Maroon">#b03060</color>
+    <color name="Deep_Pink">#ff1493</color>
 
 </resources>

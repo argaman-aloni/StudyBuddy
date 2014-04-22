@@ -37,6 +37,7 @@ import com.technion.studybuddy.GCM.ServerUtilities;
 import com.technion.studybuddy.Views.EditCourse;
 import com.technion.studybuddy.Views.NowLayout;
 import com.technion.studybuddy.Views.StbSettingsActivity;
+import com.technion.studybuddy.charts.PieChartBuilder;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.CourseAlreadyExistsException;
 import com.technion.studybuddy.exceptions.NoSuchResourceException;
@@ -48,8 +49,7 @@ import com.technion.studybuddy.models.StudyItem;
  * @author Argaman
  * 
  */
-public class MainFragment extends Fragment implements Observer
-{
+public class MainFragment extends Fragment implements Observer {
 
 	public static final int USER_PERMISSION1 = 0;
 
@@ -64,8 +64,7 @@ public class MainFragment extends Fragment implements Observer
 
 	private SharedPreferences sharedPreferences;
 
-	private void createExmapleCourse()
-	{
+	private void createExmapleCourse() {
 		sharedPreferences.edit().putBoolean("firstUse", false).commit();
 		String num = "123456";
 		String name = "Example course";
@@ -73,19 +72,16 @@ public class MainFragment extends Fragment implements Observer
 		int lecturesAmount = 6;
 		int tutorialsAmount = 6;
 
-		try
-		{
+		try {
 			DataStore.getInstance().addCourse(num, name, lecturesAmount,
 					tutorialsAmount);
-		} catch (CourseAlreadyExistsException e)
-		{
+		} catch (CourseAlreadyExistsException e) {
 			String errMsg = "A course with num " + num + " already exists.";
 			Toast.makeText(rootView.getContext(), errMsg, Toast.LENGTH_SHORT)
 					.show();
 			return;
 		}
-		try
-		{
+		try {
 			List<StudyItem> lectureItems = DataStore.coursesById.get("123456")
 					.getResourceByName("Lectures").getItems();
 
@@ -112,8 +108,7 @@ public class MainFragment extends Fragment implements Observer
 			tutorialItems.get(2).setLabel("Click to Mark");
 			tutorialItems.get(3).setLabel("Click to unmark");
 			tutorialItems.get(4).setLabel("try to long press to open menu");
-		} catch (NoSuchResourceException e)
-		{
+		} catch (NoSuchResourceException e) {
 			e.printStackTrace();
 		}
 		DataStore.getInstance().addExam(
@@ -123,8 +118,7 @@ public class MainFragment extends Fragment implements Observer
 						* DateUtils.DAY_IN_MILLIS));
 	}
 
-	private void initInitialView()
-	{
+	private void initInitialView() {
 		layout = (NowLayout) rootView.findViewById(R.id.course_list);
 		emptyState = (LinearLayout) rootView
 				.findViewById(R.id.stb_main_empty_state);
@@ -132,12 +126,10 @@ public class MainFragment extends Fragment implements Observer
 		layout.setAdapter(adapter);
 		Button btn = (Button) rootView
 				.findViewById(R.id.stb_main_empty_state_button);
-		btn.setOnClickListener(new OnClickListener()
-		{
+		btn.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 				startActivityForResult(new Intent(v.getContext(),
 						EditCourse.class), Activity.RESULT_CANCELED);
 			}
@@ -146,10 +138,19 @@ public class MainFragment extends Fragment implements Observer
 		DataStore.getStats().addObserver(this);
 		// WeeklyGraph
 		chartLayout = (LinearLayout) rootView.findViewById(R.id.Chart_layout);
+		chartLayout.setClickable(true);
+		// chartLayout.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// Intent intent = new Intent(v.getContext(),
+		// PieChartBuilder.class);
+		// startActivity(intent);
+		// }
+		// });
 	}
 
-	private void initSemester()
-	{
+	private void initSemester() {
 		semesterData = LayoutInflater.from(rootView.getContext()).inflate(
 				R.layout.stb_view_simester_data, null);
 		TextView simterTextView = (TextView) semesterData
@@ -169,23 +170,19 @@ public class MainFragment extends Fragment implements Observer
 		sharedPreferences = PreferenceManager
 				.getDefaultSharedPreferences(rootView.getContext());
 		boolean firstUse = sharedPreferences.getBoolean("firstUse", true);
-		if (firstUse)
-		{
+		if (firstUse) {
 			createExmapleCourse();
 		}
 	}
 
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		DataStore.getInstance().notifyObservers();
-		switch (requestCode)
-		{
+		switch (requestCode) {
 		// if the user approved the use of the account make another request
 		// for the auth token else display a message
 		case GoogleHttpContext.USER_PERMISSION:
-			if (resultCode == Activity.RESULT_OK)
-			{
+			if (resultCode == Activity.RESULT_OK) {
 				Toast.makeText(getActivity(),
 						"connection confirmed please register",
 						Toast.LENGTH_SHORT).show();
@@ -194,15 +191,13 @@ public class MainFragment extends Fragment implements Observer
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-	{
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.stb_main_menu, menu);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState)
-	{
+			Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.stb_view_main, container, false);
 
 		DataStore.setContext(rootView.getContext());
@@ -217,12 +212,10 @@ public class MainFragment extends Fragment implements Observer
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
+	public boolean onOptionsItemSelected(MenuItem item) {
 
 		Intent intent = null;
-		switch (item.getItemId())
-		{
+		switch (item.getItemId()) {
 		case android.R.id.home:
 
 			NavUtils.navigateUpFromSameTask(getActivity());
@@ -254,41 +247,46 @@ public class MainFragment extends Fragment implements Observer
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void setDrawerAdapter(DrawerAdapter adapter2)
-	{
+	public void setDrawerAdapter(DrawerAdapter adapter2) {
 		drawerAdapter = adapter2;
 	}
 
-	private void setVisibilityEmptyState()
-	{
-		if (adapter.getCount() == 0)
-		{
+	private void setVisibilityEmptyState() {
+		if (adapter.getCount() == 0) {
 			emptyState.setVisibility(View.VISIBLE);
 			layout.setVisibility(View.GONE);
-		} else
-		{
+		} else {
 			layout.setVisibility(View.VISIBLE);
 			emptyState.setVisibility(View.GONE);
 		}
 	}
 
 	@Override
-	public void update(Observable observable, Object data)
-	{
+	public void update(Observable observable, Object data) {
 		updateGraphView();
 		adapter.notifyDataSetChanged();
 		drawerAdapter.notifyDataSetChanged();
 		setVisibilityEmptyState();
 	}
 
-	private void updateGraphView()
-	{
+	private void updateGraphView() {
 		chartLayout.removeAllViews();
 		Date today = new Date();
 		graphView = GraphFactory.getWeeklyProgressGraph(rootView.getContext(),
 				today, DataStore.getInstance().getWorkStats(today, 7));
+		graphView.setClickable(true);
+		graphView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(v.getContext(),
+						PieChartBuilder.class);
+				startActivity(intent);
+			}
+		});
 		chartLayout.addView(semesterData);
 		chartLayout.addView(graphView);
+
 	}
 
 }

@@ -11,5 +11,14 @@
         <item>Lectures</item>
         <item>Tutorials</item>
     </string-array>
+    <string-array name="pie_chart_labels">
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
 
 </resources>
