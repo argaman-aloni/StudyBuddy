@@ -6,6 +6,7 @@
     <string name="overview">Overview</string>
     <string name="lectures">Lectures</string>
     <string name="tutorials">Tutorials</string>
+
     <string-array name="resources_array">
         <item>Overview</item>
         <item>Lectures</item>
@@ -19,6 +20,33 @@
         <item>Thursday</item>
         <item>Friday</item>
         <item>Saturday</item>
+    </string-array>
+    <string-array name="lectures_colors">
+        <item>#000080</item>
+        <item>#d8bfd8</item>
+        <item>#9370db</item>
+        <item>#8a2be2</item>
+        <item>#ee82ee</item>
+        <item>#b03060</item>
+        <item>#ff1493</item>
+    </string-array>
+    <string-array name="tutorials_colors">
+        <item>#0000cd</item>
+        <item>#1e90ff</item>
+        <item>#87ceeb</item>
+        <item>#4682b4</item>
+        <item>#b0c4de</item>
+        <item>#add8e6</item>
+        <item>#48d1cc</item>
+    </string-array>
+    <string-array name="overview_colors">
+        <item>#ff0000</item>
+        <item>#d02090</item>
+        <item>#ba55d3</item>
+        <item>#8a2be2</item>
+        <item>#0000cd</item>
+        <item>#66cdaa</item>
+        <item>#00ff7f</item>
     </string-array>
 
 </resources>
