@@ -16,9 +16,9 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 import android.graphics.Color;
 import android.text.format.DateUtils;
 
-import com.technion.studybuddy.charts.AbstractDemoChart;
+import com.technion.studybuddy.charts.GenericChartGenerator;
 
-public class WeeklyProgress extends AbstractDemoChart {
+public class WeeklyProgress extends GenericChartGenerator {
 	private final Double[] dailyProgress;
 	private final Date firstDayOfWeek;
 

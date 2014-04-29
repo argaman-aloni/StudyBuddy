@@ -28,7 +28,7 @@ import com.technion.studybuddy.R;
 /**
  * Budget demo pie chart.
  */
-public class ProgressPieChart extends AbstractDemoChart {
+public class ProgressPieChart extends GenericChartGenerator {
 
 	private DefaultRenderer createPieChartRenderer(int[] colors, String title,
 			int gradStart, int intgradEnd) {

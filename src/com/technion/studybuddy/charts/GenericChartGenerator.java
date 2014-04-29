@@ -38,7 +38,7 @@ import com.technion.studybuddy.R;
  * An abstract class for the demo charts to extend. It contains some methods for
  * building datasets and renderers.
  */
-public abstract class AbstractDemoChart {
+public abstract class GenericChartGenerator {
 
 	public void addXYSeries(XYMultipleSeriesDataset dataset, String[] titles,
 			List<double[]> xValues, List<double[]> yValues, int scale) {

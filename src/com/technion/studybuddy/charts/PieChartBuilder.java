@@ -6,41 +6,52 @@ import org.achartengine.renderer.DefaultRenderer;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
 import com.technion.studybuddy.R;
+import com.technion.studybuddy.Views.ChartFullFragment;
 
 public class PieChartBuilder extends Activity {
 	ProgressPieChart chart = new ProgressPieChart();
-	/** The chart views that displays the data. */
-	private GraphicalView mChartViewLectures;
-	private GraphicalView mChartViewOverview;
-	private GraphicalView mChartViewTutorials;
-	/** The main renderer for the main dataset. */
 	private DefaultRenderer mRenderer = new DefaultRenderer();
 	/** The main series that will include all the data. */
 	private CategorySeries mSeries = new CategorySeries("");
-	/** Edit text field for entering the slice value. */
-	/** Button for adding entered data to the current series. */
+	/** The chart views that displays the data. */
+
+	private final GraphicalView[] pieCharts = new GraphicalView[3];
+	private final String TAG = "TAG";
 	double[] values = new double[] { 12, 14, 11, 10, 19 };
+
+	private void addLClickListener(final GraphicalView graphicalView,
+			final int index) {
+		graphicalView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				ChartFullFragment chartFragment = new ChartFullFragment();
+				chartFragment.chartIndex = index;
+				chartFragment.show(getFragmentManager(), TAG);
+			}
+		});
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.xy_chart);
-		mChartViewOverview = chart.getOverviewPieChart(this);
-		LinearLayout layout1 = (LinearLayout) findViewById(R.id.chart);
-		layout1.addView(mChartViewOverview, new LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		mChartViewLectures = chart.getLecturesPieChart(this);
-		LinearLayout layout2 = (LinearLayout) findViewById(R.id.chart2);
-		layout2.addView(mChartViewLectures, new LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		mChartViewTutorials = chart.getTutorialsPieChart(this);
-		LinearLayout layout3 = (LinearLayout) findViewById(R.id.chart3);
-		layout3.addView(mChartViewTutorials, new LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		LinearLayout[] layouts = new LinearLayout[3];
+		setOverviews(layouts);
+		setLectures(layouts);
+		setTutorials(layouts);
+		for (int i = 0; i < pieCharts.length; i++) {
+			addLClickListener(pieCharts[i], i);
+
+		}
 
 	}
 
@@ -58,4 +69,34 @@ public class PieChartBuilder extends Activity {
 		outState.putSerializable("current_series", mSeries);
 		outState.putSerializable("current_renderer", mRenderer);
 	}
+
+	private void setLectures(LinearLayout[] layouts) {
+		pieCharts[1] = chart.getLecturesPieChart(this);
+		layouts[1] = (LinearLayout) findViewById(R.id.chart2);
+		layouts[1].addView(pieCharts[1], new LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		Animation animation = AnimationUtils.loadAnimation(this,
+				R.anim.stb_slide_up_left);
+		layouts[1].setAnimation(animation);
+	}
+
+	private void setOverviews(LinearLayout[] layouts) {
+		pieCharts[0] = chart.getOverviewPieChart(this);
+		layouts[0] = (LinearLayout) findViewById(R.id.chart);
+		layouts[0].addView(pieCharts[0], new LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		Animation animation = AnimationUtils.loadAnimation(this, R.anim.stb_in);
+		pieCharts[0].setAnimation(animation);
+	}
+
+	private void setTutorials(LinearLayout[] layouts) {
+		pieCharts[2] = chart.getTutorialsPieChart(this);
+		layouts[2] = (LinearLayout) findViewById(R.id.chart3);
+		layouts[2].addView(pieCharts[2], new LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		Animation animation = AnimationUtils.loadAnimation(this,
+				R.anim.stb_slide_up_right);
+		layouts[2].setAnimation(animation);
+	}
+
 }
