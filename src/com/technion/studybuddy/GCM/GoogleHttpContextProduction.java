@@ -17,7 +17,6 @@ import android.accounts.AccountManager;
 import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.http.AndroidHttpClient;
@@ -49,7 +48,7 @@ public class GoogleHttpContextProduction extends GoogleHttpContext
 	 *             calling should implment onactivityresult and recreate the
 	 *             this context
 	 */
-	public GoogleHttpContextProduction(final Activity context,
+	public GoogleHttpContextProduction(final Context context,
 			final String userName, final String baseUrl)
 			throws ClientProtocolException, IOException,
 			OperationCanceledException, AuthenticatorException, AccessException
@@ -63,18 +62,18 @@ public class GoogleHttpContextProduction extends GoogleHttpContext
 			public void run()
 			{
 				AndroidHttpClient httpClient = null;
-				httpClient = AndroidHttpClient.newInstance("GetAuthCookieClient",
-						context);
+				httpClient = AndroidHttpClient.newInstance(
+						"GetAuthCookieClient", context);
 				try
 				{
-					sendRequest(userName, baseUrl,httpClient);
+					sendRequest(userName, baseUrl, httpClient);
 				} catch (invalidatedTokenExcpetion e)
 				{
 					AccountManager manager = AccountManager.get(context);
 					manager.invalidateAuthToken("com.google", e.getToken());
 					try
 					{
-						sendRequest(userName, baseUrl,httpClient);
+						sendRequest(userName, baseUrl, httpClient);
 					} catch (invalidatedTokenExcpetion e1)
 					{
 						e1.printStackTrace();
@@ -82,7 +81,9 @@ public class GoogleHttpContextProduction extends GoogleHttpContext
 				} finally
 				{
 					if (httpClient != null)
+					{
 						httpClient.close();
+					}
 				}
 
 			}
@@ -98,10 +99,10 @@ public class GoogleHttpContextProduction extends GoogleHttpContext
 		httpContext.toString();
 	}
 
-	private void sendRequest(String userName, String baseUrl, AndroidHttpClient httpClient)
-			throws invalidatedTokenExcpetion
+	private void sendRequest(String userName, String baseUrl,
+			AndroidHttpClient httpClient) throws invalidatedTokenExcpetion
 	{
-	
+
 		String token = null;
 		try
 		{
@@ -132,7 +133,8 @@ public class GoogleHttpContextProduction extends GoogleHttpContext
 
 		} catch (AccessException e)
 		{
-			context.startActivityForResult(e.getIntent(), USER_PERMISSION);
+			// context.startActivityForResult(e.getIntent(), USER_PERMISSION);
+			context.startActivity(e.getIntent());
 
 		} catch (AuthenticationException e)
 		{
@@ -151,15 +153,11 @@ public class GoogleHttpContextProduction extends GoogleHttpContext
 			throws AuthenticationException
 	{
 		if (response.getStatusLine().getStatusCode() != 302)
-		{
 			throw new AuthenticationException(
 					"authentication response was not a redirect");
-		}
 		if (!isAuthenticationCookiePresent(cookieStore))
-		{
 			throw new AuthenticationException(
 					"authentication cookie not found in cookie store");
-		}
 	}
 
 	/**
@@ -193,9 +191,7 @@ public class GoogleHttpContextProduction extends GoogleHttpContext
 			for (Account account : accounts)
 			{
 				if (account.name.equals(username))
-				{
 					return account;
-				}
 			}
 		}
 		return null;
@@ -220,9 +216,7 @@ public class GoogleHttpContextProduction extends GoogleHttpContext
 		Bundle bundle = future.getResult();
 		Intent intent = (Intent) bundle.get(AccountManager.KEY_INTENT);
 		if (intent != null)
-		{
 			throw new AccessException(intent);
-		}
 		return bundle.getString(AccountManager.KEY_AUTHTOKEN);
 	}
 

@@ -25,16 +25,13 @@ import android.accounts.AccountManager;
 import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.http.AndroidHttpClient;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
 
-import com.technion.studybuddy.MainActivity;
 import com.technion.studybuddy.exceptions.AccessException;
-
 
 /**
  * @author Arik
@@ -62,7 +59,7 @@ public final class GoogleHttpContextDev extends GoogleHttpContext
 	 *             calling should implment onactivityresult and recreate the
 	 *             this context
 	 */
-	public GoogleHttpContextDev(final Activity context, final String userName,
+	public GoogleHttpContextDev(final Context context, final String userName,
 			final String baseUrl) throws ClientProtocolException, IOException,
 			OperationCanceledException, AuthenticatorException, AccessException
 	{
@@ -108,10 +105,8 @@ public final class GoogleHttpContextDev extends GoogleHttpContext
 					Header[] headers = response.getHeaders("Set-Cookie");
 					if (response.getStatusLine().getStatusCode() != 302
 							|| headers.length == 0)
-					{
 						// failed. Response should be a redirect.
 						return;
-					}
 
 				} catch (IOException e)
 				{
@@ -124,8 +119,9 @@ public final class GoogleHttpContextDev extends GoogleHttpContext
 					e.printStackTrace();
 				} catch (AccessException e)
 				{
-					context.startActivityForResult(e.getIntent(),
-							MainActivity.USER_PERMISSION1);
+					// context.startActivityForResult(e.getIntent(),
+					// MainActivity.USER_PERMISSION1);
+					context.startActivity(e.getIntent());
 
 				} catch (Exception e)
 				{
@@ -162,9 +158,7 @@ public final class GoogleHttpContextDev extends GoogleHttpContext
 			for (Account account : accounts)
 			{
 				if (account.name.equals(username))
-				{
 					return account;
-				}
 			}
 		}
 		return null;
@@ -189,9 +183,7 @@ public final class GoogleHttpContextDev extends GoogleHttpContext
 		Bundle bundle = future.getResult();
 		Intent intent = (Intent) bundle.get(AccountManager.KEY_INTENT);
 		if (intent != null)
-		{
 			throw new AccessException(intent);
-		}
 		return bundle.getString(AccountManager.KEY_AUTHTOKEN);
 	}
 

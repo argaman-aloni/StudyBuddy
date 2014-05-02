@@ -25,6 +25,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 
 import com.google.android.gcm.GCMRegistrar;
@@ -95,7 +99,7 @@ public final class CommonUtilities
 		return prefs.getString(Constants.ACCOUNT_NAME, "");
 	}
 
-	public static GoogleHttpContext getContext(Activity activity,
+	public static GoogleHttpContext getContext(Context activity,
 			String username, String baseUrl)
 	{
 		try
@@ -183,5 +187,43 @@ public final class CommonUtilities
 
 		}
 		return regId;
+	}
+
+	private boolean isNetworkConnected(Context context)
+	{
+		ConnectivityManager cm = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo ni = cm.getActiveNetworkInfo();
+		if (ni == null)
+			// There are no active networks.
+			return false;
+		else
+			return true;
+	}
+
+	private boolean isWifiContected(Context context)
+	{
+		android.net.wifi.WifiManager m = (WifiManager) context
+				.getSystemService(Context.WIFI_SERVICE);
+		android.net.wifi.SupplicantState s = m.getConnectionInfo()
+				.getSupplicantState();
+		NetworkInfo.DetailedState state = WifiInfo.getDetailedStateOf(s);
+		if (state != NetworkInfo.DetailedState.CONNECTED)
+			return false;
+		return true;
+	}
+
+	public Network_Type getNetworkType(Context context)
+	{
+		if (isWifiContected(context))
+			return Network_Type.Wifi;
+		if (isNetworkConnected(context))
+			return Network_Type.Cell_only;
+		return Network_Type.No_network;
+	}
+
+	public enum Network_Type
+	{
+		No_network, Cell_only, Wifi;
 	}
 }
