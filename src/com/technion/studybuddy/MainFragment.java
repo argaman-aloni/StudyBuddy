@@ -22,8 +22,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -139,15 +141,6 @@ public class MainFragment extends Fragment implements Observer {
 		// WeeklyGraph
 		chartLayout = (LinearLayout) rootView.findViewById(R.id.Chart_layout);
 		chartLayout.setClickable(true);
-		// chartLayout.setOnClickListener(new OnClickListener() {
-		//
-		// @Override
-		// public void onClick(View v) {
-		// Intent intent = new Intent(v.getContext(),
-		// PieChartBuilder.class);
-		// startActivity(intent);
-		// }
-		// });
 	}
 
 	private void initSemester() {
@@ -275,6 +268,26 @@ public class MainFragment extends Fragment implements Observer {
 		graphView = GraphFactory.getWeeklyProgressGraph(rootView.getContext(),
 				today, DataStore.getInstance().getWorkStats(today, 7));
 		graphView.setClickable(true);
+		graphView.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+					v.setAlpha((float) 0.5);
+					return false;
+				case MotionEvent.ACTION_UP:
+					v.setAlpha((float) 0.5);
+					return false;
+				case MotionEvent.ACTION_CANCEL:
+					v.setAlpha((float) 0.5);
+					return false;
+				}
+				return false;
+			}
+
+		});
+
 		graphView.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -282,6 +295,7 @@ public class MainFragment extends Fragment implements Observer {
 				Intent intent = new Intent(v.getContext(),
 						PieChartBuilder.class);
 				startActivity(intent);
+				v.setAlpha(1);
 			}
 		});
 		chartLayout.addView(semesterData);

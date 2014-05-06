@@ -12,15 +12,18 @@ import java.util.Observable;
 import com.technion.studybuddy.utils.Action;
 import com.technion.studybuddy.utils.DateUtils;
 
-
 public class WorkStats extends Observable {
 
-	private Map<Date, Integer> statsMap = new HashMap<Date, Integer>();
+	private final int DAYS_IN_WEEK = 7;
+
+	private final Map<Date, Integer> statsMap = new HashMap<Date, Integer>();
+	private final double[] lecturesStats = new double[DAYS_IN_WEEK];
+	private final double[] tutorialsStats = new double[DAYS_IN_WEEK];
+	private int rescourseToUpdate = 0;
 
 	public void loadStats(Collection<Date> dates) {
-		for (Date d : dates) {
+		for (Date d : dates)
 			increase(d);
-		}
 	}
 
 	public void decrease(Date d) {
@@ -34,9 +37,7 @@ public class WorkStats extends Observable {
 			return;
 
 		assert (old > 0);
-
 		statsMap.put(u, old - 1);
-
 		setChanged();
 		notifyObservers();
 	}
@@ -54,14 +55,11 @@ public class WorkStats extends Observable {
 		Date n2 = DateUtils.getMidnight(d2);
 		List<Integer> values = new ArrayList<Integer>();
 
-		for (Date d : DateUtils.getRange(n1, n2)) {
-			if (statsMap.containsKey(d)) {
+		for (Date d : DateUtils.getRange(n1, n2))
+			if (statsMap.containsKey(d))
 				values.add(statsMap.get(d));
-			} else {
+			else
 				values.add(0);
-			}
-
-		}
 
 		return values.toArray(new Integer[values.size()]);
 	}
@@ -82,10 +80,8 @@ public class WorkStats extends Observable {
 	public void increase(Date d) {
 		Date u = DateUtils.getMidnight(d);
 		int old = 0;
-		if (statsMap.containsKey(u)) {
+		if (statsMap.containsKey(u))
 			old = statsMap.get(u);
-		}
-
 		statsMap.put(u, old + 1);
 		setChanged();
 		notifyObservers();
@@ -95,11 +91,16 @@ public class WorkStats extends Observable {
 		statsMap.clear();
 	}
 
-	public void listenTo(StudyItem it) {
+	public void listenTo(final StudyItem it) {
 		it.onDone(new Action() {
 
 			@Override
 			public void run() {
+				if (it.getParent().getName().equals("Lectures"))
+					rescourseToUpdate = 0;
+				else
+					rescourseToUpdate = 1;
+				updateStatistics(1);
 				increase(new Date());
 			}
 		});
@@ -108,9 +109,44 @@ public class WorkStats extends Observable {
 
 			@Override
 			public void run() {
+				if (it.getParent().getName().equals("Lectures"))
+					rescourseToUpdate = 0;
+				else
+					rescourseToUpdate = 1;
+				updateStatistics(-1);
 				decrease(new Date());
 			}
 		});
+	}
+
+	public double[] getLecturesStats() {
+		return lecturesStats;
+	}
+
+	public double[] getTutorialsStats() {
+		return tutorialsStats;
+	}
+
+	public double[] getTotalStats() {
+		double[] arr = new double[DAYS_IN_WEEK];
+		for (int i = 0; i < arr.length; i++)
+			arr[i] = lecturesStats[i] + tutorialsStats[i];
+		return arr;
+	}
+
+	private void updateStatistics(int updateVal) {
+		Calendar c = Calendar.getInstance();
+		int day = c.get(Calendar.DAY_OF_WEEK) - 1;
+		if (rescourseToUpdate == 0) {
+			if (lecturesStats[day] == 0 && updateVal == -1)
+				return;
+			lecturesStats[day] += updateVal;
+
+		} else {
+			if (tutorialsStats[day] == 0 && updateVal == -1)
+				return;
+			tutorialsStats[day] += updateVal;
+		}
 	}
 
 }

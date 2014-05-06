@@ -34,21 +34,18 @@ public class ProgressPieChart extends GenericChartGenerator {
 			int gradStart, int intgradEnd) {
 		DefaultRenderer renderer = buildCategoryRenderer(colors);
 		renderer.setChartTitleTextSize(20);
-		renderer.setChartTitle(title);
 		renderer.setDisplayValues(true);
-		renderer.setShowLabels(true);
-		renderer.setLabelsColor(Color.BLACK);
+		renderer.setShowLabels(false);
 		renderer.setClickEnabled(true);
 		SimpleSeriesRenderer r = renderer.getSeriesRendererAt(0);
 		r.setGradientEnabled(true);
 		r.setGradientStart(0, gradStart);
 		r.setGradientStop(0, intgradEnd);
-		r.setHighlighted(true);
+		// r.setHighlighted(true);
 		return renderer;
 	}
 
-	public GraphicalView getLecturesPieChart(Context context) {
-		double[] values = new double[] { 12, 23, 11, 10, 19, 23, 17 };
+	public GraphicalView getLecturesPieChart(Context context, double[] values) {
 		int[] colors = parseColors(context.getResources().getStringArray(
 				R.array.lectures_colors));
 		return ChartFactory.getPieChartView(
@@ -58,8 +55,7 @@ public class ProgressPieChart extends GenericChartGenerator {
 						Color.RED));
 	}
 
-	public GraphicalView getOverviewPieChart(Context context) {
-		double[] values = new double[] { 12, 14, 11, 10, 19, 33, 13 };
+	public GraphicalView getOverviewPieChart(Context context, double[] values) {
 		int[] colors = parseColors(context.getResources().getStringArray(
 				R.array.overview_colors));
 		return ChartFactory
@@ -71,8 +67,7 @@ public class ProgressPieChart extends GenericChartGenerator {
 								colors[2]));
 	}
 
-	public GraphicalView getTutorialsPieChart(Context context) {
-		double[] values = new double[] { 12, 14, 31, 10, 19, 33, 13 };
+	public GraphicalView getTutorialsPieChart(Context context, double[] values) {
 		int[] colors = parseColors(context.getResources().getStringArray(
 				R.array.tutorials_colors));
 		return ChartFactory.getPieChartView(
@@ -84,9 +79,8 @@ public class ProgressPieChart extends GenericChartGenerator {
 
 	private int[] parseColors(String[] stringArray) {
 		int[] result = new int[stringArray.length];
-		for (int i = 0; i < stringArray.length; i++) {
+		for (int i = 0; i < stringArray.length; i++)
 			result[i] = Color.parseColor(stringArray[i]);
-		}
 		return result;
 	}
 

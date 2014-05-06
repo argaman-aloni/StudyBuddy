@@ -16,10 +16,9 @@ import com.technion.studybuddy.persisters.AbstractPersistable;
 import com.technion.studybuddy.utils.Utils;
 import com.technion.studybuddy.utils.Utils.Predicate;
 
-
 @DatabaseTable
 public class CourseImpl extends AbstractPersistable<DataStore> implements
-				Course
+		Course
 
 {
 
@@ -29,12 +28,11 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 	@DatabaseField
 	private String name;
 
-	private List<ExamDate> exams = new ArrayList<ExamDate>();
+	private final List<ExamDate> exams = new ArrayList<ExamDate>();
 
-	private List<StudyResource> resources = new ArrayList<StudyResource>();
+	private final List<StudyResource> resources = new ArrayList<StudyResource>();
 
-	public static void addStudyResources(Course c, List<StudyResource> resources)
-	{
+	public static void addStudyResources(Course c, List<StudyResource> resources) {
 		c.addStudyResources(resources);
 	}
 
@@ -277,8 +275,7 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 	 */
 	@Override
 	public StudyResource getResourceByName(String name)
-					throws NoSuchResourceException
-	{
+			throws NoSuchResourceException {
 
 		for (StudyResource sr : resources) {
 			if (sr.getName().equals(name))
@@ -301,7 +298,7 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 	@Override
 	public int compareTo(Course another) {
 		return another.getNumStudyItemsRemaining()
-						- getNumStudyItemsRemaining();
+				- getNumStudyItemsRemaining();
 	}
 
 	@Override
@@ -354,7 +351,7 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 
 	@Override
 	public List<ExamDate> getRelevantExams(final Date d) {
-		//Arik please check this as well.
+		// Arik please check this as well.
 		return Utils.filter(getAllExams(), new Predicate<ExamDate>() {
 
 			@Override
@@ -375,4 +372,5 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 			addExam(e);
 		}
 	}
+
 }

@@ -48,9 +48,8 @@ public abstract class GenericChartGenerator {
 			double[] xV = xValues.get(i);
 			double[] yV = yValues.get(i);
 			int seriesLength = xV.length;
-			for (int k = 0; k < seriesLength; k++) {
+			for (int k = 0; k < seriesLength; k++)
 				series.add(xV[k], yV[k]);
-			}
 			dataset.addSeries(series);
 		}
 	}
@@ -72,9 +71,8 @@ public abstract class GenericChartGenerator {
 			CategorySeries series = new CategorySeries(titles[i]);
 			double[] v = values.get(i);
 			int seriesLength = v.length;
-			for (int k = 0; k < seriesLength; k++) {
+			for (int k = 0; k < seriesLength; k++)
 				series.add(v[k]);
-			}
 			dataset.addSeries(series.toXYSeries());
 		}
 		return dataset;
@@ -117,9 +115,8 @@ public abstract class GenericChartGenerator {
 		int k = 0;
 		String[] categories = context.getResources().getStringArray(
 				R.array.pie_chart_labels);
-		for (double value : values) {
+		for (double value : values)
 			series.add(categories[k++], value);
-		}
 
 		return series;
 	}
@@ -135,7 +132,7 @@ public abstract class GenericChartGenerator {
 		DefaultRenderer renderer = new DefaultRenderer();
 		renderer.setLabelsTextSize(15);
 		renderer.setLegendTextSize(15);
-		renderer.setMargins(new int[] { 20, 30, 15, 0 });
+		renderer.setMargins(new int[] { 50, 40, 15, 0 });
 		for (int color : colors) {
 			SimpleSeriesRenderer r = new SimpleSeriesRenderer();
 			r.setColor(color);
@@ -182,9 +179,8 @@ public abstract class GenericChartGenerator {
 			Date[] xV = xValues.get(i);
 			double[] yV = yValues.get(i);
 			int seriesLength = xV.length;
-			for (int k = 0; k < seriesLength; k++) {
+			for (int k = 0; k < seriesLength; k++)
 				series.add(xV[k], yV[k]);
-			}
 			dataset.addSeries(series);
 		}
 		return dataset;

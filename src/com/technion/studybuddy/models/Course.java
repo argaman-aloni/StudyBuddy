@@ -10,10 +10,8 @@ import com.technion.studybuddy.exceptions.NoExamsForCourse;
 import com.technion.studybuddy.exceptions.NoSuchResourceException;
 import com.technion.studybuddy.persisters.Persistable;
 
-
 public interface Course extends Comparable<Course>, Persistable<DataStore>,
-				Composite
-{
+		Composite {
 
 	public void addStudyResource(StudyResource r);
 
@@ -48,7 +46,7 @@ public interface Course extends Comparable<Course>, Persistable<DataStore>,
 	public void addStudyResources(Collection<StudyResource> list);
 
 	public StudyResource getResourceByName(String name)
-					throws NoSuchResourceException;
+			throws NoSuchResourceException;
 
 	public Collection<Date> getDoneDates();
 

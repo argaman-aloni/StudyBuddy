@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 
 import com.technion.studybuddy.R;
 import com.technion.studybuddy.charts.ProgressPieChart;
+import com.technion.studybuddy.data.DataStore;
+import com.technion.studybuddy.models.WorkStats;
 
 /**
  * @author Argaman
@@ -25,17 +27,21 @@ public class ChartFullFragment extends DialogFragment {
 	public int chartIndex = -1;
 	private GraphicalView graphicalView = null;
 	private LinearLayout layout;
+	WorkStats stats = DataStore.getStats();
 
 	private void generateChart() {
 		switch (chartIndex) {
 		case 0:
-			graphicalView = chartGen.getOverviewPieChart(getActivity());
+			graphicalView = chartGen.getOverviewPieChart(getActivity(),
+					stats.getTotalStats());
 			break;
 		case 1:
-			graphicalView = chartGen.getLecturesPieChart(getActivity());
+			graphicalView = chartGen.getLecturesPieChart(getActivity(),
+					stats.getLecturesStats());
 			break;
 		default:
-			graphicalView = chartGen.getTutorialsPieChart(getActivity());
+			graphicalView = chartGen.getTutorialsPieChart(getActivity(),
+					stats.getTutorialsStats());
 			break;
 		}
 	}

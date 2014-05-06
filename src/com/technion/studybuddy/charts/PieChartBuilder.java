@@ -6,6 +6,7 @@ import org.achartengine.renderer.DefaultRenderer;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -15,6 +16,8 @@ import android.widget.LinearLayout;
 
 import com.technion.studybuddy.R;
 import com.technion.studybuddy.Views.ChartFullFragment;
+import com.technion.studybuddy.data.DataStore;
+import com.technion.studybuddy.models.WorkStats;
 
 public class PieChartBuilder extends Activity {
 	ProgressPieChart chart = new ProgressPieChart();
@@ -22,10 +25,10 @@ public class PieChartBuilder extends Activity {
 	/** The main series that will include all the data. */
 	private CategorySeries mSeries = new CategorySeries("");
 	/** The chart views that displays the data. */
+	WorkStats stats = DataStore.getStats();
 
 	private final GraphicalView[] pieCharts = new GraphicalView[3];
 	private final String TAG = "TAG";
-	double[] values = new double[] { 12, 14, 11, 10, 19 };
 
 	private void addLClickListener(final GraphicalView graphicalView,
 			final int index) {
@@ -45,13 +48,14 @@ public class PieChartBuilder extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.xy_chart);
 		LinearLayout[] layouts = new LinearLayout[3];
+		double[] arr = stats.getLecturesStats();
+		for (int i = 0; i < 7; i++)
+			Log.d("Lectures", String.valueOf(arr[i]));
 		setOverviews(layouts);
 		setLectures(layouts);
 		setTutorials(layouts);
-		for (int i = 0; i < pieCharts.length; i++) {
+		for (int i = 0; i < pieCharts.length; i++)
 			addLClickListener(pieCharts[i], i);
-
-		}
 
 	}
 
@@ -71,7 +75,9 @@ public class PieChartBuilder extends Activity {
 	}
 
 	private void setLectures(LinearLayout[] layouts) {
-		pieCharts[1] = chart.getLecturesPieChart(this);
+		pieCharts[1] = chart
+				.getLecturesPieChart(this, stats.getLecturesStats());
+		pieCharts[1].setPadding(6, 8, 4, 4);
 		layouts[1] = (LinearLayout) findViewById(R.id.chart2);
 		layouts[1].addView(pieCharts[1], new LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
@@ -81,7 +87,8 @@ public class PieChartBuilder extends Activity {
 	}
 
 	private void setOverviews(LinearLayout[] layouts) {
-		pieCharts[0] = chart.getOverviewPieChart(this);
+		pieCharts[0] = chart.getOverviewPieChart(this, stats.getTotalStats());
+		pieCharts[0].setPadding(6, 8, 4, 4);
 		layouts[0] = (LinearLayout) findViewById(R.id.chart);
 		layouts[0].addView(pieCharts[0], new LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
@@ -90,10 +97,12 @@ public class PieChartBuilder extends Activity {
 	}
 
 	private void setTutorials(LinearLayout[] layouts) {
-		pieCharts[2] = chart.getTutorialsPieChart(this);
+		pieCharts[2] = chart.getTutorialsPieChart(this,
+				stats.getTutorialsStats());
+		pieCharts[2].setPadding(6, 8, 4, 4);
 		layouts[2] = (LinearLayout) findViewById(R.id.chart3);
 		layouts[2].addView(pieCharts[2], new LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		Animation animation = AnimationUtils.loadAnimation(this,
 				R.anim.stb_slide_up_right);
 		layouts[2].setAnimation(animation);

@@ -15,18 +15,20 @@ public enum Persisters {
 	_;
 
 	public static Persister<Course, CourseImpl, DataStore> course = new PersisterImpl<Course, CourseImpl, DataStore>(
-					DataStore.getHelper().getCourseDao());
+			DataStore.getHelper().getCourseDao());
 
 	public static Persister<StudyResource, StudyResourceImpl, Course> resource = new PersisterImpl<StudyResource, StudyResourceImpl, Course>(
-					DataStore.getHelper().getStudyResourceDao());
+			DataStore.getHelper().getStudyResourceDao());
 
 	public static Persister<StudyItem, StudyItemImpl, StudyResource> studyitem = new PersisterImpl<StudyItem, StudyItemImpl, StudyResource>(
-					DataStore.getHelper().getStudyItemsDao());
+			DataStore.getHelper().getStudyItemsDao());
 
 	public static Persister<Semester, Semester, DataStore> semester = new PersisterImpl<Semester, Semester, DataStore>(
-					DataStore.getHelper().getSemesterDao());
+			DataStore.getHelper().getSemesterDao());
 
 	public static Persister<ExamDate, ExamDateImpl, Course> examDate = new PersisterImpl<ExamDate, ExamDateImpl, Course>(
-					DataStore.getHelper().getExamDateDao());
+			DataStore.getHelper().getExamDateDao());
+
+	// public static Persister<Interface, Implementation, P>
 
 }
