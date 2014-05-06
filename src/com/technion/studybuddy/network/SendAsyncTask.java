@@ -20,7 +20,7 @@ import com.technion.studybuddy.GCM.CommonUtilities;
 import com.technion.studybuddy.GCM.GoogleHttpContext;
 import com.technion.studybuddy.utils.Constants;
 
-public class SendTask extends AsyncTask<Void, Void, Void>
+public class SendAsyncTask extends AsyncTask<Void, Void, Void>
 {
 	private final SyncTask task;
 	private final Context context;
@@ -30,7 +30,7 @@ public class SendTask extends AsyncTask<Void, Void, Void>
 	 * @param task
 	 * @param context
 	 */
-	public SendTask(SyncTask task, Context context)
+	public SendAsyncTask(SyncTask task, Context context)
 	{
 		super();
 		this.task = task;
@@ -53,7 +53,7 @@ public class SendTask extends AsyncTask<Void, Void, Void>
 			HttpPost httpPost = new HttpPost(Constants.DATA_SYNC);
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 			nameValuePairs.add(new BasicNameValuePair(Constants.JSON_ADDON,
-					task.getJSONObject().toString()));
+					task.getJson()));
 			nameValuePairs.add(new BasicNameValuePair(Constants.TYPE_ADDON,
 					task.getType()));
 			nameValuePairs
@@ -99,4 +99,8 @@ public class SendTask extends AsyncTask<Void, Void, Void>
 		task.markCompleted(adapter);
 	}
 
+	public NetworkTaskImportence getTaskImportence()
+	{
+		return task.getPriority();
+	}
 }

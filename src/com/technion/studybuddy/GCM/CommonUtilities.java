@@ -33,6 +33,8 @@ import android.os.AsyncTask;
 
 import com.google.android.gcm.GCMRegistrar;
 import com.technion.studybuddy.exceptions.AccessException;
+import com.technion.studybuddy.network.NetworkTaskImportence;
+import com.technion.studybuddy.network.SendAsyncTask;
 import com.technion.studybuddy.utils.Constants;
 
 /**
@@ -138,58 +140,50 @@ public final class CommonUtilities
 
 		final String regId = GCMRegistrar.getRegistrationId(context);
 		if (regId.equals(""))
-		{
 			// Automatically registers application on startup.
 			GCMRegistrar.register(context, CommonUtilities.SENDER_ID);
-
-		} else
+		else // Device is already registered on GCM, check server.
+		if (GCMRegistrar.isRegisteredOnServer(context))
+			// Skips registration.
+			return null;
+		else
 		{
-			// Device is already registered on GCM, check server.
-			if (GCMRegistrar.isRegisteredOnServer(context))
-				// Skips registration.
-				return null;
-			else
+			// Try to register again, but not in the UI thread.
+			// It's also necessary to cancel the thread onDestroy(),
+			// hence the use of AsyncTask instead of a raw thread.
+
+			final AsyncTask<Void, Void, Void> mRegisterTask = new AsyncTask<Void, Void, Void>()
 			{
-				// Try to register again, but not in the UI thread.
-				// It's also necessary to cancel the thread onDestroy(),
-				// hence the use of AsyncTask instead of a raw thread.
 
-				final AsyncTask<Void, Void, Void> mRegisterTask = new AsyncTask<Void, Void, Void>()
+				@Override
+				protected Void doInBackground(Void... params)
 				{
+					boolean registered = ServerUtilities.register(context,
+							regId);
+					// At this point all attempts to register with the app
+					// server failed, so we need to unregister the device
+					// from GCM - the app will try to register again when
+					// it is restarted. Note that GCM will send an
+					// unregistered callback upon completion, but
+					// GCMIntentService.onUnregistered() will ignore it.
+					if (!registered)
+						GCMRegistrar.unregister(context);
+					return null;
+				}
 
-					@Override
-					protected Void doInBackground(Void... params)
-					{
-						boolean registered = ServerUtilities.register(context,
-								regId);
-						// At this point all attempts to register with the app
-						// server failed, so we need to unregister the device
-						// from GCM - the app will try to register again when
-						// it is restarted. Note that GCM will send an
-						// unregistered callback upon completion, but
-						// GCMIntentService.onUnregistered() will ignore it.
-						if (!registered)
-						{
-							GCMRegistrar.unregister(context);
-						}
-						return null;
-					}
+				@Override
+				protected void onPostExecute(Void result)
+				{
+					// mRegisterTask = null;
+				}
 
-					@Override
-					protected void onPostExecute(Void result)
-					{
-						// mRegisterTask = null;
-					}
-
-				};
-				mRegisterTask.execute(null, null, null);
-			}
-
+			};
+			mRegisterTask.execute(null, null, null);
 		}
 		return regId;
 	}
 
-	private boolean isNetworkConnected(Context context)
+	private static boolean isNetworkConnected(Context context)
 	{
 		ConnectivityManager cm = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -201,7 +195,7 @@ public final class CommonUtilities
 			return true;
 	}
 
-	private boolean isWifiContected(Context context)
+	private static boolean isWifiContected(Context context)
 	{
 		android.net.wifi.WifiManager m = (WifiManager) context
 				.getSystemService(Context.WIFI_SERVICE);
@@ -213,7 +207,7 @@ public final class CommonUtilities
 		return true;
 	}
 
-	public Network_Type getNetworkType(Context context)
+	public static Network_Type getNetworkType(Context context)
 	{
 		if (isWifiContected(context))
 			return Network_Type.Wifi;
@@ -225,5 +219,26 @@ public final class CommonUtilities
 	public enum Network_Type
 	{
 		No_network, Cell_only, Wifi;
+		public void runTask(SendAsyncTask asyncTask, Context context)
+		{
+			switch (this)
+			{
+			case Wifi:
+				asyncTask.execute();
+				break;
+			case Cell_only:
+				if (asyncTask.getTaskImportence() == NetworkTaskImportence.High)
+				{
+					asyncTask.execute();
+					return;
+				}
+			default:
+				// TODO add receiver
+				// context.registerReceiver(TaskReciever, new IntentFilter(
+				// ConnectivityManager.CONNECTIVITY_ACTION));
+				break;
+			}
+
+		}
 	}
 }

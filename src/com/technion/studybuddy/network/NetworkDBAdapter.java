@@ -1,6 +1,7 @@
 package com.technion.studybuddy.network;
 
-import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -27,14 +28,14 @@ public class NetworkDBAdapter
 
 	}
 
-	public SyncTask addTask(JSONObject jsonObject, String type,
+	public SyncTask addTask(String json, String type,
 			NetworkTaskImportence priority)
 	{
 		sqLiteDatabase = helper.getWritableDatabase();
 		ContentValues contentValues = new ContentValues();
 		contentValues
 				.put(Constants.Network_types[Constants.Network_fields_constants.object],
-						jsonObject.toString());
+						json);
 		contentValues
 				.put(Constants.Network_types[Constants.Network_fields_constants.type],
 						type);
@@ -44,25 +45,17 @@ public class NetworkDBAdapter
 		contentValues
 				.put(Constants.Network_types[Constants.Network_fields_constants.progress],
 						SyncProgress.Queued.ordinal());
-		sqLiteDatabase.insert(Constants.Table_Name, null, contentValues);
+		long lastId = sqLiteDatabase.insert(Constants.Table_Name, null,
+				contentValues);
 		sqLiteDatabase.close();
-		sqLiteDatabase = helper.getReadableDatabase();
-		String query = "SELECT ROWID from MYTABLE order by ROWID DESC limit 1";
-		sqLiteDatabase.close();
-		Cursor c = sqLiteDatabase.rawQuery(query, null);
-		if (c != null && c.moveToFirst())
-		{
-			int lastId = c.getInt(0);
-			return new SyncTask(lastId, jsonObject, context, priority, type);
 
-		}
+		return new SyncTask(lastId, json, context, priority, type);
 
-		return null;
 	}
 
-	public SyncTask addTask(JSONObject jsonObject, String type)
+	public SyncTask addTask(String json, String type)
 	{
-		return addTask(jsonObject, type, NetworkTaskImportence.Low);
+		return addTask(json, type, NetworkTaskImportence.Low);
 	}
 
 	public void updateProgress(SyncTask task, SyncProgress progress)
@@ -77,5 +70,32 @@ public class NetworkDBAdapter
 				Constants.Network_fields[0] + " = " + task.getId(), null);
 		sqLiteDatabase.close();
 
+	}
+
+	public List<SyncTask> getTaskNotDone()
+	{
+		List<SyncTask> tasks = new ArrayList<SyncTask>();
+		sqLiteDatabase = helper.getReadableDatabase();
+		Cursor result = sqLiteDatabase
+				.query(Constants.Table_Name,
+						Constants.Network_fields,
+						Constants.Network_fields[Constants.Network_fields_constants.progress]
+								+ " <> " + SyncProgress.Completed.ordinal(),
+						null, null, null, null);
+		result.moveToFirst();
+		while (!result.isAfterLast())
+		{
+			tasks.add(cursorToTask(result));
+			result.moveToNext();
+		}
+		sqLiteDatabase.close();
+		return tasks;
+	}
+
+	private SyncTask cursorToTask(Cursor result)
+	{
+		return new SyncTask(result.getLong(0), result.getString(1), context,
+				NetworkTaskImportence.values()[result.getInt(3)],
+				result.getString(4));
 	}
 }

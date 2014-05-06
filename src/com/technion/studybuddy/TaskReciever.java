@@ -32,7 +32,9 @@ public class TaskReciever extends BroadcastReceiver
 		type.runTask(new SendAsyncTask(task, context), context);
 		List<SyncTask> remaningTasks = adapter.getTaskNotDone();
 		for (SyncTask syncTask : remaningTasks)
+		{
 			type.runTask(new SendAsyncTask(syncTask, context), context);
+		}
 
 	}
 }

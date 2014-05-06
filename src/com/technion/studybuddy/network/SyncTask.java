@@ -1,13 +1,11 @@
 package com.technion.studybuddy.network;
 
-import org.json.JSONObject;
-
 import android.content.Context;
 
 public class SyncTask
 {
-	private final int id;
-	private final JSONObject object;
+	private final long id;
+	private final String json;
 	private SyncProgress progress;
 	private final Context context;
 	private final String type;
@@ -17,21 +15,21 @@ public class SyncTask
 	 * @param object
 	 * @param context
 	 */
-	public SyncTask(int id, JSONObject object, Context context,
+	public SyncTask(long id, String json, Context context,
 			NetworkTaskImportence priority, String type)
 	{
 		super();
 		this.id = id;
 		this.priority = priority;
 		progress = SyncProgress.Queued;
-		this.object = object;
+		this.json = json;
 		this.context = context;
 		this.type = type;
 	}
 
 	public void start()
 	{
-		SendTask sendTask = new SendTask(this, context);
+		SendAsyncTask sendTask = new SendAsyncTask(this, context);
 		sendTask.execute();
 	}
 
@@ -54,14 +52,6 @@ public class SyncTask
 	}
 
 	/**
-	 * @return the object
-	 */
-	public synchronized JSONObject getJSONObject()
-	{
-		return object;
-	}
-
-	/**
 	 * @return the type
 	 */
 	public synchronized String getType()
@@ -80,7 +70,7 @@ public class SyncTask
 	/**
 	 * @return the id
 	 */
-	public synchronized int getId()
+	public synchronized long getId()
 	{
 		return id;
 	}
@@ -91,5 +81,13 @@ public class SyncTask
 	public synchronized SyncProgress getProgress()
 	{
 		return progress;
+	}
+
+	/**
+	 * @return the json
+	 */
+	public synchronized String getJson()
+	{
+		return json;
 	}
 }
