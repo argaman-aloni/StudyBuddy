@@ -32,6 +32,7 @@ public class PieChartBuilder extends Activity {
 
 	private void addLClickListener(final GraphicalView graphicalView,
 			final int index) {
+		graphicalView.setOnTouchListener(null);
 		graphicalView.setOnClickListener(new OnClickListener() {
 
 			@Override

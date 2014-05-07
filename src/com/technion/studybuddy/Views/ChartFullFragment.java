@@ -51,6 +51,9 @@ public class ChartFullFragment extends DialogFragment {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		layout = (LinearLayout) getActivity().getLayoutInflater().inflate(
 				R.layout.piechart_full_layout, null);
+		LinearLayout graphLayout = (LinearLayout) getActivity().findViewById(
+				R.id.full_chart_layout1);
+		graphLayout.toString();
 		builder.setView(layout);
 		return builder.create();
 	}

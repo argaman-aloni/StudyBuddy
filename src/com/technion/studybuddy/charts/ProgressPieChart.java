@@ -34,11 +34,13 @@ public class ProgressPieChart extends GenericChartGenerator {
 		renderer.setShowLabels(false);
 		renderer.setClickEnabled(true);
 		renderer.setZoomEnabled(false);
+		renderer.setPanEnabled(false);
+		renderer.setLegendTextSize(20);
 		SimpleSeriesRenderer r = renderer.getSeriesRendererAt(0);
 		r.setGradientEnabled(true);
 		r.setGradientStart(0, gradStart);
 		r.setGradientStop(0, intgradEnd);
-		// r.setHighlighted(true);
+		r.setHighlighted(true);
 		return renderer;
 	}
 
