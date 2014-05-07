@@ -68,4 +68,11 @@ public enum DateUtils {
 			return list.iterator();
 		}
 	}
+
+	public static int getDayOfWeekFromDate(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return calendar.get(Calendar.DAY_OF_WEEK) - 1;
+
+	}
 }

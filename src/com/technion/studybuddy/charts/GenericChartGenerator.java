@@ -132,7 +132,7 @@ public abstract class GenericChartGenerator {
 		DefaultRenderer renderer = new DefaultRenderer();
 		renderer.setLabelsTextSize(15);
 		renderer.setLegendTextSize(15);
-		renderer.setMargins(new int[] { 50, 40, 15, 0 });
+		renderer.setMargins(new int[] { 30, 25, 15, 0 });
 		for (int color : colors) {
 			SimpleSeriesRenderer r = new SimpleSeriesRenderer();
 			r.setColor(color);

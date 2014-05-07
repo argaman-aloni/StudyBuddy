@@ -25,18 +25,15 @@ import android.graphics.Color;
 
 import com.technion.studybuddy.R;
 
-/**
- * Budget demo pie chart.
- */
 public class ProgressPieChart extends GenericChartGenerator {
 
 	private DefaultRenderer createPieChartRenderer(int[] colors, String title,
 			int gradStart, int intgradEnd) {
 		DefaultRenderer renderer = buildCategoryRenderer(colors);
-		renderer.setChartTitleTextSize(20);
-		renderer.setDisplayValues(true);
+		renderer.setDisplayValues(false);
 		renderer.setShowLabels(false);
 		renderer.setClickEnabled(true);
+		renderer.setZoomEnabled(false);
 		SimpleSeriesRenderer r = renderer.getSeriesRendererAt(0);
 		r.setGradientEnabled(true);
 		r.setGradientStart(0, gradStart);

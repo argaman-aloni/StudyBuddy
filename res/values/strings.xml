@@ -48,5 +48,6 @@
         <item>#66cdaa</item>
         <item>#00ff7f</item>
     </string-array>
+        <string name="personal_progress">Personal Progress</string>
 
 </resources>
