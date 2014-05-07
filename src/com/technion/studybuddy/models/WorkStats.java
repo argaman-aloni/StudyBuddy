@@ -38,6 +38,7 @@ public class WorkStats extends Observable {
 
 		assert (old > 0);
 		statsMap.put(u, old - 1);
+		updateStatistics(-1, DateUtils.getDayOfWeekFromDate(d));
 		setChanged();
 		notifyObservers();
 	}
@@ -83,6 +84,7 @@ public class WorkStats extends Observable {
 		if (statsMap.containsKey(u))
 			old = statsMap.get(u);
 		statsMap.put(u, old + 1);
+		updateStatistics(1, DateUtils.getDayOfWeekFromDate(d));
 		setChanged();
 		notifyObservers();
 	}
@@ -100,7 +102,6 @@ public class WorkStats extends Observable {
 					rescourseToUpdate = 0;
 				else
 					rescourseToUpdate = 1;
-				updateStatistics(1);
 				increase(new Date());
 			}
 		});
@@ -113,7 +114,6 @@ public class WorkStats extends Observable {
 					rescourseToUpdate = 0;
 				else
 					rescourseToUpdate = 1;
-				updateStatistics(-1);
 				decrease(new Date());
 			}
 		});
@@ -134,9 +134,7 @@ public class WorkStats extends Observable {
 		return arr;
 	}
 
-	private void updateStatistics(int updateVal) {
-		Calendar c = Calendar.getInstance();
-		int day = c.get(Calendar.DAY_OF_WEEK) - 1;
+	private void updateStatistics(int updateVal, int day) {
 		if (rescourseToUpdate == 0) {
 			if (lecturesStats[day] == 0 && updateVal == -1)
 				return;

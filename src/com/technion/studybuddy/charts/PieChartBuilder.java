@@ -32,6 +32,7 @@ public class PieChartBuilder extends Activity {
 
 	private void addLClickListener(final GraphicalView graphicalView,
 			final int index) {
+		graphicalView.setOnTouchListener(null);
 		graphicalView.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -77,7 +78,6 @@ public class PieChartBuilder extends Activity {
 	private void setLectures(LinearLayout[] layouts) {
 		pieCharts[1] = chart
 				.getLecturesPieChart(this, stats.getLecturesStats());
-		pieCharts[1].setPadding(6, 8, 4, 4);
 		layouts[1] = (LinearLayout) findViewById(R.id.chart2);
 		layouts[1].addView(pieCharts[1], new LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
@@ -88,7 +88,6 @@ public class PieChartBuilder extends Activity {
 
 	private void setOverviews(LinearLayout[] layouts) {
 		pieCharts[0] = chart.getOverviewPieChart(this, stats.getTotalStats());
-		pieCharts[0].setPadding(6, 8, 4, 4);
 		layouts[0] = (LinearLayout) findViewById(R.id.chart);
 		layouts[0].addView(pieCharts[0], new LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
@@ -99,10 +98,9 @@ public class PieChartBuilder extends Activity {
 	private void setTutorials(LinearLayout[] layouts) {
 		pieCharts[2] = chart.getTutorialsPieChart(this,
 				stats.getTutorialsStats());
-		pieCharts[2].setPadding(6, 8, 4, 4);
 		layouts[2] = (LinearLayout) findViewById(R.id.chart3);
 		layouts[2].addView(pieCharts[2], new LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		Animation animation = AnimationUtils.loadAnimation(this,
 				R.anim.stb_slide_up_right);
 		layouts[2].setAnimation(animation);

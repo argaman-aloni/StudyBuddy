@@ -23,7 +23,7 @@
     </string-array>
     <string-array name="lectures_colors">
         <item>#000080</item>
-        <item>#d8bfd8</item>
+        <item>#bc8f8f</item>
         <item>#9370db</item>
         <item>#8a2be2</item>
         <item>#ee82ee</item>
@@ -45,8 +45,9 @@
         <item>#ba55d3</item>
         <item>#8a2be2</item>
         <item>#0000cd</item>
-        <item>#66cdaa</item>
-        <item>#00ff7f</item>
+        <item>#32cd32</item>
+        <item>#228b22</item>
     </string-array>
+        <string name="personal_progress">Personal Progress</string>
 
 </resources>
