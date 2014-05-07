@@ -54,8 +54,10 @@ public class SendAsyncTask extends AsyncTask<Void, Void, Void>
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 			nameValuePairs.add(new BasicNameValuePair(Constants.JSON_ADDON,
 					task.getJson()));
+			nameValuePairs.add(new BasicNameValuePair(
+					Constants.OBJECT_TYPE_ADDON, task.getType()));
 			nameValuePairs.add(new BasicNameValuePair(Constants.TYPE_ADDON,
-					task.getType()));
+					Constants.SYNC_REQUEST));
 			nameValuePairs
 					.add(new BasicNameValuePair("deviceID", Secure.getString(
 							context.getContentResolver(), Secure.ANDROID_ID)));

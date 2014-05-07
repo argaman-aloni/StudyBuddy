@@ -19,6 +19,7 @@ public class Constants
 	public static final String DATA_SYNC = Constants.SERVER_URL + "/data";
 	public static final String JSON_ADDON = "json";
 	public static final String TYPE_ADDON = "type";
+	public static final String OBJECT_TYPE_ADDON = "objectType";
 
 	// sqlite data
 	public static final String Table_Name = "networkStatus";
@@ -40,5 +41,6 @@ public class Constants
 	}
 
 	public static final int DB_ver = 0;
+	public static final String SYNC_REQUEST = "sync";
 
 }

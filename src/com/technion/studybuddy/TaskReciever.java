@@ -23,13 +23,17 @@ public class TaskReciever extends BroadcastReceiver
 	public void onReceive(Context context, Intent intent)
 	{
 		Bundle bundle = intent.getExtras();
-		NetworkDBAdapter adapter = new NetworkDBAdapter(context);
-		SyncTask task = adapter.addTask(bundle.getString(Constants.JSON_ADDON),
-				bundle.getString(Constants.TYPE_ADDON));
 		CommonUtilities.Network_Type type = CommonUtilities
 				.getNetworkType(context);
+		NetworkDBAdapter adapter = new NetworkDBAdapter(context);
+		if (bundle.containsKey(Constants.JSON_ADDON))
+		{
+			SyncTask task = adapter.addTask(
+					bundle.getString(Constants.JSON_ADDON),
+					bundle.getString(Constants.OBJECT_TYPE_ADDON));
 
-		type.runTask(new SendAsyncTask(task, context), context);
+			type.runTask(new SendAsyncTask(task, context), context);
+		}
 		List<SyncTask> remaningTasks = adapter.getTaskNotDone();
 		for (SyncTask syncTask : remaningTasks)
 		{
