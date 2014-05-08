@@ -6,10 +6,8 @@ import com.technion.studybuddy.exceptions.ItemNotDoneError;
 import com.technion.studybuddy.persisters.Persistable;
 import com.technion.studybuddy.utils.Action;
 
-
 public interface StudyItem extends Persistable<StudyResource>,
-				Comparable<StudyItem>
-{
+		Comparable<StudyItem>, JsonTranslator {
 
 	public String getLabel();
 

@@ -11,7 +11,7 @@ import com.technion.studybuddy.exceptions.NoSuchResourceException;
 import com.technion.studybuddy.persisters.Persistable;
 
 public interface Course extends Comparable<Course>, Persistable<DataStore>,
-		Composite {
+		Composite, JsonTranslator {
 
 	public void addStudyResource(StudyResource r);
 

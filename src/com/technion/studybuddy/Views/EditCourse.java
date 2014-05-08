@@ -24,70 +24,60 @@ import com.technion.studybuddy.exceptions.CourseAlreadyExistsException;
 import com.technion.studybuddy.models.StudyResource;
 import com.technion.studybuddy.presenters.EditCoursePresenter;
 
+public class EditCourse extends Activity {
 
-public class EditCourse extends Activity
-{
-
-	private final class CancelButtonListener implements OnClickListener
-	{
+	private final class CancelButtonListener implements OnClickListener {
 		@Override
-		public void onClick(View v)
-		{
+		public void onClick(View v) {
 			NavUtils.navigateUpFromSameTask(EditCourse.this);
 			presenter.reset();
 		}
 	}
 
 	private final class LectureEnabledListener implements
-			OnCheckedChangeListener
-	{
+			OnCheckedChangeListener {
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView,
-				boolean isChecked)
-		{
+				boolean isChecked) {
 			lectureCount.setEnabled(isChecked);
 		}
 	}
 
-	private final class SaveButtonListener implements OnClickListener
-	{
+	private final class SaveButtonListener implements OnClickListener {
 		@SuppressLint("DefaultLocale")
 		@Override
-		public void onClick(View v)
-		{
+		public void onClick(View v) {
 			String num = courseNumber.getText().toString();
 			String name = courseName.getText().toString();
-			if(originalCourseNames.contains(name.toLowerCase()))
-					name = courseNames.get((int) (System.currentTimeMillis()%courseNames.size()));
+			if (EditCourse.originalCourseNames.contains(name.toLowerCase()))
+				name = EditCourse.courseNames.get((int) (System
+						.currentTimeMillis() % EditCourse.courseNames.size()));
 			int lecturesAmount = lectureEnabled.isChecked() ? Integer
 					.parseInt(lectureCount.getText().toString()) : 0;
 			int tutorialsAmount = tutorialsEnabled.isChecked() ? Integer
 					.parseInt(tutorialsCount.getText().toString()) : 0;
 
-			try
-			{
+			try {
 				presenter.commitCourse(num, name, lecturesAmount,
 						tutorialsAmount);
-			} catch (CourseAlreadyExistsException e)
-			{
+			} catch (CourseAlreadyExistsException e) {
 				String errMsg = "A course with num " + num + " already exists.";
 				Toast.makeText(getApplicationContext(), errMsg,
 						Toast.LENGTH_SHORT).show();
 				return;
 			}
+			// TODO: add the synchronization with the server.
 			presenter.reset();
-			setResult(RESULT_OK);
+			setResult(Activity.RESULT_OK);
 			finish();
 		}
 	}
 
 	private final class TutorialEnabledListener implements
-			OnCheckedChangeListener
-	{
+			OnCheckedChangeListener {
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView,
-				boolean isChecked)
-		{
+				boolean isChecked) {
 			tutorialsCount.setEnabled(isChecked);
 		}
 	}
@@ -103,17 +93,14 @@ public class EditCourse extends Activity
 	private EditCoursePresenter presenter;
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
+	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.stb_edit_course, menu);
 		return true;
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch (item.getItemId())
-		{
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
 		case android.R.id.home:
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
@@ -121,11 +108,10 @@ public class EditCourse extends Activity
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void loadCourseData(Bundle extras)
-	{
+	private void loadCourseData(Bundle extras) {
 		getActionBar().setTitle("Edit Course");
 
-		String courseIdentificator = extras.getString(COURSE_ID);
+		String courseIdentificator = extras.getString(EditCourse.COURSE_ID);
 		presenter.setCourse(courseIdentificator);
 
 		courseName.setText(presenter.getCourseName());
@@ -137,8 +123,7 @@ public class EditCourse extends Activity
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stb_activity_edit_course);
 
@@ -152,10 +137,8 @@ public class EditCourse extends Activity
 		Bundle extras = getIntent().getExtras();
 		getActionBar().setTitle("Add course");
 
-		if (extras != null && extras.containsKey(COURSE_ID))
-		{
+		if (extras != null && extras.containsKey(EditCourse.COURSE_ID))
 			loadCourseData(extras);
-		}
 
 		lectureEnabled = ((CheckBox) findViewById(R.id.stb_include_lectures));
 		lectureEnabled.setOnCheckedChangeListener(new LectureEnabledListener());
@@ -169,16 +152,14 @@ public class EditCourse extends Activity
 	}
 
 	private static List<String> courseNames = new ArrayList<String>();
-	static
-	{
-		courseNames.add("Originality 101");
-		courseNames.add("Course Naming 101");
+	static {
+		EditCourse.courseNames.add("Originality 101");
+		EditCourse.courseNames.add("Course Naming 101");
 	}
 	private static List<String> originalCourseNames = new ArrayList<String>();
-	static
-	{
-		originalCourseNames.add("test");
-		originalCourseNames.add("testing");
-		originalCourseNames.add("123");
+	static {
+		EditCourse.originalCourseNames.add("test");
+		EditCourse.originalCourseNames.add("testing");
+		EditCourse.originalCourseNames.add("123");
 	}
 }
