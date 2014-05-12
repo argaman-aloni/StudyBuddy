@@ -6,6 +6,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.technion.studybuddy.data.CompositeVisitor;
@@ -50,13 +54,11 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 
 	@Override
 	public void accept(CompositeVisitor cv) {
-		for (StudyResource r : resources) {
+		for (StudyResource r : resources)
 			cv.visit(r);
-		}
 
-		for (ExamDate e : exams) {
+		for (ExamDate e : exams)
 			cv.visit(e);
-		}
 	}
 
 	/*
@@ -128,9 +130,8 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 	@Override
 	public int getNumStudyItemsRemaining() {
 		int total = 0;
-		for (StudyResource sr : resources) {
+		for (StudyResource sr : resources)
 			total += sr.getRemainingItemsCount();
-		}
 		return total;
 
 	}
@@ -219,9 +220,8 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 	@Override
 	public int getItemsCount() {
 		int sum = 0;
-		for (StudyResource sr : resources) {
+		for (StudyResource sr : resources)
 			sum += sr.getTotalItemCount();
-		}
 		return sum;
 	}
 
@@ -261,9 +261,8 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 	 */
 	@Override
 	public void addStudyResources(Collection<StudyResource> list) {
-		for (StudyResource r : list) {
+		for (StudyResource r : list)
 			addStudyResource(r);
-		}
 	}
 
 	/*
@@ -277,10 +276,9 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 	public StudyResource getResourceByName(String name)
 			throws NoSuchResourceException {
 
-		for (StudyResource sr : resources) {
+		for (StudyResource sr : resources)
 			if (sr.getName().equals(name))
 				return sr;
-		}
 
 		throw new NoSuchResourceException();
 	}
@@ -305,9 +303,8 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 	public Collection<Date> getDoneDates() {
 		Collection<Date> $ = new ArrayList<Date>();
 
-		for (StudyResource r : resources) {
+		for (StudyResource r : resources)
 			$.addAll(r.getDoneDates());
-		}
 
 		return $;
 	}
@@ -316,9 +313,8 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 	public int getNumOfItemsBehind(int semesterWeek, int totalWeeks) {
 		int $ = 0;
 
-		for (StudyResource r : resources) {
+		for (StudyResource r : resources)
 			$ += r.getNumOfItemsBehind(semesterWeek, totalWeeks);
-		}
 
 		return $;
 	}
@@ -327,9 +323,8 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 	public int getNumOfItemsDue(int semesterWeek, int totalWeeks) {
 		int $ = 0;
 
-		for (StudyResource r : resources) {
+		for (StudyResource r : resources)
 			$ += r.getNumOfItemsDue(semesterWeek, totalWeeks);
-		}
 
 		return $;
 	}
@@ -368,8 +363,48 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 
 	@Override
 	public void addExams(List<ExamDate> exams) {
-		for (ExamDate e : exams) {
+		for (ExamDate e : exams)
 			addExam(e);
+	}
+
+	@Override
+	public String toJson() {
+		JSONObject object = new JSONObject();
+		JSONArray arrayResources = new JSONArray();
+		try {
+			object.put("id", id);
+			object.put("name", name);
+			for (StudyResource resource : resources)
+				arrayResources.put(resource.toJson());
+			object.put("resources", arrayResources);
+			String jsonStr = object.toString();
+			System.out.println(jsonStr);
+			return jsonStr;
+		} catch (JSONException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public Object fromJson(String jsonStr) {
+		JSONObject json;
+		try {
+			json = new JSONObject(jsonStr);
+			String id = json.getString("id");
+			String name = json.getString("name");
+			Course c = new CourseImpl(id, name);
+			if (json.has("resources")) {
+				JSONArray arrayResources = json.getJSONArray("resources");
+				List<StudyResource> resources = new ArrayList<StudyResource>();
+				StudyResourceImpl sr = new StudyResourceImpl();
+				for (int i = 0; i < arrayResources.length(); i++)
+					resources.add((StudyResource) sr.fromJson(arrayResources
+							.getString(i)));
+				c.addStudyResources(resources);
+			}
+			return c;
+		} catch (JSONException e) {
+			return null;
 		}
 	}
 

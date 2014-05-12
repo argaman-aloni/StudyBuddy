@@ -6,21 +6,23 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.technion.studybuddy.data.CompositeVisitor;
 import com.technion.studybuddy.exceptions.ItemNotDoneError;
 import com.technion.studybuddy.exceptions.NoItemsLeftException;
 import com.technion.studybuddy.persisters.AbstractPersistable;
+import com.technion.studybuddy.persisters.Persistable;
 import com.technion.studybuddy.utils.Action;
 import com.technion.studybuddy.utils.Utils;
 
-
-
 @DatabaseTable
 public class StudyResourceImpl extends AbstractPersistable<Course> implements
-				StudyResource
-{
+		StudyResource {
 
 	@DatabaseField(generatedId = true)
 	private UUID id;
@@ -28,9 +30,9 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	@DatabaseField
 	private String name;
 
-	private List<StudyItem> itemList = new ArrayList<StudyItem>();
+	private final List<StudyItem> itemList = new ArrayList<StudyItem>();
 
-	@DatabaseField(foreign = true, canBeNull = false, index = true, columnName = PARENT_COLUMN_ID)
+	@DatabaseField(foreign = true, canBeNull = false, index = true, columnName = Persistable.PARENT_COLUMN_ID)
 	private CourseImpl parent;
 
 	public StudyResourceImpl() {
@@ -44,9 +46,8 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 
 	@Override
 	public void accept(CompositeVisitor cv) {
-		for (StudyItem item : itemList) {
+		for (StudyItem item : itemList)
 			cv.visit(item);
-		}
 	}
 
 	/*
@@ -92,7 +93,7 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	 */
 	@Override
 	public List<StudyItem> getDoneItems() {
-		//ARIK check this
+		// ARIK check this
 		return (Utils.filter(itemList, StudyItems.isDoneMatcher));
 	}
 
@@ -104,7 +105,7 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	 */
 	@Override
 	public List<StudyItem> getRemainingItems() {
-		//ARIK check this
+		// ARIK check this
 		return (Utils.filter(itemList, StudyItems.isNotDoneMatcher));
 	}
 
@@ -151,9 +152,8 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	@Override
 	public void setItems(List<StudyItem> list) {
 		itemList.clear();
-		for (StudyItem si : list) {
+		for (StudyItem si : list)
 			addItem(si);
-		}
 	}
 
 	/*
@@ -177,7 +177,7 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 		if (semesterWeek == 0)
 			return 0;
 		int behind = getNumOfItemsDue(semesterWeek, totalWeeks)
-						- getDoneItemsCount();
+				- getDoneItemsCount();
 
 		behind = (behind < 0) ? 0 : behind; // prevent underflow
 		behind = (behind > getTotalItemCount()) ? getTotalItemCount() : behind; // prevent
@@ -206,14 +206,13 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 
 		Collection<Date> $ = new ArrayList<Date>();
 
-		for (StudyItem i : getDoneItems()) {
+		for (StudyItem i : getDoneItems())
 			try {
 				$.add(i.getDoneDate());
 			} catch (ItemNotDoneError e) {
 
 				e.printStackTrace();
 			}
-		}
 
 		return $;
 	}
@@ -228,9 +227,49 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 
 		int due = (int) Math.floor((semesterWeek - 1.0) / unit);
 
-		if (due > getTotalItemCount()) {
+		if (due > getTotalItemCount())
 			due = getTotalItemCount();
-		}
 		return due;
+	}
+
+	@Override
+	public String toJson() {
+		JSONObject object = new JSONObject();
+		JSONArray arrayItems = new JSONArray();
+		try {
+			// object.put("id", id.toString()); //TODO: check this.
+			object.put("name", name);
+			for (StudyItem item : itemList)
+				arrayItems.put(item.toJson());
+			object.put("itemList", arrayItems);
+			object.put("parent", parent);
+			String jsonStr = object.toString();
+			System.out.println(jsonStr);
+			return jsonStr;
+		} catch (JSONException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public Object fromJson(String jsonStr) {
+		JSONObject json;
+		try {
+			json = new JSONObject(jsonStr);
+			// UUID id = (UUID) json.get("id"); //TODO: check this.
+			String _name = json.getString("name");
+			List<StudyItem> _items = null;
+			if (json.has("itemList")) {
+				JSONArray arrayItems = json.getJSONArray("itemList");
+				_items = new ArrayList<StudyItem>();
+				StudyItem item = new StudyItemImpl();
+				for (int i = 0; i < arrayItems.length(); i++)
+					_items.add((StudyItem) item.fromJson(arrayItems
+							.getString(i)));
+			}
+			return new StudyResourceImpl(_name, _items);
+		} catch (JSONException e) {
+			return null;
+		}
 	}
 }
