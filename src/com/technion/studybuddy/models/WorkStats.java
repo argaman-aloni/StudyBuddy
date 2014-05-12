@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
+import android.util.Log;
+
+import com.technion.studybuddy.data.DataStore;
+import com.technion.studybuddy.exceptions.ItemNotDoneError;
 import com.technion.studybuddy.utils.Action;
 import com.technion.studybuddy.utils.DateUtils;
 
@@ -24,6 +28,7 @@ public class WorkStats extends Observable {
 	public void loadStats(Collection<Date> dates) {
 		for (Date d : dates)
 			increase(d);
+		loadChartsStats();
 	}
 
 	public void decrease(Date d) {
@@ -38,7 +43,6 @@ public class WorkStats extends Observable {
 
 		assert (old > 0);
 		statsMap.put(u, old - 1);
-		updateStatistics(-1, DateUtils.getDayOfWeekFromDate(d));
 		setChanged();
 		notifyObservers();
 	}
@@ -84,7 +88,6 @@ public class WorkStats extends Observable {
 		if (statsMap.containsKey(u))
 			old = statsMap.get(u);
 		statsMap.put(u, old + 1);
-		updateStatistics(1, DateUtils.getDayOfWeekFromDate(d));
 		setChanged();
 		notifyObservers();
 	}
@@ -94,6 +97,7 @@ public class WorkStats extends Observable {
 	}
 
 	public void listenTo(final StudyItem it) {
+		final Date d = new Date();
 		it.onDone(new Action() {
 
 			@Override
@@ -102,7 +106,8 @@ public class WorkStats extends Observable {
 					rescourseToUpdate = 0;
 				else
 					rescourseToUpdate = 1;
-				increase(new Date());
+				increase(d);
+				updateStatistics(1, DateUtils.getDayOfWeekFromDate(d));
 			}
 		});
 
@@ -114,7 +119,8 @@ public class WorkStats extends Observable {
 					rescourseToUpdate = 0;
 				else
 					rescourseToUpdate = 1;
-				decrease(new Date());
+				decrease(d);
+				updateStatistics(-1, DateUtils.getDayOfWeekFromDate(d));
 			}
 		});
 	}
@@ -132,6 +138,28 @@ public class WorkStats extends Observable {
 		for (int i = 0; i < arr.length; i++)
 			arr[i] = lecturesStats[i] + tutorialsStats[i];
 		return arr;
+	}
+
+	public void loadChartsStats() {
+		int i = 0;
+		for (Course course : DataStore.coursesList) {
+			for (StudyItem item : course.getItems(course.getResourceName(i))) {
+				Log.d("loadChartsStats", "i'm starting to load the data.");
+				if (item.getParent().getName().equals("Lectures"))
+					rescourseToUpdate = 0;
+				else
+					rescourseToUpdate = 1;
+				try {
+					updateStatistics(1,
+							DateUtils.getDayOfWeekFromDate(item.getDoneDate()));
+				} catch (ItemNotDoneError e) {
+					// Item isn't done - continue to the next item.
+					Log.d("loadChartsStats", "i'm not done");
+				}
+
+			}
+			i++;
+		}
 	}
 
 	private void updateStatistics(int updateVal, int day) {

@@ -22,7 +22,7 @@ import com.technion.studybuddy.utils.Utils.Predicate;
 
 @DatabaseTable
 public class CourseImpl extends AbstractPersistable<DataStore> implements
-		Course
+Course
 
 {
 
@@ -63,7 +63,7 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.technion.coolie.studybuddy.models.ICourse#addStudyResource(com.technion
 	 * .coolie.studybuddy.models.StudyResource)
@@ -93,7 +93,7 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.technion.coolie.studybuddy.models.ICourse#getAllStudyResources()
 	 */
 	@Override
@@ -103,7 +103,7 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.technion.coolie.studybuddy.models.ICourse#getId()
 	 */
 	@Override
@@ -113,7 +113,7 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.technion.coolie.studybuddy.models.ICourse#getName()
 	 */
 	@Override
@@ -123,7 +123,7 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.technion.coolie.studybuddy.models.ICourse#getNumStudyItemsRemaining()
 	 */
@@ -138,7 +138,7 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.technion.coolie.studybuddy.models.ICourse#getResourceName(int)
 	 */
 	@Override
@@ -151,7 +151,7 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.technion.coolie.studybuddy.models.ICourse#getResourceTotalItemCount
 	 * (java.lang.String)
@@ -167,7 +167,7 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.technion.coolie.studybuddy.models.ICourse#getStudyItemsDone(java.
 	 * lang.String)
@@ -183,7 +183,7 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.technion.coolie.studybuddy.models.ICourse#getItems(java.lang.String)
 	 */
@@ -198,7 +198,7 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.technion.coolie.studybuddy.models.ICourse#getRemainingItems(java.
 	 * lang.String)
@@ -214,7 +214,7 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.technion.coolie.studybuddy.models.ICourse#getItemsCount()
 	 */
 	@Override
@@ -237,7 +237,7 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.technion.coolie.studybuddy.models.ICourse#setName(java.lang.String)
 	 */
@@ -254,7 +254,7 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.technion.coolie.studybuddy.models.ICourse#addStudyResources(java.
 	 * util.Collection)
@@ -267,7 +267,7 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.technion.coolie.studybuddy.models.ICourse#getResourceByName(java.
 	 * lang.String)
@@ -368,7 +368,7 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 	}
 
 	@Override
-	public String toJson() {
+	public JSONObject toJson() {
 		JSONObject object = new JSONObject();
 		JSONArray arrayResources = new JSONArray();
 		try {
@@ -377,19 +377,16 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 			for (StudyResource resource : resources)
 				arrayResources.put(resource.toJson());
 			object.put("resources", arrayResources);
-			String jsonStr = object.toString();
-			System.out.println(jsonStr);
-			return jsonStr;
+			System.out.println(object);
+			return object;
 		} catch (JSONException e) {
 			return null;
 		}
 	}
 
 	@Override
-	public Object fromJson(String jsonStr) {
-		JSONObject json;
+	public Object fromJson(JSONObject json) {
 		try {
-			json = new JSONObject(jsonStr);
 			String id = json.getString("id");
 			String name = json.getString("name");
 			Course c = new CourseImpl(id, name);
@@ -399,7 +396,7 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 				StudyResourceImpl sr = new StudyResourceImpl();
 				for (int i = 0; i < arrayResources.length(); i++)
 					resources.add((StudyResource) sr.fromJson(arrayResources
-							.getString(i)));
+							.getJSONObject(i)));
 				c.addStudyResources(resources);
 			}
 			return c;

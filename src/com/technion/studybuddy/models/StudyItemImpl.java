@@ -13,12 +13,13 @@ import com.technion.studybuddy.exceptions.ItemNotDoneError;
 import com.technion.studybuddy.persisters.AbstractPersistable;
 import com.technion.studybuddy.persisters.Persistable;
 import com.technion.studybuddy.utils.Action;
+import com.technion.studybuddy.utils.Constants;
 import com.technion.studybuddy.utils.OnEvent;
 import com.technion.studybuddy.utils.OnEventListener;
 
 @DatabaseTable(tableName = "study_items")
 public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
-		StudyItem {
+StudyItem {
 	@DatabaseField(generatedId = true)
 	private UUID id;
 
@@ -58,7 +59,7 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.technion.coolie.studybuddy.models.StudyItem#getLabel()
 	 */
 	@Override
@@ -68,7 +69,7 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.technion.coolie.studybuddy.models.StudyItem#getNum()
 	 */
 	@Override
@@ -78,7 +79,7 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.technion.coolie.studybuddy.models.StudyItem#isDone()
 	 */
 	@Override
@@ -88,7 +89,7 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.technion.coolie.studybuddy.models.StudyItem#toggleDone()
 	 */
 	@Override
@@ -145,33 +146,33 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 	}
 
 	@Override
-	public String toJson() {
+	public JSONObject toJson() {
 		JSONObject object = new JSONObject();
 		new JSONArray();
 		try {
 			// object.put("id", id.toString()); //TODO: check this.
-			object.put("num", num);
+			object.put("id", num);
 			object.put("label", label);
-			object.put("done", done);
+			object.put("type", getParent().getName());
 			// TODO: add list of links.
-			String jsonStr = object.toString();
-			System.out.println(jsonStr);
-			return jsonStr;
+			System.out.println(object);
+			return object;
 		} catch (JSONException e) {
 			return null;
 		}
 	}
 
 	@Override
-	public Object fromJson(String jsonStr) {
-		JSONObject json;
+	public Object fromJson(JSONObject json) {
 		try {
-			json = new JSONObject(jsonStr);
+			JSONArray links = json.getJSONArray(Constants.LINKS_JSON);
+			for (int i = 0; i < links.length(); i++)
+				links.getJSONObject(i);
 			// UUID id = (UUID) json.get("id"); //TODO: check this.
-			// TODO: add list of links.
 			int _num = json.getInt("num");
 			String _label = json.getString("label");
 			StudyItem res = new StudyItemImpl(_num, _label);
+			// TODO: check how we transfer the data.
 			if (json.getBoolean("done"))
 				res.toggleDone();
 			return res;

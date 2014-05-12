@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.technion.studybuddy.Views;
 
@@ -11,6 +11,7 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.technion.studybuddy.R;
 import com.technion.studybuddy.charts.ProgressPieChart;
@@ -19,7 +20,7 @@ import com.technion.studybuddy.models.WorkStats;
 
 /**
  * @author Argaman
- * 
+ *
  */
 public class ChartFullFragment extends DialogFragment {
 
@@ -28,6 +29,7 @@ public class ChartFullFragment extends DialogFragment {
 	private GraphicalView graphicalView = null;
 	private LinearLayout layout;
 	WorkStats stats = DataStore.getStats();
+	private TextView tv;
 
 	private void generateChart() {
 		switch (chartIndex) {
@@ -51,9 +53,7 @@ public class ChartFullFragment extends DialogFragment {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		layout = (LinearLayout) getActivity().getLayoutInflater().inflate(
 				R.layout.piechart_full_layout, null);
-		LinearLayout graphLayout = (LinearLayout) getActivity().findViewById(
-				R.id.full_chart_layout1);
-		graphLayout.toString();
+		getActivity().findViewById(R.id.full_chart_layout1);
 		builder.setView(layout);
 		return builder.create();
 	}
@@ -65,6 +65,8 @@ public class ChartFullFragment extends DialogFragment {
 			generateChart();
 			layout.addView(graphicalView, new LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			// tv = (TextView) getActivity().findViewById(R.id.full_chart_tv);
+			// tv.setText(getResources().getStringArray(R.array.resources_array)[chartIndex]);
 		}
 	}
 

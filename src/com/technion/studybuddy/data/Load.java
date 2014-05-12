@@ -2,6 +2,8 @@ package com.technion.studybuddy.data;
 
 import java.util.List;
 
+import android.util.Log;
+
 import com.technion.studybuddy.models.Course;
 import com.technion.studybuddy.models.ExamDate;
 import com.technion.studybuddy.models.Semester;
@@ -9,7 +11,6 @@ import com.technion.studybuddy.models.StudyItem;
 import com.technion.studybuddy.models.StudyResource;
 import com.technion.studybuddy.models.WorkStats;
 import com.technion.studybuddy.persisters.Persisters;
-
 
 public enum Load implements CompositeVisitor {
 	dbLoader;
@@ -37,15 +38,13 @@ public enum Load implements CompositeVisitor {
 
 		List<Course> results = Persisters.course.getAll();
 
-		for (Course c : results) {
+		for (Course c : results)
 			ds.addCourse(c);
-		}
 
 		List<Semester> list = Persisters.semester.getAll();
 
-		if (list.size() > 0) {
+		if (list.size() > 0)
 			DataStore.semester = list.get(0);
-		}
 
 		ds.accept(this);
 	}
@@ -66,9 +65,9 @@ public enum Load implements CompositeVisitor {
 	@Override
 	public void visit(WorkStats ws) {
 
-		for (Course c : DataStore.coursesList) {
+		for (Course c : DataStore.coursesList)
 			ws.loadStats(c.getDoneDates());
-		}
+		Log.d("loadChartsStats", "i'm loading the charts");
 
 	}
 
