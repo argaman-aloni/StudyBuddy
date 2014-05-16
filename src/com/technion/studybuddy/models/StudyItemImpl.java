@@ -1,6 +1,9 @@
 package com.technion.studybuddy.models;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.json.JSONArray;
@@ -19,7 +22,7 @@ import com.technion.studybuddy.utils.OnEventListener;
 
 @DatabaseTable(tableName = "study_items")
 public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
-StudyItem {
+		StudyItem {
 	@DatabaseField(generatedId = true)
 	private UUID id;
 
@@ -38,7 +41,10 @@ StudyItem {
 	@DatabaseField
 	private Date dateDone;
 
-	private final OnEvent onDone = new OnEventListener();
+	@DatabaseField
+	private String links;
+
+	final OnEvent onDone = new OnEventListener();
 	private final OnEvent onUnDone = new OnEventListener();
 
 	public StudyItemImpl() {
@@ -59,7 +65,7 @@ StudyItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see com.technion.coolie.studybuddy.models.StudyItem#getLabel()
 	 */
 	@Override
@@ -67,9 +73,32 @@ StudyItem {
 		return label;
 	}
 
+	@Override
+	public List<String> getLinks() {
+		return Arrays.asList(links.split(" "));
+	}
+
+	@Override
+	public void setLinks(List<String> _links) {
+		StringBuilder builder = new StringBuilder();
+		for (String link : _links)
+			builder.append(link).append(" ");
+		links = builder.toString().substring(0, builder.length() - 1);
+	}
+
+	@Override
+	public void addLink(String link) {
+		links = links + " " + link;
+	}
+
+	@Override
+	public void removeLink(String link) {
+		links.replace(" " + link, "");
+	}
+
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see com.technion.coolie.studybuddy.models.StudyItem#getNum()
 	 */
 	@Override
@@ -79,7 +108,7 @@ StudyItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see com.technion.coolie.studybuddy.models.StudyItem#isDone()
 	 */
 	@Override
@@ -89,7 +118,7 @@ StudyItem {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see com.technion.coolie.studybuddy.models.StudyItem#toggleDone()
 	 */
 	@Override
@@ -150,11 +179,13 @@ StudyItem {
 		JSONObject object = new JSONObject();
 		new JSONArray();
 		try {
-			// object.put("id", id.toString()); //TODO: check this.
 			object.put("id", num);
 			object.put("label", label);
 			object.put("type", getParent().getName());
-			// TODO: add list of links.
+			JSONArray linksArray = new JSONArray();
+			for (String link : getLinks())
+				linksArray.put(link);
+			object.put(Constants.LINKS_JSON, linksArray);
 			System.out.println(object);
 			return object;
 		} catch (JSONException e) {
@@ -166,13 +197,13 @@ StudyItem {
 	public Object fromJson(JSONObject json) {
 		try {
 			JSONArray links = json.getJSONArray(Constants.LINKS_JSON);
+			List<String> linksList = new ArrayList<>();
 			for (int i = 0; i < links.length(); i++)
-				links.getJSONObject(i);
-			// UUID id = (UUID) json.get("id"); //TODO: check this.
+				linksList.add(links.getJSONObject(i).toString());
 			int _num = json.getInt("num");
 			String _label = json.getString("label");
 			StudyItem res = new StudyItemImpl(_num, _label);
-			// TODO: check how we transfer the data.
+			res.setLinks(linksList);
 			if (json.getBoolean("done"))
 				res.toggleDone();
 			return res;
@@ -180,5 +211,4 @@ StudyItem {
 			return null;
 		}
 	}
-
 }

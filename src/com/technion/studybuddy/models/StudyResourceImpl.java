@@ -237,7 +237,6 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 		JSONObject object = new JSONObject();
 		JSONArray arrayItems = new JSONArray();
 		try {
-			// object.put("id", id.toString()); //TODO: check this.
 			object.put("name", name);
 			for (StudyItem item : itemList)
 				arrayItems.put(item.toJson());
@@ -253,7 +252,6 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	@Override
 	public Object fromJson(JSONObject json) {
 		try {
-			// UUID id = (UUID) json.get("id"); //TODO: check this.
 			String _name = json.getString("name");
 			List<StudyItem> _items = null;
 			if (json.has("itemList")) {
