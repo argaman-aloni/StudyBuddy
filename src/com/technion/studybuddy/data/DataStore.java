@@ -343,8 +343,13 @@ public class DataStore extends Observable implements Composite
 			Course course = new CourseImpl();
 			course.fromJson(singleCourse);
 			if (!DataStore.coursesList.contains(course))
-				DataStore.coursesList.add(course);
+			{
+				addCourse(course);
+				Persist.getInstance().visit(course);
+			}
+
 		}
+		setChanged();
 		notifyObservers(DataStore.CLASS_LIST);
 
 	}

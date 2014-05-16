@@ -27,18 +27,11 @@ public class TaskReciever extends BroadcastReceiver
 				.getNetworkType(context);
 		NetworkDBAdapter adapter = new NetworkDBAdapter(context);
 		if (bundle.containsKey(Constants.JSON_ADDON))
-		{
-			SyncTask task = adapter.addTask(
-					bundle.getString(Constants.JSON_ADDON),
+			adapter.addTask(bundle.getString(Constants.JSON_ADDON),
 					bundle.getString(Constants.TYPE_ADDON));
-
-			type.runTask(new SendAsyncTask(task, context), context);
-		}
 		List<SyncTask> remaningTasks = adapter.getTaskNotDone();
 		for (SyncTask syncTask : remaningTasks)
-		{
 			type.runTask(new SendAsyncTask(syncTask, context), context);
-		}
 
 	}
 }

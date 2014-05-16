@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -443,15 +444,31 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 			if (json.has("items"))
 			{
 				JSONArray arrayResources = json.getJSONArray("items");
-				List<StudyResource> resources = new ArrayList<StudyResource>();
-
+				new ArrayList<StudyResource>();
+				List<StudyItem> lectureItems = new LinkedList<StudyItem>();
+				List<StudyItem> tutorialItems = new LinkedList<StudyItem>();
 				for (int i = 0; i < arrayResources.length(); i++)
 				{
-					StudyResourceImpl sr = new StudyResourceImpl();
-					sr.fromJson(arrayResources.getJSONObject(i));
-					resources.add(sr);
+					JSONObject studyItem = arrayResources.getJSONObject(i);
+					List<String> links = new LinkedList<>();
+					JSONArray jsonLinks = studyItem.getJSONArray("link");
+					for (int j = 0; j < jsonLinks.length(); j++)
+						links.add(jsonLinks.getString(j));
+					String name = studyItem.getString("name");
+					String type = studyItem.getString("type");
+					if (type.equals("Tutorial"))
+						tutorialItems.add(new StudyItemImpl(tutorialItems
+								.size() + 1, name));
+					else if (type.equals("Lecture"))
+						lectureItems.add(new StudyItemImpl(
+								lectureItems.size() + 1, name));
 				}
-				addStudyResources(resources);
+				StudyResource lectures = new StudyResourceImpl("Lecture",
+						lectureItems);
+				StudyResource tutorials = new StudyResourceImpl("Tutorial",
+						tutorialItems);
+				addStudyResource(lectures);
+				addStudyResource(tutorials);
 			}
 			return;
 		} catch (JSONException e)

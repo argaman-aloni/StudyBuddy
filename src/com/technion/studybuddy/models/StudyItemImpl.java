@@ -201,7 +201,7 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 		new JSONArray();
 		try
 		{
-			object.put("id", num);
+			object.put("id", getParent().getParent().getId());
 			object.put("label", label);
 			object.put("type", getParent().getName());
 			JSONArray linksArray = new JSONArray();

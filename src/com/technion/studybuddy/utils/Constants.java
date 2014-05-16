@@ -27,7 +27,7 @@ public class Constants
 			"progress", "type", "priority" };
 	public static final String Network_types[] = {
 			"INTEGER PRIMARY KEY AUTOINCREMENT", "VARCHAR", "INTEGER",
-			"INTEGER", "INTEGER" };
+			"VARCHAR", "INTEGER" };
 
 	public static class Network_fields_constants
 	{

@@ -65,7 +65,7 @@ public class NetworkDBAdapter
 
 		contentValues
 				.put(Constants.Network_fields[Constants.Network_fields_constants.progress],
-						task.getProgress().ordinal());
+						progress.ordinal());
 		sqLiteDatabase.update(Constants.Table_Name, contentValues,
 				Constants.Network_fields[0] + " = " + task.getId(), null);
 		sqLiteDatabase.close();
@@ -95,7 +95,7 @@ public class NetworkDBAdapter
 	private SyncTask cursorToTask(Cursor result)
 	{
 		return new SyncTask(result.getLong(0), result.getString(1), context,
-				NetworkTaskImportence.values()[result.getInt(3)],
-				result.getString(4));
+				NetworkTaskImportence.values()[result.getInt(4)],
+				result.getString(3));
 	}
 }

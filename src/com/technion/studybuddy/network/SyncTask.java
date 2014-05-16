@@ -35,14 +35,16 @@ public class SyncTask
 
 	void markCompleted(NetworkDBAdapter adapter)
 	{
-		adapter.updateProgress(this, SyncProgress.Completed);
 		progress = SyncProgress.Completed;
+		adapter.updateProgress(this, SyncProgress.Completed);
+
 	}
 
 	void markQueued(NetworkDBAdapter adapter)
 	{
-		adapter.updateProgress(this, SyncProgress.Queued);
 		progress = SyncProgress.Queued;
+		adapter.updateProgress(this, SyncProgress.Queued);
+
 	}
 
 	void markOnProgress(NetworkDBAdapter adapter)
