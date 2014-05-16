@@ -93,6 +93,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.technion.studybuddy.MainActivity" />
         </activity>
+        <receiver android:name="TaskReciever"></receiver>
     </application>
 
 </manifest>

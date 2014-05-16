@@ -23,10 +23,10 @@ public class Constants {
 	public static final String Table_Name = "networkStatus";
 	public static final String DB_Name = "networkStatus.db";
 	public static final String Network_fields[] = { BaseColumns._ID, "object",
-			"progress", "type", "priority" };
+		"progress", "type", "priority" };
 	public static final String Network_types[] = {
-			"INTEGER PRIMARY KEY AUTOINCREMENT", "VARCHAR", "INTEGER",
-			"INTEGER", "INTEGER" };
+		"INTEGER PRIMARY KEY AUTOINCREMENT", "VARCHAR", "INTEGER",
+		"INTEGER", "INTEGER" };
 
 	public static class Network_fields_constants {
 		public static final int BaseColumn = 0; // 0
@@ -37,7 +37,8 @@ public class Constants {
 
 	}
 
-	public static final int DB_ver = 0;
+	public static final int DB_ver = 1;
 	public static final String LINKS_JSON = "links_arry";
+	public static final String TYPE_COURSEITEM = "courseItem";
 
 }

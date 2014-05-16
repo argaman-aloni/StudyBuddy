@@ -9,11 +9,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
+import com.technion.studybuddy.TaskReciever;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.ItemNotDoneError;
 import com.technion.studybuddy.utils.Action;
+import com.technion.studybuddy.utils.Constants;
 import com.technion.studybuddy.utils.DateUtils;
 
 public class WorkStats extends Observable {
@@ -108,7 +112,10 @@ public class WorkStats extends Observable {
 					rescourseToUpdate = 1;
 				increase(d);
 				updateStatistics(1, DateUtils.getDayOfWeekFromDate(d));
+				getCourseItemSyncIntent(it);
+
 			}
+
 		});
 
 		it.onUnDone(new Action() {
@@ -121,6 +128,7 @@ public class WorkStats extends Observable {
 					rescourseToUpdate = 1;
 				decrease(d);
 				updateStatistics(-1, DateUtils.getDayOfWeekFromDate(d));
+				getCourseItemSyncIntent(it);
 			}
 		});
 	}
@@ -175,4 +183,11 @@ public class WorkStats extends Observable {
 		}
 	}
 
+	private void getCourseItemSyncIntent(final StudyItem it) {
+		Context context = DataStore.getContext();
+		Intent intent = new Intent(context, TaskReciever.class);
+		intent.putExtra(Constants.JSON_ADDON, it.toJson().toString());
+		intent.putExtra(Constants.TYPE_ADDON, Constants.TYPE_COURSEITEM);
+		context.sendBroadcast(intent);
+	}
 }
