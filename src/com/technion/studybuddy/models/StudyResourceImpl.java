@@ -181,7 +181,7 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 
 		behind = (behind < 0) ? 0 : behind; // prevent underflow
 		behind = (behind > getTotalItemCount()) ? getTotalItemCount() : behind; // prevent
-																				// overflow
+		// overflow
 
 		return behind;
 	}
@@ -233,7 +233,7 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	}
 
 	@Override
-	public String toJson() {
+	public JSONObject toJson() {
 		JSONObject object = new JSONObject();
 		JSONArray arrayItems = new JSONArray();
 		try {
@@ -243,19 +243,16 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 				arrayItems.put(item.toJson());
 			object.put("itemList", arrayItems);
 			object.put("parent", parent);
-			String jsonStr = object.toString();
-			System.out.println(jsonStr);
-			return jsonStr;
+			System.out.println(object);
+			return object;
 		} catch (JSONException e) {
 			return null;
 		}
 	}
 
 	@Override
-	public Object fromJson(String jsonStr) {
-		JSONObject json;
+	public Object fromJson(JSONObject json) {
 		try {
-			json = new JSONObject(jsonStr);
 			// UUID id = (UUID) json.get("id"); //TODO: check this.
 			String _name = json.getString("name");
 			List<StudyItem> _items = null;
@@ -265,7 +262,7 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 				StudyItem item = new StudyItemImpl();
 				for (int i = 0; i < arrayItems.length(); i++)
 					_items.add((StudyItem) item.fromJson(arrayItems
-							.getString(i)));
+							.getJSONObject(i)));
 			}
 			return new StudyResourceImpl(_name, _items);
 		} catch (JSONException e) {

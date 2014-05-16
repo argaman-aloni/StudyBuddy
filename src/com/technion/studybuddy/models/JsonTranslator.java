@@ -1,9 +1,11 @@
 package com.technion.studybuddy.models;
 
+import org.json.JSONObject;
+
 public interface JsonTranslator {
 
-	public String toJson();
+	public JSONObject toJson();
 
-	public Object fromJson(String jsonStr);
+	public Object fromJson(JSONObject jsonStr);
 
 }
