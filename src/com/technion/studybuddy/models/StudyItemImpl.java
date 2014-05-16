@@ -75,7 +75,9 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 
 	@Override
 	public List<String> getLinks() {
-		return Arrays.asList(links.split(" "));
+		if (links != null)
+			return Arrays.asList(links.split(" "));
+		return new ArrayList<String>(); // TODO change to Lists.newLinkedList
 	}
 
 	@Override
