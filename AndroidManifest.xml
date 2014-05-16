@@ -94,6 +94,7 @@
                 android:value="com.technion.studybuddy.MainActivity" />
         </activity>
         <receiver android:name="TaskReciever"></receiver>
+        <activity android:name=".Views.LinksViewActivity"></activity>
     </application>
 
 </manifest>

@@ -21,12 +21,10 @@ import com.technion.studybuddy.presenters.CoursePresenter;
 import com.wvr.widget.TextProgressBar;
 
 public class CourseOverViewFragment extends Fragment implements Observer,
-		MessageBar.OnMessageClickListener
-{
+MessageBar.OnMessageClickListener {
 	public static final String courseNumberArg = "courseNameArg";
 
-	public static CourseOverViewFragment newInstance(String courseNumber)
-	{
+	public static CourseOverViewFragment newInstance(String courseNumber) {
 
 		CourseOverViewFragment fragment = new CourseOverViewFragment();
 		Bundle args = new Bundle();
@@ -48,8 +46,7 @@ public class CourseOverViewFragment extends Fragment implements Observer,
 	private CoursePresenter presenter;
 	private TextProgressBar tutorialProgress;
 
-	private void drawGraph()
-	{
+	private void drawGraph() {
 
 		int done = presenter.getDoneItemsCount("Lectures");
 		int total = presenter.getTotalItemCount("Lectures");
@@ -65,32 +62,28 @@ public class CourseOverViewFragment extends Fragment implements Observer,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see android.support.v4.app.Fragment#onCreate(android.os.Bundle)
 	 */
 	@Override
-	public void onCreate(Bundle savedInstanceState)
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		DataStore.getInstance().addObserver(this);
 		if (getArguments() != null)
-		{
 			courseNumber = getArguments().getString(
 					CourseOverViewFragment.courseNumberArg);
-		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater,
 	 * android.view.ViewGroup, android.os.Bundle)
 	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState)
-	{
+			Bundle savedInstanceState) {
 		presenter = DataStore.getInstance().getCoursePresenter(courseNumber);
 		fragmentView = inflater.inflate(R.layout.stb_view_course_main,
 				container, false);
@@ -151,8 +144,7 @@ public class CourseOverViewFragment extends Fragment implements Observer,
 	}
 
 	@Override
-	public void onMessageClick(Parcelable token)
-	{
+	public void onMessageClick(Parcelable token) {
 		Bundle b = (Bundle) token;
 		int id = b.getInt("id");
 		adapter.restore(id);
@@ -160,12 +152,9 @@ public class CourseOverViewFragment extends Fragment implements Observer,
 	}
 
 	@Override
-	public void update(Observable observable, Object data)
-	{
+	public void update(Observable observable, Object data) {
 		if (fragmentView != null)
-		{
 			drawGraph();
-		}
 	}
 
 }

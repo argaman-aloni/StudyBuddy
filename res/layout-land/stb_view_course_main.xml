@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:layout_height="match_parent" >
 
     <RelativeLayout
         android:id="@+id/stb_lecturesProgress"
         style="@style/stb_nowCardStyle"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-       
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:orientation="horizontal" >
 
         <RelativeLayout
@@ -102,7 +102,8 @@
         android:id="@+id/course_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/stb_lecturesProgress"
         android:numColumns="1">
     </com.technion.studybuddy.Views.NowLayout>
 
-</LinearLayout>
+</RelativeLayout>
