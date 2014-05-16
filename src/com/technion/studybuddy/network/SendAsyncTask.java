@@ -50,7 +50,7 @@ public class SendAsyncTask extends AsyncTask<Void, Void, Void>
 		{
 			GoogleHttpContext httpContext = CommonUtilities.getContext(context,
 					username, Constants.SERVER_URL);
-			HttpPost httpPost = new HttpPost(Constants.DATA_SYNC);
+			HttpPost httpPost = new HttpPost("http://" + Constants.DATA_SYNC);
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 			nameValuePairs.add(new BasicNameValuePair(Constants.JSON_ADDON,
 					task.getJson()));

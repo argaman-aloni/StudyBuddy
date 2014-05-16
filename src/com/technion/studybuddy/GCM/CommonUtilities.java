@@ -140,9 +140,10 @@ public final class CommonUtilities
 
 		final String regId = GCMRegistrar.getRegistrationId(context);
 		if (regId.equals(""))
+		{
 			// Automatically registers application on startup.
 			GCMRegistrar.register(context, CommonUtilities.SENDER_ID);
-		else // Device is already registered on GCM, check server.
+		} else // Device is already registered on GCM, check server.
 		if (GCMRegistrar.isRegisteredOnServer(context))
 			// Skips registration.
 			return null;
@@ -167,7 +168,9 @@ public final class CommonUtilities
 					// unregistered callback upon completion, but
 					// GCMIntentService.onUnregistered() will ignore it.
 					if (!registered)
+					{
 						GCMRegistrar.unregister(context);
+					}
 					return null;
 				}
 
@@ -197,14 +200,11 @@ public final class CommonUtilities
 
 	private static boolean isWifiContected(Context context)
 	{
-		android.net.wifi.WifiManager m = (WifiManager) context
-				.getSystemService(Context.WIFI_SERVICE);
-		android.net.wifi.SupplicantState s = m.getConnectionInfo()
-				.getSupplicantState();
-		NetworkInfo.DetailedState state = WifiInfo.getDetailedStateOf(s);
-		if (state != NetworkInfo.DetailedState.CONNECTED)
-			return false;
-		return true;
+		ConnectivityManager cm = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo ni = cm.getActiveNetworkInfo();
+		return ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI;
+
 	}
 
 	public static Network_Type getNetworkType(Context context)

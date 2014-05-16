@@ -34,16 +34,16 @@ public class NetworkDBAdapter
 		sqLiteDatabase = helper.getWritableDatabase();
 		ContentValues contentValues = new ContentValues();
 		contentValues
-				.put(Constants.Network_types[Constants.Network_fields_constants.object],
+				.put(Constants.Network_fields[Constants.Network_fields_constants.object],
 						json);
 		contentValues
-				.put(Constants.Network_types[Constants.Network_fields_constants.type],
+				.put(Constants.Network_fields[Constants.Network_fields_constants.type],
 						type);
 		contentValues
-				.put(Constants.Network_types[Constants.Network_fields_constants.priority],
+				.put(Constants.Network_fields[Constants.Network_fields_constants.priority],
 						priority.ordinal());
 		contentValues
-				.put(Constants.Network_types[Constants.Network_fields_constants.progress],
+				.put(Constants.Network_fields[Constants.Network_fields_constants.progress],
 						SyncProgress.Queued.ordinal());
 		long lastId = sqLiteDatabase.insert(Constants.Table_Name, null,
 				contentValues);
@@ -64,7 +64,7 @@ public class NetworkDBAdapter
 		ContentValues contentValues = new ContentValues();
 
 		contentValues
-				.put(Constants.Network_types[Constants.Network_fields_constants.progress],
+				.put(Constants.Network_fields[Constants.Network_fields_constants.progress],
 						task.getProgress().ordinal());
 		sqLiteDatabase.update(Constants.Table_Name, contentValues,
 				Constants.Network_fields[0] + " = " + task.getId(), null);

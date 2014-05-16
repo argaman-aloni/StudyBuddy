@@ -30,7 +30,7 @@ public class TaskReciever extends BroadcastReceiver
 		{
 			SyncTask task = adapter.addTask(
 					bundle.getString(Constants.JSON_ADDON),
-					bundle.getString(Constants.OBJECT_TYPE_ADDON));
+					bundle.getString(Constants.TYPE_ADDON));
 
 			type.runTask(new SendAsyncTask(task, context), context);
 		}
