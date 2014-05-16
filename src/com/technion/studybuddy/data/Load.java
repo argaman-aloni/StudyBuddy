@@ -2,8 +2,6 @@ package com.technion.studybuddy.data;
 
 import java.util.List;
 
-import android.util.Log;
-
 import com.technion.studybuddy.models.Course;
 import com.technion.studybuddy.models.ExamDate;
 import com.technion.studybuddy.models.Semester;
@@ -67,7 +65,6 @@ public enum Load implements CompositeVisitor {
 
 		for (Course c : DataStore.coursesList)
 			ws.loadStats(c.getDoneDates());
-		Log.d("loadChartsStats", "i'm loading the charts");
 
 	}
 

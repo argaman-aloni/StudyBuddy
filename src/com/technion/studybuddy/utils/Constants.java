@@ -2,9 +2,8 @@ package com.technion.studybuddy.utils;
 
 import android.provider.BaseColumns;
 
-public class Constants
-{
-	public static final boolean debug = false;
+public class Constants {
+	public static final boolean debug = true;
 	public static final String PrefsContext = "prefs";
 	public static final String REGID_PREFS = "regid";
 	public static final String IS_REGISTERED = "isRegistered";
@@ -19,7 +18,6 @@ public class Constants
 	public static final String DATA_SYNC = Constants.SERVER_URL + "/data";
 	public static final String JSON_ADDON = "json";
 	public static final String TYPE_ADDON = "type";
-	public static final String OBJECT_TYPE_ADDON = "objectType";
 
 	// sqlite data
 	public static final String Table_Name = "networkStatus";
@@ -30,8 +28,7 @@ public class Constants
 			"INTEGER PRIMARY KEY AUTOINCREMENT", "VARCHAR", "INTEGER",
 			"INTEGER", "INTEGER" };
 
-	public static class Network_fields_constants
-	{
+	public static class Network_fields_constants {
 		public static final int BaseColumn = 0; // 0
 		public static final int object = 1 + Network_fields_constants.BaseColumn; // 1
 		public static final int progress = Network_fields_constants.object + 1; // 2
@@ -41,6 +38,6 @@ public class Constants
 	}
 
 	public static final int DB_ver = 0;
-	public static final String SYNC_REQUEST = "sync";
+	public static final String LINKS_JSON = "links_arry";
 
 }
