@@ -22,7 +22,8 @@ import com.technion.studybuddy.utils.Utils;
 
 @DatabaseTable
 public class StudyResourceImpl extends AbstractPersistable<Course> implements
-		StudyResource {
+		StudyResource
+{
 
 	@DatabaseField(generatedId = true)
 	private UUID id;
@@ -35,17 +36,20 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	@DatabaseField(foreign = true, canBeNull = false, index = true, columnName = Persistable.PARENT_COLUMN_ID)
 	private CourseImpl parent;
 
-	public StudyResourceImpl() {
+	public StudyResourceImpl()
+	{
 
 	}
 
-	public StudyResourceImpl(String name, List<StudyItem> list) {
+	public StudyResourceImpl(String name, List<StudyItem> list)
+	{
 		this.name = name;
 		setItems(list);
 	}
 
 	@Override
-	public void accept(CompositeVisitor cv) {
+	public void accept(CompositeVisitor cv)
+	{
 		for (StudyItem item : itemList)
 			cv.visit(item);
 	}
@@ -58,11 +62,14 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	 * .coolie.studybuddy.models.StudyItem)
 	 */
 	@Override
-	public void addItem(final StudyItem item) {
+	public void addItem(final StudyItem item)
+	{
 		itemList.add(item);
-		item.onDelete(new Action() {
+		item.onDelete(new Action()
+		{
 			@Override
-			public void run() {
+			public void run()
+			{
 				itemList.remove(item);
 			};
 		});
@@ -71,7 +78,8 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	}
 
 	@Override
-	public Course getParent() {
+	public Course getParent()
+	{
 		return parent;
 	}
 
@@ -82,7 +90,8 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	 * com.technion.coolie.studybuddy.models.StudyResource#getDoneItemsCount()
 	 */
 	@Override
-	public int getDoneItemsCount() {
+	public int getDoneItemsCount()
+	{
 		return getDoneItems().size();
 	}
 
@@ -92,7 +101,8 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	 * @see com.technion.coolie.studybuddy.models.StudyResource#getDoneItems()
 	 */
 	@Override
-	public List<StudyItem> getDoneItems() {
+	public List<StudyItem> getDoneItems()
+	{
 		// ARIK check this
 		return (Utils.filter(itemList, StudyItems.isDoneMatcher));
 	}
@@ -104,7 +114,8 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	 * com.technion.coolie.studybuddy.models.StudyResource#getRemainingItems()
 	 */
 	@Override
-	public List<StudyItem> getRemainingItems() {
+	public List<StudyItem> getRemainingItems()
+	{
 		// ARIK check this
 		return (Utils.filter(itemList, StudyItems.isNotDoneMatcher));
 	}
@@ -115,7 +126,8 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	 * @see com.technion.coolie.studybuddy.models.StudyResource#getName()
 	 */
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -127,7 +139,8 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	 * ()
 	 */
 	@Override
-	public int getRemainingItemsCount() {
+	public int getRemainingItemsCount()
+	{
 		return getRemainingItems().size();
 	}
 
@@ -138,7 +151,8 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	 * com.technion.coolie.studybuddy.models.StudyResource#getTotalItemCount()
 	 */
 	@Override
-	public int getTotalItemCount() {
+	public int getTotalItemCount()
+	{
 		return itemList.size();
 	}
 
@@ -150,7 +164,8 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	 * .List)
 	 */
 	@Override
-	public void setItems(List<StudyItem> list) {
+	public void setItems(List<StudyItem> list)
+	{
 		itemList.clear();
 		for (StudyItem si : list)
 			addItem(si);
@@ -162,17 +177,20 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	 * @see com.technion.coolie.studybuddy.models.StudyResource#getItems()
 	 */
 	@Override
-	public List<StudyItem> getItems() {
+	public List<StudyItem> getItems()
+	{
 		return itemList;
 	}
 
 	@Override
-	public void setParent(Course p) {
+	public void setParent(Course p)
+	{
 		parent = (CourseImpl) p;
 	}
 
 	@Override
-	public int getNumOfItemsBehind(int semesterWeek, int totalWeeks) {
+	public int getNumOfItemsBehind(int semesterWeek, int totalWeeks)
+	{
 
 		if (semesterWeek == 0)
 			return 0;
@@ -187,12 +205,14 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	}
 
 	@Override
-	public void toggleDone(int i) {
+	public void toggleDone(int i)
+	{
 		itemList.get(i - 1).toggleDone();
 	}
 
 	@Override
-	public StudyItem getNextItem() throws NoItemsLeftException {
+	public StudyItem getNextItem() throws NoItemsLeftException
+	{
 
 		if (getRemainingItems().isEmpty())
 			throw new NoItemsLeftException();
@@ -202,14 +222,17 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	}
 
 	@Override
-	public Collection<Date> getDoneDates() {
+	public Collection<Date> getDoneDates()
+	{
 
 		Collection<Date> $ = new ArrayList<Date>();
 
 		for (StudyItem i : getDoneItems())
-			try {
+			try
+			{
 				$.add(i.getDoneDate());
-			} catch (ItemNotDoneError e) {
+			} catch (ItemNotDoneError e)
+			{
 
 				e.printStackTrace();
 			}
@@ -218,7 +241,8 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	}
 
 	@Override
-	public int getNumOfItemsDue(int semesterWeek, int totalWeeks) {
+	public int getNumOfItemsDue(int semesterWeek, int totalWeeks)
+	{
 
 		if (semesterWeek == 0)
 			return 0;
@@ -233,10 +257,12 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 	}
 
 	@Override
-	public JSONObject toJson() {
+	public JSONObject toJson()
+	{
 		JSONObject object = new JSONObject();
 		JSONArray arrayItems = new JSONArray();
-		try {
+		try
+		{
 			object.put("name", name);
 			for (StudyItem item : itemList)
 				arrayItems.put(item.toJson());
@@ -244,27 +270,32 @@ public class StudyResourceImpl extends AbstractPersistable<Course> implements
 			object.put("parent", parent);
 			System.out.println(object);
 			return object;
-		} catch (JSONException e) {
+		} catch (JSONException e)
+		{
 			return null;
 		}
 	}
 
 	@Override
-	public Object fromJson(JSONObject json) {
-		try {
-			String _name = json.getString("name");
-			List<StudyItem> _items = null;
-			if (json.has("itemList")) {
+	public void fromJson(JSONObject json)
+	{
+		try
+		{
+			name = json.getString("name");
+			if (json.has("itemList"))
+			{
 				JSONArray arrayItems = json.getJSONArray("itemList");
-				_items = new ArrayList<StudyItem>();
-				StudyItem item = new StudyItemImpl();
+				new ArrayList<StudyItem>();
+
 				for (int i = 0; i < arrayItems.length(); i++)
-					_items.add((StudyItem) item.fromJson(arrayItems
-							.getJSONObject(i)));
+				{
+					StudyItem item = new StudyItemImpl();
+					item.fromJson(arrayItems.getJSONObject(i));
+					itemList.add(item);
+				}
 			}
-			return new StudyResourceImpl(_name, _items);
-		} catch (JSONException e) {
-			return null;
+		} catch (JSONException e)
+		{
 		}
 	}
 }

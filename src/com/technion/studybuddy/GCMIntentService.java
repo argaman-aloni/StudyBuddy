@@ -34,6 +34,7 @@ import com.technion.studybuddy.GCM.Action;
 import com.technion.studybuddy.GCM.CommonUtilities;
 import com.technion.studybuddy.GCM.GCMAction;
 import com.technion.studybuddy.GCM.ServerUtilities;
+import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.utils.Constants;
 
 /**
@@ -59,7 +60,7 @@ public class GCMIntentService extends GCMBaseIntentService
 				editor.putString(Constants.REGID_PREFS,
 						bundle.getString("callback"));
 				editor.commit();
-
+				DataStore.getInstance().getAllCourses();
 			}
 		});
 		GCMIntentService.actions.put(GCMAction.UPDATE.toString(), new Action()

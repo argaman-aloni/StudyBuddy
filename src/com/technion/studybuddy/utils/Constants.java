@@ -43,6 +43,7 @@ public class Constants
 	public static final String LINKS_JSON = "links_arry";
 	public static final String TYPE_COURSEITEM = "courseItem";
 	public static final String OBJECT_TYPE_ADDON = "objectType";
+	public static final String COURSE_ALL = "course.all";
 	public static String SYNC_REQUEST = "sync";
 
 }

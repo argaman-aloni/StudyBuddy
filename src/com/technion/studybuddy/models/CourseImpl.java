@@ -22,7 +22,7 @@ import com.technion.studybuddy.utils.Utils.Predicate;
 
 @DatabaseTable
 public class CourseImpl extends AbstractPersistable<DataStore> implements
-Course
+		Course
 
 {
 
@@ -36,24 +36,29 @@ Course
 
 	private final List<StudyResource> resources = new ArrayList<StudyResource>();
 
-	public static void addStudyResources(Course c, List<StudyResource> resources) {
+	public static void addStudyResources(Course c, List<StudyResource> resources)
+	{
 		c.addStudyResources(resources);
 	}
 
-	public CourseImpl() {
+	public CourseImpl()
+	{
 	}
 
-	public CourseImpl(int id, String name) {
+	public CourseImpl(int id, String name)
+	{
 		this(String.valueOf(id), name);
 	}
 
-	public CourseImpl(String id, String name) {
+	public CourseImpl(String id, String name)
+	{
 		this.id = id;
 		this.name = name;
 	}
 
 	@Override
-	public void accept(CompositeVisitor cv) {
+	public void accept(CompositeVisitor cv)
+	{
 		for (StudyResource r : resources)
 			cv.visit(r);
 
@@ -63,19 +68,21 @@ Course
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * com.technion.coolie.studybuddy.models.ICourse#addStudyResource(com.technion
 	 * .coolie.studybuddy.models.StudyResource)
 	 */
 	@Override
-	public void addStudyResource(StudyResource r) {
+	public void addStudyResource(StudyResource r)
+	{
 		resources.add(r);
 		r.setParent(this);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -83,7 +90,8 @@ Course
 		if (getClass() != obj.getClass())
 			return false;
 		CourseImpl other = (CourseImpl) obj;
-		if (id == null) {
+		if (id == null)
+		{
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
@@ -93,42 +101,46 @@ Course
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see com.technion.coolie.studybuddy.models.ICourse#getAllStudyResources()
 	 */
 	@Override
-	public Collection<StudyResource> getAllStudyResources() {
+	public Collection<StudyResource> getAllStudyResources()
+	{
 		return resources;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see com.technion.coolie.studybuddy.models.ICourse#getId()
 	 */
 	@Override
-	public String getId() {
+	public String getId()
+	{
 		return id;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see com.technion.coolie.studybuddy.models.ICourse#getName()
 	 */
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * com.technion.coolie.studybuddy.models.ICourse#getNumStudyItemsRemaining()
 	 */
 	@Override
-	public int getNumStudyItemsRemaining() {
+	public int getNumStudyItemsRemaining()
+	{
 		int total = 0;
 		for (StudyResource sr : resources)
 			total += sr.getRemainingItemsCount();
@@ -138,11 +150,12 @@ Course
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see com.technion.coolie.studybuddy.models.ICourse#getResourceName(int)
 	 */
 	@Override
-	public String getResourceName(int itemPosition) {
+	public String getResourceName(int itemPosition)
+	{
 		if (itemPosition >= resources.size())
 			return "";
 
@@ -151,74 +164,87 @@ Course
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * com.technion.coolie.studybuddy.models.ICourse#getResourceTotalItemCount
 	 * (java.lang.String)
 	 */
 	@Override
-	public int getResourceTotalItemCount(String name) {
-		try {
+	public int getResourceTotalItemCount(String name)
+	{
+		try
+		{
 			return getResourceByName(name).getTotalItemCount();
-		} catch (NoSuchResourceException e) {
+		} catch (NoSuchResourceException e)
+		{
 			return 0;
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * com.technion.coolie.studybuddy.models.ICourse#getStudyItemsDone(java.
 	 * lang.String)
 	 */
 	@Override
-	public List<StudyItem> getStudyItemsDone(String resourceName) {
-		try {
+	public List<StudyItem> getStudyItemsDone(String resourceName)
+	{
+		try
+		{
 			return getResourceByName(resourceName).getDoneItems();
-		} catch (NoSuchResourceException e) {
+		} catch (NoSuchResourceException e)
+		{
 			return Collections.<StudyItem> emptyList();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * com.technion.coolie.studybuddy.models.ICourse#getItems(java.lang.String)
 	 */
 	@Override
-	public List<StudyItem> getItems(String resourceName) {
-		try {
+	public List<StudyItem> getItems(String resourceName)
+	{
+		try
+		{
 			return getResourceByName(resourceName).getItems();
-		} catch (NoSuchResourceException e) {
+		} catch (NoSuchResourceException e)
+		{
 			return Collections.<StudyItem> emptyList();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * com.technion.coolie.studybuddy.models.ICourse#getRemainingItems(java.
 	 * lang.String)
 	 */
 	@Override
-	public List<StudyItem> getRemainingItems(String resourceName) {
-		try {
+	public List<StudyItem> getRemainingItems(String resourceName)
+	{
+		try
+		{
 			return getResourceByName(resourceName).getRemainingItems();
-		} catch (NoSuchResourceException e) {
+		} catch (NoSuchResourceException e)
+		{
 			return Collections.<StudyItem> emptyList();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see com.technion.coolie.studybuddy.models.ICourse#getItemsCount()
 	 */
 	@Override
-	public int getItemsCount() {
+	public int getItemsCount()
+	{
 		int sum = 0;
 		for (StudyResource sr : resources)
 			sum += sr.getTotalItemCount();
@@ -226,55 +252,61 @@ Course
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		return id.hashCode();
 	}
 
 	@Override
-	public void setID(String newCourseId) {
+	public void setID(String newCourseId)
+	{
 		id = newCourseId;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * com.technion.coolie.studybuddy.models.ICourse#setName(java.lang.String)
 	 */
 	@Override
-	public void setName(String courseName) {
+	public void setName(String courseName)
+	{
 		name = courseName;
 		update();
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return String.valueOf(id) + " " + name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * com.technion.coolie.studybuddy.models.ICourse#addStudyResources(java.
 	 * util.Collection)
 	 */
 	@Override
-	public void addStudyResources(Collection<StudyResource> list) {
+	public void addStudyResources(Collection<StudyResource> list)
+	{
 		for (StudyResource r : list)
 			addStudyResource(r);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * com.technion.coolie.studybuddy.models.ICourse#getResourceByName(java.
 	 * lang.String)
 	 */
 	@Override
 	public StudyResource getResourceByName(String name)
-			throws NoSuchResourceException {
+			throws NoSuchResourceException
+	{
 
 		for (StudyResource sr : resources)
 			if (sr.getName().equals(name))
@@ -284,23 +316,27 @@ Course
 	}
 
 	@Override
-	public void setParent(DataStore p) {
+	public void setParent(DataStore p)
+	{
 		return;
 	}
 
 	@Override
-	public DataStore getParent() {
+	public DataStore getParent()
+	{
 		return DataStore.getInstance();
 	}
 
 	@Override
-	public int compareTo(Course another) {
+	public int compareTo(Course another)
+	{
 		return another.getNumStudyItemsRemaining()
 				- getNumStudyItemsRemaining();
 	}
 
 	@Override
-	public Collection<Date> getDoneDates() {
+	public Collection<Date> getDoneDates()
+	{
 		Collection<Date> $ = new ArrayList<Date>();
 
 		for (StudyResource r : resources)
@@ -310,7 +346,8 @@ Course
 	}
 
 	@Override
-	public int getNumOfItemsBehind(int semesterWeek, int totalWeeks) {
+	public int getNumOfItemsBehind(int semesterWeek, int totalWeeks)
+	{
 		int $ = 0;
 
 		for (StudyResource r : resources)
@@ -320,7 +357,8 @@ Course
 	}
 
 	@Override
-	public int getNumOfItemsDue(int semesterWeek, int totalWeeks) {
+	public int getNumOfItemsDue(int semesterWeek, int totalWeeks)
+	{
 		int $ = 0;
 
 		for (StudyResource r : resources)
@@ -330,14 +368,16 @@ Course
 	}
 
 	@Override
-	public void addExam(final ExamDate e) {
+	public void addExam(final ExamDate e)
+	{
 		e.setParent(this);
 		exams.add(e);
 		Collections.sort(exams);
 	}
 
 	@Override
-	public ExamDate getNextExam() throws NoExamsForCourse {
+	public ExamDate getNextExam() throws NoExamsForCourse
+	{
 		if (exams.isEmpty())
 			throw new NoExamsForCourse();
 
@@ -345,33 +385,40 @@ Course
 	}
 
 	@Override
-	public List<ExamDate> getRelevantExams(final Date d) {
+	public List<ExamDate> getRelevantExams(final Date d)
+	{
 		// Arik please check this as well.
-		return Utils.filter(getAllExams(), new Predicate<ExamDate>() {
+		return Utils.filter(getAllExams(), new Predicate<ExamDate>()
+		{
 
 			@Override
-			public boolean isTrueFor(ExamDate item) {
+			public boolean isTrueFor(ExamDate item)
+			{
 				return item.shouldStudy(d);
 			}
 		});
 	}
 
 	@Override
-	public List<ExamDate> getAllExams() {
+	public List<ExamDate> getAllExams()
+	{
 		return exams;
 	}
 
 	@Override
-	public void addExams(List<ExamDate> exams) {
+	public void addExams(List<ExamDate> exams)
+	{
 		for (ExamDate e : exams)
 			addExam(e);
 	}
 
 	@Override
-	public JSONObject toJson() {
+	public JSONObject toJson()
+	{
 		JSONObject object = new JSONObject();
 		JSONArray arrayResources = new JSONArray();
-		try {
+		try
+		{
 			object.put("id", id);
 			object.put("name", name);
 			for (StudyResource resource : resources)
@@ -379,30 +426,36 @@ Course
 			object.put("resources", arrayResources);
 			System.out.println(object);
 			return object;
-		} catch (JSONException e) {
+		} catch (JSONException e)
+		{
 			return null;
 		}
 	}
 
 	@Override
-	public Object fromJson(JSONObject json) {
-		try {
-			String id = json.getString("id");
-			String name = json.getString("name");
-			Course c = new CourseImpl(id, name);
-			if (json.has("resources")) {
-				JSONArray arrayResources = json.getJSONArray("resources");
+	public void fromJson(JSONObject json)
+	{
+		try
+		{
+			json = json.getJSONObject("course");
+			id = json.getString("id");
+			name = json.getString("name");
+			if (json.has("items"))
+			{
+				JSONArray arrayResources = json.getJSONArray("items");
 				List<StudyResource> resources = new ArrayList<StudyResource>();
-				StudyResourceImpl sr = new StudyResourceImpl();
+
 				for (int i = 0; i < arrayResources.length(); i++)
-					resources.add((StudyResource) sr.fromJson(arrayResources
-							.getJSONObject(i)));
-				c.addStudyResources(resources);
+				{
+					StudyResourceImpl sr = new StudyResourceImpl();
+					sr.fromJson(arrayResources.getJSONObject(i));
+					resources.add(sr);
+				}
+				addStudyResources(resources);
 			}
-			return c;
-		} catch (JSONException e) {
-			return null;
+			return;
+		} catch (JSONException e)
+		{
 		}
 	}
-
 }
