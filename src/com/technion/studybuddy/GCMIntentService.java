@@ -35,6 +35,7 @@ import com.technion.studybuddy.GCM.CommonUtilities;
 import com.technion.studybuddy.GCM.GCMAction;
 import com.technion.studybuddy.GCM.ServerUtilities;
 import com.technion.studybuddy.data.DataStore;
+import com.technion.studybuddy.network.JsonUpdater;
 import com.technion.studybuddy.utils.Constants;
 
 /**
@@ -69,8 +70,8 @@ public class GCMIntentService extends GCMBaseIntentService
 			@Override
 			public void execute(Context context, Bundle bundle)
 			{
-				Intent intent = new Intent(Constants.UPDATE_FROM_GCM);
-				context.sendBroadcast(intent);
+				String path = bundle.getString("callback");
+				new JsonUpdater(context, "course.status").execute(path);
 			}
 		});
 	}
@@ -153,15 +154,11 @@ public class GCMIntentService extends GCMBaseIntentService
 	{
 		Log.i(GCMIntentService.TAG, "Device unregistered");
 		if (GCMRegistrar.isRegisteredOnServer(context))
-		{
 			ServerUtilities.unregister(context, registrationId);
-
-		} else
-		{
+		else
 			// This callback results from the call to unregister made on
 			// ServerUtilities when the registration to the server failed.
 			Log.i(GCMIntentService.TAG, "Ignoring unregister callback");
-		}
 	}
 
 }

@@ -4,7 +4,7 @@ import android.provider.BaseColumns;
 
 public class Constants
 {
-	public static final boolean debug = false;
+	public static final boolean debug = true;
 	public static final String PrefsContext = "prefs";
 	public static final String REGID_PREFS = "regid";
 	public static final String IS_REGISTERED = "isRegistered";

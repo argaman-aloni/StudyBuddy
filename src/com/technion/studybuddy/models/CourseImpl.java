@@ -77,7 +77,8 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 	@Override
 	public void addStudyResource(StudyResource r)
 	{
-		resources.add(r);
+		if (!resources.contains(r))
+			resources.add(r);
 		r.setParent(this);
 	}
 

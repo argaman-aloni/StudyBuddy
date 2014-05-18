@@ -29,6 +29,7 @@ import com.technion.studybuddy.models.CourseImpl;
 import com.technion.studybuddy.models.ExamDate;
 import com.technion.studybuddy.models.ExamDateImpl;
 import com.technion.studybuddy.models.Semester;
+import com.technion.studybuddy.models.StudyItem;
 import com.technion.studybuddy.models.StudyResource;
 import com.technion.studybuddy.models.WorkStats;
 import com.technion.studybuddy.network.CourseGrabber;
@@ -352,5 +353,21 @@ public class DataStore extends Observable implements Composite
 		setChanged();
 		notifyObservers(DataStore.CLASS_LIST);
 
+	}
+
+	public void updateCourseFromJson(JSONObject object) throws JSONException
+	{
+		JSONArray array = object.getJSONArray("items");
+		List<String> names = new ArrayList<String>();
+		for (int i = 0; i < array.length(); i++)
+			names.add(array.getJSONObject(i).getString("name"));
+		List<StudyItem> items = DataStore.getInstance()
+				.getCoursePresenter(object.getString("id")).getAllItems();
+		for (StudyItem studyItem : items)
+			if (names.contains(studyItem.getLabel()))
+				studyItem.setDone();
+
+		setChanged();
+		notifyObservers(DataStore.CLASS_LIST);
 	}
 }
