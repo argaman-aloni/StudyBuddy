@@ -160,6 +160,12 @@ public class CoursePresenter extends Observable
 		return allItems;
 	}
 
+	public void clearDoneState()
+	{
+		for (StudyItem studyItem : getAllItems())
+			studyItem.setUnDone();
+	}
+
 	public Date getLastDateStudied()
 	{
 		List<Date> doneDates = new ArrayList<Date>(course.getDoneDates());

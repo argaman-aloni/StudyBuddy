@@ -37,4 +37,6 @@ public interface StudyItem extends Persistable<StudyResource>,
 
 	void setDone();
 
+	void setUnDone();
+
 }

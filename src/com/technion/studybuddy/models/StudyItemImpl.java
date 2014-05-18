@@ -162,6 +162,14 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 	}
 
 	@Override
+	public void setUnDone()
+	{
+		done = false;
+		dateDone = null;
+		update();
+	}
+
+	@Override
 	public StudyResourceImpl getParent()
 	{
 		return parent;

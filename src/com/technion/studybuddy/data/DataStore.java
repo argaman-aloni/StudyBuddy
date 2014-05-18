@@ -358,6 +358,8 @@ public class DataStore extends Observable implements Composite
 	public void updateCourseFromJson(JSONObject object) throws JSONException
 	{
 		JSONArray array = object.getJSONArray("items");
+		DataStore.getInstance().getCoursePresenter(object.getString("id"))
+				.clearDoneState();
 		List<String> names = new ArrayList<String>();
 		for (int i = 0; i < array.length(); i++)
 			names.add(array.getJSONObject(i).getString("name"));
