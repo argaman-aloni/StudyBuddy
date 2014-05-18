@@ -49,5 +49,6 @@
         <item>#228b22</item>
     </string-array>
         <string name="personal_progress">Personal Progress</string>
+        <string name="no_links_message">No links to display for this item yet...</string>
 
 </resources>
