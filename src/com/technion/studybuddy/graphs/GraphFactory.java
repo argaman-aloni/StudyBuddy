@@ -11,6 +11,7 @@ import org.achartengine.chart.BarChart.Type;
 import android.content.Context;
 import android.view.View;
 
+import com.technion.studybuddy.utils.Constants;
 
 public class GraphFactory
 {
@@ -49,8 +50,8 @@ public class GraphFactory
 		Map<String, Integer> name2progress = new LinkedHashMap<String, Integer>();
 
 		name2progress.put("HWs", Integer.valueOf(6));
-		name2progress.put("Tutorials", Integer.valueOf(4));
-		name2progress.put("Lectures", Integer.valueOf(5));
+		name2progress.put(Constants.TUTORIAL, Integer.valueOf(4));
+		name2progress.put(Constants.LECTURE, Integer.valueOf(5));
 		name2progress.put("Video", Integer.valueOf(9));
 
 		return getCourseProgressGraph(ctx, name2progress, CURRENT_WEEK,

@@ -121,7 +121,7 @@ public class WorkStats extends Observable
 			@Override
 			public void run()
 			{
-				if (it.getParent().getName().equals("Lectures"))
+				if (it.getParent().getName().equals(Constants.LECTURE))
 					rescourseToUpdate = 0;
 				else
 					rescourseToUpdate = 1;
@@ -139,7 +139,7 @@ public class WorkStats extends Observable
 			@Override
 			public void run()
 			{
-				if (it.getParent().getName().equals("Lectures"))
+				if (it.getParent().getName().equals(Constants.LECTURE))
 					rescourseToUpdate = 0;
 				else
 					rescourseToUpdate = 1;
@@ -176,7 +176,7 @@ public class WorkStats extends Observable
 			for (StudyItem item : course.getItems(course.getResourceName(i)))
 			{
 				Log.d("loadChartsStats", "i'm starting to load the data.");
-				if (item.getParent().getName().equals("Lectures"))
+				if (item.getParent().getName().equals(Constants.LECTURE))
 					rescourseToUpdate = 0;
 				else
 					rescourseToUpdate = 1;

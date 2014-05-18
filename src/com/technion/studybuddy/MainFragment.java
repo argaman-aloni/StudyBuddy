@@ -46,6 +46,7 @@ import com.technion.studybuddy.exceptions.NoSuchResourceException;
 import com.technion.studybuddy.graphs.GraphFactory;
 import com.technion.studybuddy.models.Courses;
 import com.technion.studybuddy.models.StudyItem;
+import com.technion.studybuddy.utils.Constants;
 
 /**
  * @author Argaman
@@ -90,7 +91,7 @@ public class MainFragment extends Fragment implements Observer
 		try
 		{
 			List<StudyItem> lectureItems = DataStore.coursesById.get("123456")
-					.getResourceByName("Lectures").getItems();
+					.getResourceByName(Constants.LECTURE).getItems();
 
 			lectureItems.get(3).toggleDone();
 			lectureItems.get(0).toggleDone();
@@ -103,7 +104,7 @@ public class MainFragment extends Fragment implements Observer
 			lectureItems.get(4).setLabel("try to long press to open menu");
 
 			List<StudyItem> tutorialItems = DataStore.coursesById.get("123456")
-					.getResourceByName("Tutorials").getItems();
+					.getResourceByName(Constants.TUTORIAL).getItems();
 			tutorialItems.get(3).toggleDone();
 			tutorialItems.get(0).toggleDone();
 

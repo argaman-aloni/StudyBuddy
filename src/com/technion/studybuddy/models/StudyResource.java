@@ -9,10 +9,8 @@ import com.technion.studybuddy.exceptions.NoItemsLeftException;
 import com.technion.studybuddy.persisters.Persistable;
 
 public interface StudyResource extends Composite, Persistable<Course>,
-		JsonTranslator {
-
-	public static final String LECTURES = "Lectures";
-	public static final String TUTORIALS = "Tutorials";
+		JsonTranslator
+{
 
 	public void addItem(StudyItem item);
 

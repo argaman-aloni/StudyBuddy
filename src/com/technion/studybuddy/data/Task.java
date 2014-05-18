@@ -5,10 +5,9 @@ public class Task
 	String courseName;
 	String type;
 	int number;
-	
-	public static final String TypeLecure = "lecture";
+
 	public static final String TypeVideo = "video";
-	public static final String TypeTutorial = "tutorial";
+
 	/**
 	 * @param courseName
 	 * @param type

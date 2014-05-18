@@ -18,6 +18,7 @@ import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.NoExamsForCourse;
 import com.technion.studybuddy.exceptions.NoSuchResourceException;
 import com.technion.studybuddy.persisters.AbstractPersistable;
+import com.technion.studybuddy.utils.Constants;
 import com.technion.studybuddy.utils.Utils;
 import com.technion.studybuddy.utils.Utils.Predicate;
 
@@ -457,16 +458,16 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 						links.add(jsonLinks.getString(j));
 					String name = studyItem.getString("name");
 					String type = studyItem.getString("type");
-					if (type.equals("Tutorial"))
+					if (type.equals(Constants.TUTORIAL))
 						tutorialItems.add(new StudyItemImpl(tutorialItems
 								.size() + 1, name));
-					else if (type.equals("Lecture"))
+					else if (type.equals(Constants.LECTURE))
 						lectureItems.add(new StudyItemImpl(
 								lectureItems.size() + 1, name));
 				}
-				StudyResource lectures = new StudyResourceImpl("Lecture",
+				StudyResource lectures = new StudyResourceImpl(Constants.LECTURE,
 						lectureItems);
-				StudyResource tutorials = new StudyResourceImpl("Tutorial",
+				StudyResource tutorials = new StudyResourceImpl(Constants.TUTORIAL,
 						tutorialItems);
 				addStudyResource(lectures);
 				addStudyResource(tutorials);

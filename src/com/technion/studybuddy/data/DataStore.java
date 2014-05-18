@@ -38,6 +38,7 @@ import com.technion.studybuddy.presenters.CourseListPresenter;
 import com.technion.studybuddy.presenters.CoursePresenter;
 import com.technion.studybuddy.presenters.EditCoursePresenter;
 import com.technion.studybuddy.utils.Action;
+import com.technion.studybuddy.utils.Constants;
 
 public class DataStore extends Observable implements Composite
 {
@@ -219,9 +220,9 @@ public class DataStore extends Observable implements Composite
 		Course c = new CourseImpl(newCourseId, courseName);
 
 		StudyResource lectures = srFactory.createWithNumItems(
-				StudyResource.LECTURES, numLectures);
+				Constants.LECTURE, numLectures);
 		StudyResource tutorials = srFactory.createWithNumItems(
-				StudyResource.TUTORIALS, numTutorials);
+				Constants.TUTORIAL, numTutorials);
 
 		c.addStudyResource(lectures);
 		c.addStudyResource(tutorials);

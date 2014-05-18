@@ -45,5 +45,7 @@ public class Constants
 	public static final String OBJECT_TYPE_ADDON = "objectType";
 	public static final String COURSE_ALL = "course.all";
 	public static String SYNC_REQUEST = "sync";
+	public static final String TUTORIAL = "Tutorial";
+	public static final String LECTURE = "Lecture";
 
 }

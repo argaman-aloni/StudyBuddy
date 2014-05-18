@@ -18,13 +18,16 @@ import com.technion.studybuddy.R;
 import com.technion.studybuddy.Adapters.TaskAdapter;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.presenters.CoursePresenter;
+import com.technion.studybuddy.utils.Constants;
 import com.wvr.widget.TextProgressBar;
 
 public class CourseOverViewFragment extends Fragment implements Observer,
-MessageBar.OnMessageClickListener {
+		MessageBar.OnMessageClickListener
+{
 	public static final String courseNumberArg = "courseNameArg";
 
-	public static CourseOverViewFragment newInstance(String courseNumber) {
+	public static CourseOverViewFragment newInstance(String courseNumber)
+	{
 
 		CourseOverViewFragment fragment = new CourseOverViewFragment();
 		Bundle args = new Bundle();
@@ -46,15 +49,16 @@ MessageBar.OnMessageClickListener {
 	private CoursePresenter presenter;
 	private TextProgressBar tutorialProgress;
 
-	private void drawGraph() {
+	private void drawGraph()
+	{
 
-		int done = presenter.getDoneItemsCount("Lectures");
-		int total = presenter.getTotalItemCount("Lectures");
+		int done = presenter.getDoneItemsCount(Constants.LECTURE);
+		int total = presenter.getTotalItemCount(Constants.LECTURE);
 		lectureProgress.setProgress(total == 0 ? 0 : 100 * done / total);
 		lectureProgress.setText(done + "/" + total);
 
-		done = presenter.getDoneItemsCount("Tutorials");
-		total = presenter.getTotalItemCount("Tutorials");
+		done = presenter.getDoneItemsCount(Constants.TUTORIAL);
+		total = presenter.getTotalItemCount(Constants.TUTORIAL);
 		tutorialProgress.setProgress(total == 0 ? 0 : 100 * done / total);
 		tutorialProgress.setText(done + "/" + total);
 
@@ -62,11 +66,12 @@ MessageBar.OnMessageClickListener {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see android.support.v4.app.Fragment#onCreate(android.os.Bundle)
 	 */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		DataStore.getInstance().addObserver(this);
 		if (getArguments() != null)
@@ -76,14 +81,15 @@ MessageBar.OnMessageClickListener {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater,
 	 * android.view.ViewGroup, android.os.Bundle)
 	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+			Bundle savedInstanceState)
+	{
 		presenter = DataStore.getInstance().getCoursePresenter(courseNumber);
 		fragmentView = inflater.inflate(R.layout.stb_view_course_main,
 				container, false);
@@ -144,7 +150,8 @@ MessageBar.OnMessageClickListener {
 	}
 
 	@Override
-	public void onMessageClick(Parcelable token) {
+	public void onMessageClick(Parcelable token)
+	{
 		Bundle b = (Bundle) token;
 		int id = b.getInt("id");
 		adapter.restore(id);
@@ -152,7 +159,8 @@ MessageBar.OnMessageClickListener {
 	}
 
 	@Override
-	public void update(Observable observable, Object data) {
+	public void update(Observable observable, Object data)
+	{
 		if (fragmentView != null)
 			drawGraph();
 	}
