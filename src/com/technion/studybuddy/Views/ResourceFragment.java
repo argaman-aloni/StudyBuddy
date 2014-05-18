@@ -1,6 +1,8 @@
 package com.technion.studybuddy.Views;
 
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -17,7 +19,7 @@ import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.NoSuchResourceException;
 import com.technion.studybuddy.models.StudyResource;
 
-public class ResourceFragment extends Fragment // implements
+public class ResourceFragment extends Fragment implements Observer
 // CrossGesture
 {
 
@@ -138,7 +140,38 @@ public class ResourceFragment extends Fragment // implements
 	public void onDetach()
 	{
 		super.onDetach();
+
 		// mListener = null;
+	}
+
+	@Override
+	public void update(Observable observable, Object data)
+	{
+		resourceAdapter.notifyDataSetChanged();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.support.v4.app.Fragment#onPause()
+	 */
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		DataStore.getInstance().deleteObserver(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.support.v4.app.Fragment#onResume()
+	 */
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		DataStore.getInstance().addObserver(this);
 	}
 
 }
