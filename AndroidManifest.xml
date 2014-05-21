@@ -15,7 +15,6 @@
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -40,6 +39,16 @@
 
                 <category android:name="com.technion.studybuddy.recognizedtest" />
             </intent-filter>
+        
+        </receiver>
+        <receiver android:name="STBWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget_next_items" />
         </receiver>
 
         <service android:name="GCMIntentService" />
@@ -93,8 +102,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.technion.studybuddy.MainActivity" />
         </activity>
-        <receiver android:name="TaskReciever"></receiver>
-        <activity android:name=".Views.LinksViewActivity"></activity>
+
+        <receiver android:name="TaskReciever" >
+        </receiver>
+
+        <activity android:name=".Views.LinksViewActivity" >
+        </activity>
     </application>
 
 </manifest>

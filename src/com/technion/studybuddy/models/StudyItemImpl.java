@@ -22,8 +22,7 @@ import com.technion.studybuddy.utils.OnEventListener;
 
 @DatabaseTable(tableName = "study_items")
 public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
-		StudyItem
-{
+		StudyItem {
 	@DatabaseField(generatedId = true)
 	private UUID id;
 
@@ -48,13 +47,11 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 	final OnEvent onDone = new OnEventListener();
 	private final OnEvent onUnDone = new OnEventListener();
 
-	public StudyItemImpl()
-	{
+	public StudyItemImpl() {
 
 	}
 
-	public StudyItemImpl(int num, String label)
-	{
+	public StudyItemImpl(int num, String label) {
 		this.num = num;
 		this.label = label;
 		done = false;
@@ -62,8 +59,7 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 	}
 
 	@Override
-	public int compareTo(StudyItem another)
-	{
+	public int compareTo(StudyItem another) {
 		return num - another.getNum();
 	}
 
@@ -73,22 +69,19 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 	 * @see com.technion.coolie.studybuddy.models.StudyItem#getLabel()
 	 */
 	@Override
-	public String getLabel()
-	{
+	public String getLabel() {
 		return label;
 	}
 
 	@Override
-	public List<String> getLinks()
-	{
+	public List<String> getLinks() {
 		if (links != null)
 			return Arrays.asList(links.split(" "));
 		return new ArrayList<String>(); // TODO change to Lists.newLinkedList
 	}
 
 	@Override
-	public void setLinks(List<String> _links)
-	{
+	public void setLinks(List<String> _links) {
 		StringBuilder builder = new StringBuilder();
 		for (String link : _links)
 			builder.append(link).append(" ");
@@ -96,14 +89,12 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 	}
 
 	@Override
-	public void addLink(String link)
-	{
+	public void addLink(String link) {
 		links = links + " " + link;
 	}
 
 	@Override
-	public void removeLink(String link)
-	{
+	public void removeLink(String link) {
 		links.replace(" " + link, "");
 	}
 
@@ -113,8 +104,7 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 	 * @see com.technion.coolie.studybuddy.models.StudyItem#getNum()
 	 */
 	@Override
-	public int getNum()
-	{
+	public int getNum() {
 		return num;
 	}
 
@@ -124,8 +114,7 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 	 * @see com.technion.coolie.studybuddy.models.StudyItem#isDone()
 	 */
 	@Override
-	public boolean isDone()
-	{
+	public boolean isDone() {
 		return (done == true);
 	}
 
@@ -135,8 +124,7 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 	 * @see com.technion.coolie.studybuddy.models.StudyItem#toggleDone()
 	 */
 	@Override
-	public void toggleDone()
-	{
+	public void toggleDone() {
 		boolean wasDone = done;
 		done = !done;
 
@@ -154,43 +142,37 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 	}
 
 	@Override
-	public void setDone()
-	{
+	public void setDone() {
 		done = true;
 		dateDone = new Date();
 		update();
 	}
 
 	@Override
-	public void setUnDone()
-	{
+	public void setUnDone() {
 		done = false;
 		dateDone = null;
 		update();
 	}
 
 	@Override
-	public StudyResourceImpl getParent()
-	{
+	public StudyResourceImpl getParent() {
 		return parent;
 	}
 
 	@Override
-	public void setParent(StudyResource sr)
-	{
+	public void setParent(StudyResource sr) {
 		parent = (StudyResourceImpl) sr;
 	}
 
 	@Override
-	public void setLabel(String newName)
-	{
+	public void setLabel(String newName) {
 		label = newName;
 		update();
 	}
 
 	@Override
-	public Date getDoneDate() throws ItemNotDoneError
-	{
+	public Date getDoneDate() throws ItemNotDoneError {
 		if (dateDone == null)
 			throw new ItemNotDoneError();
 
@@ -198,25 +180,21 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 	}
 
 	@Override
-	public void onDone(Action a)
-	{
+	public void onDone(Action a) {
 		onDone.register(a);
 
 	}
 
 	@Override
-	public void onUnDone(Action a)
-	{
+	public void onUnDone(Action a) {
 		onUnDone.register(a);
 	}
 
 	@Override
-	public JSONObject toJson()
-	{
+	public JSONObject toJson() {
 		JSONObject object = new JSONObject();
 		new JSONArray();
-		try
-		{
+		try {
 			object.put("id", getParent().getParent().getId());
 			object.put("label", label);
 			object.put("type", getParent().getName());
@@ -226,17 +204,14 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 			object.put(Constants.LINKS_JSON, linksArray);
 			System.out.println(object);
 			return object;
-		} catch (JSONException e)
-		{
+		} catch (JSONException e) {
 			return null;
 		}
 	}
 
 	@Override
-	public void fromJson(JSONObject json)
-	{
-		try
-		{
+	public void fromJson(JSONObject json) {
+		try {
 			JSONArray links = json.getJSONArray(Constants.LINKS_JSON);
 			List<String> linksList = new ArrayList<>();
 			for (int i = 0; i < links.length(); i++)
@@ -250,8 +225,12 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 			if (json.getBoolean("done"))
 				toggleDone();
 			return;
-		} catch (JSONException e)
-		{
+		} catch (JSONException e) {
 		}
+	}
+
+	@Override
+	public String getItemType() {
+		return getParent().getName();
 	}
 }
