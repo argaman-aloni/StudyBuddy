@@ -12,25 +12,18 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
+            android:layout_gravity="center"
             android:text="Course Name"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/card_title_text" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:text="Course Number"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/card_light_text" />
+     
     </LinearLayout>
 
-    <ListView
+    <com.technion.studybuddy.Views.FoldingList
         android:id="@+id/listView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +31,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:padding="4dp" >
-    </ListView>
+    </com.technion.studybuddy.Views.FoldingList>
 
     <TextView
         android:id="@+id/links_empty_tv"

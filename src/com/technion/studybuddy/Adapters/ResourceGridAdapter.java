@@ -27,13 +27,13 @@ import com.technion.studybuddy.R;
 import com.technion.studybuddy.Views.StrikeThroughTextView;
 import com.technion.studybuddy.models.StudyItem;
 
+public class ResourceGridAdapter extends BaseAdapter
+{
 
-public class ResourceGridAdapter extends BaseAdapter {
+	private final LayoutInflater mInflater;
 
-	private LayoutInflater mInflater;
-
-	private List<StudyItem> items;
-	private Activity activity;
+	private final List<StudyItem> items;
+	private final Activity activity;
 
 	// private AnimationSet inAnimation;
 	//
@@ -42,27 +42,31 @@ public class ResourceGridAdapter extends BaseAdapter {
 	/**
 	 * @param context
 	 */
-	public ResourceGridAdapter(Activity activity, List<StudyItem> list) {
+	public ResourceGridAdapter(Activity activity, List<StudyItem> list)
+	{
 		super();
 		this.activity = activity;
 		mInflater = (LayoutInflater) activity
-						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		items = list;
 
 	}
 
 	@Override
-	public int getCount() {
+	public int getCount()
+	{
 		return items.size();
 	}
 
 	@Override
-	public Object getItem(int position) {
+	public Object getItem(int position)
+	{
 		return items.get(position);
 	}
 
 	@Override
-	public long getItemId(int position) {
+	public long getItemId(int position)
+	{
 		return 0;
 	}
 
@@ -71,12 +75,13 @@ public class ResourceGridAdapter extends BaseAdapter {
 	{
 		StrikeThroughTextView textView = null;
 		ImageView menuView = null;
-		if (convertView == null) {
+		if (convertView == null)
+		{
 			ViewHolder holder = new ViewHolder();
 			convertView = mInflater.inflate(R.layout.stb_view_single_resource,
-							null);
+					null);
 			textView = (StrikeThroughTextView) convertView
-							.findViewById(R.id.stb_strike_text);
+					.findViewById(R.id.stb_strike_text);
 			menuView = (ImageView) convertView.findViewById(R.id.stb_overflow);
 			menuView.setVisibility(View.GONE);
 			showMenu(menuView);
@@ -84,8 +89,10 @@ public class ResourceGridAdapter extends BaseAdapter {
 			holder.imageView = menuView;
 			convertView.setTag(holder);
 			textView.setOnClickListener(new StudyItemClicked(position));
+			textView.setTag(convertView);
 
-		} else {
+		} else
+		{
 			textView = ((ViewHolder) convertView.getTag()).textView;
 			textView.setText(getItem(position).toString());
 			menuView = ((ViewHolder) convertView.getTag()).imageView;
@@ -93,7 +100,7 @@ public class ResourceGridAdapter extends BaseAdapter {
 		final StrikeThroughTextView finalTextView = textView;
 		menuView.setOnClickListener(new OnMenuClick(finalTextView, position));
 		OnLongClickListenerImplementation overflowhandler = new OnLongClickListenerImplementation(
-						menuView);
+				menuView);
 		convertView.setOnLongClickListener(overflowhandler);
 		textView.setOnLongClickListener(overflowhandler);
 		textView.setStriked(items.get(position).isDone());
@@ -102,7 +109,8 @@ public class ResourceGridAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	public void removeItem(View view) {
+	public void removeItem(View view)
+	{
 		String val = ((StrikeThroughTextView) view).getText().toString();
 		items.remove(val);
 		notifyDataSetChanged();
@@ -115,19 +123,22 @@ public class ResourceGridAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	private void showMenu(final ImageView menuView) {
+	private void showMenu(final ImageView menuView)
+	{
 		Animation inAnimation = AnimationUtils.loadAnimation(activity,
-						R.anim.stb_in);
+				R.anim.stb_in);
 		menuView.setAnimation(inAnimation);
 		menuView.setVisibility(View.VISIBLE);
 
 		Handler handler = new Handler();
-		handler.postDelayed(new Runnable() {
+		handler.postDelayed(new Runnable()
+		{
 
 			@Override
-			public void run() {
+			public void run()
+			{
 				AnimationSet outAnimation = (AnimationSet) AnimationUtils
-								.loadAnimation(activity, R.anim.stb_out);
+						.loadAnimation(activity, R.anim.stb_out);
 				// Hide your View after 3 seconds
 				menuView.setVisibility(View.GONE);
 				menuView.setAnimation(outAnimation);
@@ -135,104 +146,119 @@ public class ResourceGridAdapter extends BaseAdapter {
 		}, 3000);
 	}
 
-	private final class StudyItemClicked implements OnClickListener {
+	private final class StudyItemClicked implements OnClickListener
+	{
 		private final int position;
 
-		private StudyItemClicked(int position) {
+		private StudyItemClicked(int position)
+		{
 			this.position = position;
 		}
 
 		@Override
-		public void onClick(final View v) {
+		public void onClick(final View v)
+		{
+			Animation bounceAnimation = AnimationUtils.loadAnimation(activity,
+					R.anim.bounce);
 
 			StudyItem item = items.get(position);
-
 			item.toggleDone();
 			((StrikeThroughTextView) v).setStriked(item.isDone());
 
 			activity.setResult(Activity.RESULT_OK);
-
+			((View) v.getTag()).startAnimation(bounceAnimation);
 		}
 	}
 
-	private class ViewHolder {
+	private class ViewHolder
+	{
 		public StrikeThroughTextView textView;
 		public ImageView imageView;
 	}
 
 	private final class OnLongClickListenerImplementation implements
-					OnLongClickListener
+			OnLongClickListener
 	{
 		// private final StrikeThroughTextView finalTextView;
 		// private int position;
-		private ImageView menuView;
+		private final ImageView menuView;
 
-		private OnLongClickListenerImplementation(ImageView menuView) {
+		private OnLongClickListenerImplementation(ImageView menuView)
+		{
 			// this.finalTextView = finalTextView;
 			// this.position = position;
 			this.menuView = menuView;
 		}
 
 		@Override
-		public boolean onLongClick(final View v) {
+		public boolean onLongClick(final View v)
+		{
 			showMenu(menuView);
 			return true;
 		}
 	}
 
-	private final class OnMenuClick implements OnClickListener {
+	private final class OnMenuClick implements OnClickListener
+	{
 		private final StrikeThroughTextView finalTextView;
 		private final int position;
 
-		private OnMenuClick(StrikeThroughTextView finalTextView, int position) {
+		private OnMenuClick(StrikeThroughTextView finalTextView, int position)
+		{
 			this.finalTextView = finalTextView;
 			this.position = position;
 		}
 
 		@Override
-		public void onClick(final View v) {
+		public void onClick(final View v)
+		{
 			PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
-			popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener()
+			{
 
 				@Override
-				public boolean onMenuItemClick(MenuItem item) {
-					if (item.getItemId() == R.id.stb_rename) {
-						final View view = LayoutInflater
-										.from(v.getContext())
-										.inflate(R.layout.stb_view_resourse_rename,
-														null);
+				public boolean onMenuItemClick(MenuItem item)
+				{
+					if (item.getItemId() == R.id.stb_rename)
+					{
+						final View view = LayoutInflater.from(v.getContext())
+								.inflate(R.layout.stb_view_resourse_rename,
+										null);
 						AlertDialog.Builder builder = new Builder(v
-										.getContext());
+								.getContext());
 						builder.setTitle("Edit Item").setView(view)
-										.setCancelable(true);
+								.setCancelable(true);
 						builder.setPositiveButton("Save",
-										new AlertDialog.OnClickListener() {
+								new AlertDialog.OnClickListener()
+								{
 
-											@Override
-											public void onClick(DialogInterface dialog,
-																int which)
-											{
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which)
+									{
 
-												updateResourceName(
-																((EditText) view.findViewById(R.id.stb_resourse_rename_name))
-																				.getText()
-																				.toString(),
-																v, position);
-												dialog.dismiss();
-											}
-										});
+										updateResourceName(
+												((EditText) view
+														.findViewById(R.id.stb_resourse_rename_name))
+														.getText().toString(),
+												v, position);
+										dialog.dismiss();
+									}
+								});
 						builder.setNegativeButton("Cancel",
-										new AlertDialog.OnClickListener() {
+								new AlertDialog.OnClickListener()
+								{
 
-											@Override
-											public void onClick(DialogInterface dialog,
-																int which)
-											{
-												dialog.dismiss();
-											}
-										});
-						((EditText) view.findViewById(R.id.stb_resourse_rename_name))
-										.setText(finalTextView.getText());
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which)
+									{
+										dialog.dismiss();
+									}
+								});
+						((EditText) view
+								.findViewById(R.id.stb_resourse_rename_name))
+								.setText(finalTextView.getText());
 						builder.create().show();
 						return true;
 					}
@@ -245,7 +271,8 @@ public class ResourceGridAdapter extends BaseAdapter {
 		}
 	}
 
-	public interface CrossGesture {
+	public interface CrossGesture
+	{
 		public void remove(View view);
 	}
 

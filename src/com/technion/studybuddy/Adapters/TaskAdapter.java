@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,8 @@ import com.technion.studybuddy.listeners.OverviewItemClickedListener;
 import com.technion.studybuddy.models.StudyItem;
 import com.technion.studybuddy.presenters.CoursePresenter;
 
-public class TaskAdapter extends BaseAdapter {
+public class TaskAdapter extends BaseAdapter
+{
 	private final LayoutInflater mInflater;
 
 	// private boolean selectMode;
@@ -26,12 +28,13 @@ public class TaskAdapter extends BaseAdapter {
 	private final List<StudyItem> items;
 	private final Map<Integer, StudyItem> deleted;
 
-	private final Context context;
+	private final Activity context;
 
 	/**
 	 * @param context
 	 */
-	public TaskAdapter(Context context, String courseNumber) {
+	public TaskAdapter(Activity context, String courseNumber)
+	{
 		super();
 		deleted = new HashMap<Integer, StudyItem>();
 		presenter = DataStore.getInstance().getCoursePresenter(courseNumber);
@@ -42,26 +45,31 @@ public class TaskAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public int getCount() {
+	public int getCount()
+	{
 		// return DataStore.getTaskSize();
 		return items.size();
 	}
 
 	@Override
-	public Object getItem(int position) {
+	public Object getItem(int position)
+	{
 		return items.get(position);
 	}
 
 	@Override
-	public long getItemId(int position) {
+	public long getItemId(int position)
+	{
 
 		return 0;
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View convertView, ViewGroup parent)
+	{
 		StrikeThroughView view = null;
-		if (convertView == null) {
+		if (convertView == null)
+		{
 			view = (StrikeThroughView) mInflater.inflate(
 					R.layout.stb_view_task, null);
 
@@ -77,14 +85,16 @@ public class TaskAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	public void remove(int item) {
+	public void remove(int item)
+	{
 		StudyItem studyItem = items.remove(item);
 		studyItem.toggleDone();
 		deleted.put(item, studyItem);
 		notifyDataSetChanged();
 	}
 
-	public void restore(int id) {
+	public void restore(int id)
+	{
 		StudyItem studyItem = deleted.remove(id);
 		studyItem.toggleDone();
 		items.add(studyItem);
