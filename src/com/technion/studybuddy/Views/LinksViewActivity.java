@@ -4,12 +4,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnPreDrawListener;
-import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.BounceInterpolator;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -69,14 +71,9 @@ public class LinksViewActivity extends StudyBuddyActivity
 					layout.setTranslationX(leftDelta);
 					layout.setTranslationY(topDelta);
 
-					layout.animate()
-							.setDuration(500)
-							.scaleX(1)
-							.scaleY(1)
-							.translationX(0)
-							.translationY(0)
-							.setInterpolator(
-									new AccelerateDecelerateInterpolator())
+					layout.animate().setDuration(500).scaleX(1).scaleY(1)
+							.translationX(0).translationY(0)
+							.setInterpolator(new BounceInterpolator())
 							.withEndAction(new Runnable()
 							{
 
@@ -148,13 +145,27 @@ public class LinksViewActivity extends StudyBuddyActivity
 		 * android.view.ViewGroup)
 		 */
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent)
+		public View getView(final int position, View convertView,
+				ViewGroup parent)
 		{
 			if (convertView == null)
-				convertView = new TextView(LinksViewActivity.this);
-			((TextView) convertView).setText(getItem(position).toString());
+				convertView = new FontFitTextView(LinksViewActivity.this);
+			String[] parts = getItem(position).toString().split("/");
+			((FontFitTextView) convertView).setText(parts[parts.length - 1]);
+			((FontFitTextView) convertView).setTextSize(50);
+			convertView.setOnClickListener(new OnClickListener()
+			{
+
+				@Override
+				public void onClick(View v)
+				{
+					Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(Uri.parse(getItem(position).toString()));
+					v.getContext().startActivity(intent);
+
+				}
+			});
 			return convertView;
 		}
-
 	}
 }

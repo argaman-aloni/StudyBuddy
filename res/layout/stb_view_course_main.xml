@@ -103,7 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/stb_lecturesProgress"
-        android:numColumns="1">
+        android:numColumns="@integer/stb_num_of_columns">
     </com.technion.studybuddy.Views.NowLayout>
 
 </RelativeLayout>
