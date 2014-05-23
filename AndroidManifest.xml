@@ -71,14 +71,14 @@
                 android:value="com.technion.studybuddy.MainActivity" />
         </activity>
         <activity
-            android:name="com.technion.studybuddy.Views.CourseActivity"
+            android:name="com.technion.studybuddy.Views.Activities.CourseActivity"
             android:parentActivityName="com.technion.studybuddy.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.technion.studybuddy.MainActivity" />
         </activity>
         <activity
-            android:name="com.technion.studybuddy.Views.EditCourse"
+            android:name="com.technion.studybuddy.Views.Activities.EditCourse"
             android:label="@string/stb_title_activity_edit_course"
             android:parentActivityName="com.technion.studybuddy.MainActivity" >
             <meta-data
@@ -86,11 +86,11 @@
                 android:value="com.technion.studybuddy.MainActivity" />
         </activity>
         <activity
-            android:name="com.technion.studybuddy.Views.StbSettingsActivity"
+            android:name="com.technion.studybuddy.Views.Activities.StbSettingsActivity"
             android:parentActivityName="com.technion.studybuddy.MainActivity" >
         </activity>
         <activity
-            android:name="com.technion.studybuddy.Views.CreateReviewPointActivity"
+            android:name="com.technion.studybuddy.Views.Activities.CreateReviewPointActivityintActivity"
             android:label="@string/stb_title_activity_create_review_point"
             android:parentActivityName="com.technion.studybuddy.MainActivity" >
             <meta-data
@@ -110,9 +110,9 @@
 
       
         <activity
-            android:name="com.technion.studybuddy.Views.LinksViewActivity"
+            android:name="com.technion.studybuddy.Views.Activities.LinksViewActivity"
             android:label="@string/title_activity_links_view"
-            android:parentActivityName="com.technion.studybuddy.Views.CourseActivity" >
+            android:parentActivityName="com.technion.studybuddy.Views.Activities.CourseActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.technion.studybuddy.Views.CourseActivity" />

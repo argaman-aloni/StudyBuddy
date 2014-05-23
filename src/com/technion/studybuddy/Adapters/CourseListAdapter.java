@@ -17,7 +17,7 @@ import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.objects.RecyclableCard;
 import com.technion.studybuddy.R;
 import com.technion.studybuddy.Views.AnimatedCardUI;
-import com.technion.studybuddy.Views.CourseActivity;
+import com.technion.studybuddy.Views.Activities.CourseActivity;
 import com.technion.studybuddy.Views.cards.CourseOverviewCard;
 import com.technion.studybuddy.Views.cards.ExamCard;
 import com.technion.studybuddy.Views.cards.ResourseCard;
@@ -26,11 +26,10 @@ import com.technion.studybuddy.models.ExamDate;
 import com.technion.studybuddy.presenters.CourseListPresenter;
 import com.technion.studybuddy.presenters.CoursePresenter;
 
-
 public class CourseListAdapter extends BaseAdapter implements Observer
 {
-	private LayoutInflater mInflater;
-	private CourseListPresenter presenter;
+	private final LayoutInflater mInflater;
+	private final CourseListPresenter presenter;
 
 	// private Object coursePresenter;
 
@@ -71,9 +70,8 @@ public class CourseListAdapter extends BaseAdapter implements Observer
 		String courseName = presenter.getNameByPosition(position);
 
 		if (convertView == null)
-		{
 			view = createView();
-		} else
+		else
 		{
 			view = convertView;
 			ViewHolder holder = (ViewHolder) view.getTag();
@@ -122,9 +120,7 @@ public class CourseListAdapter extends BaseAdapter implements Observer
 					resourceName);
 
 			if (numBehind > 0)
-			{
 				cardUI.addCardToLastStack(card);
-			}
 		}
 		OnClickListener courseClickListener = new OnClickListener()
 		{
@@ -134,15 +130,15 @@ public class CourseListAdapter extends BaseAdapter implements Observer
 			{
 				try
 				{
-					Intent intent = new Intent(v.getContext(), CourseActivity.class);
+					Intent intent = new Intent(v.getContext(),
+							CourseActivity.class);
 					intent.putExtra(CourseActivity.COURSE_ID,
 							presenter.getIdByPosition(position));
-					v.getContext().startActivity(intent);		
+					v.getContext().startActivity(intent);
 				} catch (Exception e)
 				{
 					e.printStackTrace();
 				}
-			
 
 			}
 		};

@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.views.CardUI;
 import com.technion.studybuddy.R;
-import com.technion.studybuddy.Views.CreateReviewPointActivity;
+import com.technion.studybuddy.Views.Activities.CreateReviewPointActivity;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.presenters.CoursePresenter;
 import com.technion.studybuddy.utils.DateUtils;
@@ -25,15 +25,15 @@ import com.todddavies.components.progressbar.ProgressWheel;
 public class CourseOverviewCard extends BaseCard
 {
 	// private int index;
-	private CoursePresenter presenter;
-	private String courseID;
-	private BaseAdapter baseAdapter;
+	private final CoursePresenter presenter;
+	private final String courseID;
+	private final BaseAdapter baseAdapter;
 
 	public CourseOverviewCard(String courseID, CardUI cardUI, CardStack stack,
 			int index, BaseAdapter adapter)
 	{
 		super(cardUI, stack);
-		this.baseAdapter = adapter;
+		baseAdapter = adapter;
 		// this.index = index;
 		this.courseID = courseID;
 		presenter = DataStore.getInstance().getCoursePresenter(courseID);// DataStore.getMainPresenter();
@@ -68,9 +68,7 @@ public class CourseOverviewCard extends BaseCard
 		int done = 0;
 
 		for (String resourceName : presenter.getResourceNames())
-		{
 			done += presenter.getDoneItemsCount(resourceName);
-		}
 
 		pw.setProgress(total == 0 ? 0 : 360 * done / total);
 		pw.setText(done + "/" + total);
@@ -86,7 +84,8 @@ public class CourseOverviewCard extends BaseCard
 				try
 				{
 					PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
-					popupMenu.setOnMenuItemClickListener( new PopupMenuListner(v.getContext()));
+					popupMenu.setOnMenuItemClickListener(new PopupMenuListner(v
+							.getContext()));
 					popupMenu.inflate(R.menu.stb_course_card_menu);
 					popupMenu.show();
 				} catch (Exception e)
@@ -104,10 +103,9 @@ public class CourseOverviewCard extends BaseCard
 		return R.layout.stb_view_course_item;
 	}
 
-	private class PopupMenuListner implements
-			OnMenuItemClickListener
+	private class PopupMenuListner implements OnMenuItemClickListener
 	{
-		private Context context;
+		private final Context context;
 
 		/**
 		 * @param context

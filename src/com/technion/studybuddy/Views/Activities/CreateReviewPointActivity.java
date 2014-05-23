@@ -1,4 +1,4 @@
-package com.technion.studybuddy.Views;
+package com.technion.studybuddy.Views.Activities;
 
 import java.util.Calendar;
 import java.util.Date;

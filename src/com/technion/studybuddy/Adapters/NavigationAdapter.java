@@ -10,19 +10,18 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.technion.studybuddy.R;
-import com.technion.studybuddy.Views.CourseActivity;
+import com.technion.studybuddy.Views.Activities.CourseActivity;
 import com.technion.studybuddy.data.DataStore;
-
 
 public class NavigationAdapter extends BaseExpandableListAdapter
 {
 
-	private LayoutInflater mInflater;
+	private final LayoutInflater mInflater;
 	/**
 	 * 
 	 */
 
-	private Context context;
+	private final Context context;
 
 	public NavigationAdapter(Context context)
 	{
@@ -69,9 +68,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 		childText = ((ViewHolder) convertView.getTag()).getTextView();
 		String courseName = getChild(groupPosition, childPosition).toString();
 		if (courseName.length() > 12)
-		{
 			courseName = courseName.substring(0, 12) + "...";
-		}
 		childText.setText("	" + courseName);
 		convertView.setTag(new ViewHolder(childText));
 		return convertView;
@@ -164,7 +161,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 
 	private class ViewHolder
 	{
-		private TextView textView;
+		private final TextView textView;
 
 		/**
 		 * @param textView

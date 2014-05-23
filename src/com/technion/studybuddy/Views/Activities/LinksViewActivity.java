@@ -1,4 +1,4 @@
-package com.technion.studybuddy.Views;
+package com.technion.studybuddy.Views.Activities;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.technion.studybuddy.R;
+import com.technion.studybuddy.Views.FontFitTextView;
 
 public class LinksViewActivity extends StudyBuddyActivity
 {

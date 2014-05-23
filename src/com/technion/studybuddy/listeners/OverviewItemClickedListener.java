@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.technion.studybuddy.Views.LinksViewActivity;
+import com.technion.studybuddy.Views.Activities.LinksViewActivity;
 import com.technion.studybuddy.models.Course;
 import com.technion.studybuddy.models.StudyItem;
 

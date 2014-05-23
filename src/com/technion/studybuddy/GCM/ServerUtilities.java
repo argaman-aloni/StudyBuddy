@@ -39,7 +39,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gcm.GCMRegistrar;
-import com.technion.studybuddy.Views.StbSettingsActivity;
+import com.technion.studybuddy.Views.Activities.StbSettingsActivity;
 import com.technion.studybuddy.utils.Constants;
 
 /**
@@ -153,9 +153,7 @@ public final class ServerUtilities
 				Log.e(CommonUtilities.TAG,
 						"Failed to register on attempt " + i, e);
 				if (i == ServerUtilities.MAX_ATTEMPTS)
-				{
 					break;
-				}
 				try
 				{
 					Log.d(CommonUtilities.TAG, "Sleeping for " + backoff
@@ -198,9 +196,7 @@ public final class ServerUtilities
 		}
 		regid = CommonUtilities.register(activity);
 		if (regid == null)
-		{
 			GCMRegistrar.register(activity, CommonUtilities.SENDER_ID);
-		}
 	}
 
 	/**

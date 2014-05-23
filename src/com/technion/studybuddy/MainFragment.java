@@ -38,7 +38,7 @@ import com.technion.studybuddy.GCM.GoogleHttpContext;
 import com.technion.studybuddy.GCM.ServerUtilities;
 import com.technion.studybuddy.Views.EditCourse;
 import com.technion.studybuddy.Views.NowLayout;
-import com.technion.studybuddy.Views.StbSettingsActivity;
+import com.technion.studybuddy.Views.Activities.StbSettingsActivity;
 import com.technion.studybuddy.charts.PieChartBuilder;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.CourseAlreadyExistsException;

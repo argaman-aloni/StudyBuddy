@@ -73,7 +73,6 @@
         android:layout_alignLeft="@id/stb_resourse_card_items"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/stb_dotted_sep"
-        android:layout_margin="8dp"
         android:layout_marginLeft="24dp"
         android:text="@string/stb_items_next"
         android:textAppearance="?android:attr/textAppearanceMedium" />
