@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">StudyBuddy</string>
@@ -48,7 +49,11 @@
         <item>#32cd32</item>
         <item>#228b22</item>
     </string-array>
-        <string name="personal_progress">Personal Progress</string>
-        <string name="no_links_message">No links to display for this item yet...</string>
+
+    <string name="personal_progress">Personal Progress</string>
+    <string name="no_links_message">No links to display for this item yet...</string>
+    <string name="title_activity_links_view">LinksViewActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

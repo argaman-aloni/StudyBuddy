@@ -6,6 +6,8 @@ import java.util.List;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -28,6 +30,7 @@ public class LinksViewActivity extends StudyBuddyActivity
 	ListView linksLv;
 	List<String> links;
 	LinearLayout layout;
+	private String id;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -37,6 +40,7 @@ public class LinksViewActivity extends StudyBuddyActivity
 		layout = (LinearLayout) findViewById(R.id.links_view_title_layout);
 		itemNameTv = (TextView) findViewById(R.id.item_name);
 		linksLv = (ListView) findViewById(R.id.listView1);
+		id = getIntent().getStringExtra("courseId");
 		emptyTv = (TextView) findViewById(R.id.links_empty_tv);
 		Intent intent = getIntent();
 		final Bundle bundle = intent.getExtras();
@@ -167,5 +171,21 @@ public class LinksViewActivity extends StudyBuddyActivity
 			});
 			return convertView;
 		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+		case android.R.id.home:
+			Intent intent = NavUtils.getParentActivityIntent(this);
+			intent.putExtra(CourseActivity.COURSE_ID, id);
+			intent.putExtra(CourseActivity.FRAGMENT, "Overview");
+
+			NavUtils.navigateUpTo(this, intent);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }
