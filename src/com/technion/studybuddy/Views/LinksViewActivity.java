@@ -11,7 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnPreDrawListener;
-import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AnticipateInterpolator;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -71,14 +71,9 @@ public class LinksViewActivity extends StudyBuddyActivity
 					layout.setTranslationX(leftDelta);
 					layout.setTranslationY(topDelta);
 
-					layout.animate()
-							.setDuration(500)
-							.scaleX(1)
-							.scaleY(1)
-							.translationX(0)
-							.translationY(0)
-							.setInterpolator(
-									new AccelerateDecelerateInterpolator())
+					layout.animate().setDuration(500).scaleX(1).scaleY(1)
+							.translationX(0).translationY(0)
+							.setInterpolator(new AnticipateInterpolator())
 							.withEndAction(new Runnable()
 							{
 
