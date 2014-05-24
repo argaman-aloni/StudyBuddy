@@ -458,17 +458,24 @@ public class CourseImpl extends AbstractPersistable<DataStore> implements
 						links.add(jsonLinks.getString(j));
 					String name = studyItem.getString("name");
 					String type = studyItem.getString("type");
+					StudyItem item = null;
 					if (type.equals(Constants.TUTORIAL))
-						tutorialItems.add(new StudyItemImpl(tutorialItems
-								.size() + 1, name));
-					else if (type.equals(Constants.LECTURE))
-						lectureItems.add(new StudyItemImpl(
-								lectureItems.size() + 1, name));
+					{
+						item = new StudyItemImpl(tutorialItems.size() + 1, name);
+						item.setLinks(links);
+						tutorialItems.add(item);
+					} else if (type.equals(Constants.LECTURE))
+					{
+						item = new StudyItemImpl(lectureItems.size() + 1, name);
+						item.setLinks(links);
+						lectureItems.add(item);
+					}
+
 				}
-				StudyResource lectures = new StudyResourceImpl(Constants.LECTURE,
-						lectureItems);
-				StudyResource tutorials = new StudyResourceImpl(Constants.TUTORIAL,
-						tutorialItems);
+				StudyResource lectures = new StudyResourceImpl(
+						Constants.LECTURE, lectureItems);
+				StudyResource tutorials = new StudyResourceImpl(
+						Constants.TUTORIAL, tutorialItems);
 				addStudyResource(lectures);
 				addStudyResource(tutorials);
 			}

@@ -20,9 +20,10 @@ import com.technion.studybuddy.models.WorkStats;
 
 /**
  * @author Argaman
- *
+ * 
  */
-public class ChartFullFragment extends DialogFragment {
+public class ChartFullFragment extends DialogFragment
+{
 
 	ProgressPieChart chartGen = new ProgressPieChart();
 	public int chartIndex = -1;
@@ -31,8 +32,15 @@ public class ChartFullFragment extends DialogFragment {
 	WorkStats stats = DataStore.getStats();
 	private TextView tv;
 
-	private void generateChart() {
-		switch (chartIndex) {
+	public ChartFullFragment()
+	{
+
+	}
+
+	private void generateChart()
+	{
+		switch (chartIndex)
+		{
 		case 0:
 			graphicalView = chartGen.getOverviewPieChart(getActivity(),
 					stats.getTotalStats());
@@ -49,25 +57,39 @@ public class ChartFullFragment extends DialogFragment {
 	}
 
 	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
+	public Dialog onCreateDialog(Bundle savedInstanceState)
+	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		layout = (LinearLayout) getActivity().getLayoutInflater().inflate(
 				R.layout.piechart_full_layout, null);
-		getActivity().findViewById(R.id.full_chart_layout1);
 		builder.setView(layout);
+
 		return builder.create();
 	}
 
 	@Override
-	public void onStart() {
+	public void onStart()
+	{
 		super.onStart();
-		if (chartIndex != -1) {
+		if (chartIndex != -1)
+		{
 			generateChart();
 			layout.addView(graphicalView, new LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 			// tv = (TextView) getActivity().findViewById(R.id.full_chart_tv);
 			// tv.setText(getResources().getStringArray(R.array.resources_array)[chartIndex]);
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Fragment#setArguments(android.os.Bundle)
+	 */
+	@Override
+	public void setArguments(Bundle bundle)
+	{
+		super.setArguments(bundle);
 	}
 
 }

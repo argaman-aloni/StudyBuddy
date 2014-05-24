@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.BounceInterpolator;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -103,6 +104,7 @@ public class CourseOverViewFragment extends Fragment implements Observer,
 				R.anim.stb_in);
 		RelativeLayout relativeLayout = (RelativeLayout) fragmentView
 				.findViewById(R.id.stb_lecturesProgress);
+		animation.setInterpolator(new BounceInterpolator());
 		relativeLayout.setAnimation(animation);
 		tutorialProgress = (TextProgressBar) fragmentView
 				.findViewById(R.id.stb_tutorialsProgressBar);
