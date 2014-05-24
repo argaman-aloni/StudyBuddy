@@ -8,7 +8,8 @@ import com.technion.studybuddy.persisters.Persistable;
 import com.technion.studybuddy.utils.Action;
 
 public interface StudyItem extends Persistable<StudyResource>,
-Comparable<StudyItem>, JsonTranslator {
+		Comparable<StudyItem>, JsonTranslator
+{
 
 	public String getLabel();
 
@@ -36,7 +37,7 @@ Comparable<StudyItem>, JsonTranslator {
 
 	void removeLink(String link);
 
-	void setDone();
+	void setDone(Date date);
 
 	void setUnDone();
 

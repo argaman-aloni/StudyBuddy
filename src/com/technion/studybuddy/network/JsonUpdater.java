@@ -78,6 +78,9 @@ public class JsonUpdater extends AsyncTask<String, Void, JSONObject>
 
 			switch (type)
 			{
+			case "course.update":
+
+				break;
 			case "course":
 				DataStore.getInstance().createCourseFromJson(result);
 
@@ -90,7 +93,6 @@ public class JsonUpdater extends AsyncTask<String, Void, JSONObject>
 			}
 		} catch (JSONException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

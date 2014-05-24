@@ -364,11 +364,16 @@ public class DataStore extends Observable implements Composite
 				.clearDoneState();
 		List<String> names = new ArrayList<String>();
 		Map<String, List<String>> linksByName = new HashMap<>();
+		Map<String, Date> dateByName = new HashMap<String, Date>();
 		for (int i = 0; i < array.length(); i++)
 		{
-			String name = array.getJSONObject(i).getString("name");
+			String name = array.getJSONObject(i).getJSONObject("item")
+					.getString("name");
 			names.add(name);
-			JSONArray jsonLinks = array.getJSONObject(i).getJSONArray("link");
+			dateByName.put(name, new Date(array.getJSONObject(i)
+					.getLong("date")));
+			JSONArray jsonLinks = array.getJSONObject(i).getJSONObject("item")
+					.getJSONArray("link");
 			linksByName.put(name, new ArrayList<String>());
 			for (int j = 0; j < jsonLinks.length(); j++)
 				linksByName.get(name).add(jsonLinks.getString(j));
@@ -380,7 +385,7 @@ public class DataStore extends Observable implements Composite
 			if (linksByName.containsKey(studyItem.getLabel()))
 				studyItem.setLinks(linksByName.get(studyItem.getLabel()));
 			if (names.contains(studyItem.getLabel()))
-				studyItem.setDone();
+				studyItem.setDone(dateByName.get(studyItem.getLabel()));
 		}
 		setChanged();
 		notifyObservers(DataStore.CLASS_LIST);
