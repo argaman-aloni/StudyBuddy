@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -172,7 +173,9 @@ public class LinksViewActivity extends StudyBuddyActivity
 			} else
 				holder = (Holder) convertView.getTag();
 			String[] parts = getItem(position).toString().split("/");
-			holder.textView.setText(parts[parts.length - 1]);
+			holder.textView.setText(Html.fromHtml("<a href="
+					+ getItem(position).toString() + ">"
+					+ parts[parts.length - 1] + "</a>"));
 			holder.textView.setTextSize(20);
 			OnClickListener listener = new OnClickListener()
 			{
