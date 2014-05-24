@@ -41,18 +41,16 @@
                 <category android:name="com.technion.studybuddy.recognizedtest" />
             </intent-filter>
         </receiver>
-        <!--
-        <receiver android:name="STBWidgetProvider" >
+        <receiver android:name="com.technion.studybuddy.widget.STBWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/appwidget_next_items" />
-        </receiver>
-        -->
-
+                android:resource="@xml/appwidget_info" />
+        </receiver>
+<service android:name="STBWidgetService"/>
         <service android:name="com.technion.studybuddy.GCMIntentService" />
 
         <!-- Study Buddy -->
@@ -71,14 +69,14 @@
                 android:value="com.technion.studybuddy.MainActivity" />
         </activity>
         <activity
-            android:name="com.technion.studybuddy.Views.Activities.CourseActivity"
+            android:name="com.technion.studybuddy.Views.CourseActivity"
             android:parentActivityName="com.technion.studybuddy.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.technion.studybuddy.MainActivity" />
         </activity>
         <activity
-            android:name="com.technion.studybuddy.Views.Activities.EditCourse"
+            android:name="com.technion.studybuddy.Views.EditCourse"
             android:label="@string/stb_title_activity_edit_course"
             android:parentActivityName="com.technion.studybuddy.MainActivity" >
             <meta-data
@@ -86,11 +84,11 @@
                 android:value="com.technion.studybuddy.MainActivity" />
         </activity>
         <activity
-            android:name="com.technion.studybuddy.Views.Activities.StbSettingsActivity"
+            android:name="com.technion.studybuddy.Views.StbSettingsActivity"
             android:parentActivityName="com.technion.studybuddy.MainActivity" >
         </activity>
         <activity
-            android:name="com.technion.studybuddy.Views.Activities.CreateReviewPointActivityintActivity"
+            android:name="com.technion.studybuddy.Views.CreateReviewPointActivity"
             android:label="@string/stb_title_activity_create_review_point"
             android:parentActivityName="com.technion.studybuddy.MainActivity" >
             <meta-data
@@ -110,9 +108,9 @@
 
       
         <activity
-            android:name="com.technion.studybuddy.Views.Activities.LinksViewActivity"
+            android:name="com.technion.studybuddy.Views.LinksViewActivity"
             android:label="@string/title_activity_links_view"
-            android:parentActivityName="com.technion.studybuddy.Views.Activities.CourseActivity" >
+            android:parentActivityName="com.technion.studybuddy.Views.CourseActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.technion.studybuddy.Views.CourseActivity" />
