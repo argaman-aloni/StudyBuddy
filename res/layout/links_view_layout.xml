@@ -26,7 +26,7 @@
     <com.technion.studybuddy.Views.FoldingList
         android:id="@+id/listView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_below="@+id/links_view_title_layout"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"

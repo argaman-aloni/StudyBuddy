@@ -14,7 +14,6 @@ import android.view.MenuItem;
 
 import com.technion.studybuddy.R;
 import com.technion.studybuddy.Adapters.CoursePagerAdapter;
-import com.technion.studybuddy.Views.EditCourse;
 import com.technion.studybuddy.data.DataStore;
 
 public class CourseActivity extends FragmentActivity

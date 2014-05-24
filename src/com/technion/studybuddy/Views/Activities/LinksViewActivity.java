@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,15 +15,16 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.animation.AnticipateInterpolator;
+import android.webkit.WebView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.technion.studybuddy.R;
-import com.technion.studybuddy.Views.FontFitTextView;
 
-public class LinksViewActivity extends StudyBuddyActivity {
+public class LinksViewActivity extends StudyBuddyActivity
+{
 
 	TextView itemNameTv;
 	TextView courseIdTv;
@@ -31,9 +33,14 @@ public class LinksViewActivity extends StudyBuddyActivity {
 	List<String> links;
 	LinearLayout layout;
 	private String id;
+	protected int height;
+	protected int width;
+	protected int top;
+	protected int left;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.links_view_layout);
 		layout = (LinearLayout) findViewById(R.id.links_view_title_layout);
@@ -46,17 +53,20 @@ public class LinksViewActivity extends StudyBuddyActivity {
 		final String PACKAGE = getPackageName();
 
 		itemNameTv.setText(intent.getStringExtra("CourseName"));
-		if (savedInstanceState == null) {
+		if (savedInstanceState == null)
+		{
 			ViewTreeObserver observer = layout.getViewTreeObserver();
-			observer.addOnPreDrawListener(new OnPreDrawListener() {
+			observer.addOnPreDrawListener(new OnPreDrawListener()
+			{
 
 				@Override
-				public boolean onPreDraw() {
+				public boolean onPreDraw()
+				{
 					layout.getViewTreeObserver().removeOnPreDrawListener(this);
-					int left = bundle.getInt(PACKAGE + ".left");
-					int top = bundle.getInt(PACKAGE + ".top");
-					int width = bundle.getInt(PACKAGE + ".width");
-					int height = bundle.getInt(PACKAGE + ".height");
+					left = bundle.getInt(PACKAGE + ".left");
+					top = bundle.getInt(PACKAGE + ".top");
+					width = bundle.getInt(PACKAGE + ".width");
+					height = bundle.getInt(PACKAGE + ".height");
 					int[] location = new int[2];
 					layout.getLocationOnScreen(location);
 					int leftDelta = left - location[0];
@@ -72,22 +82,25 @@ public class LinksViewActivity extends StudyBuddyActivity {
 					layout.setTranslationY(topDelta);
 
 					layout.animate().setDuration(500).scaleX(1).scaleY(1)
-					.translationX(0).translationY(0)
-					.setInterpolator(new AnticipateInterpolator())
-					.withEndAction(new Runnable() {
+							.translationX(0).translationY(0)
+							.setInterpolator(new AnticipateInterpolator())
+							.withEndAction(new Runnable()
+							{
 
-						@Override
-						public void run() {
-							if (bundle.getString("LinksList") == null)
-								emptyTv.setVisibility(View.VISIBLE);
-							else {
-								links = Arrays.asList(bundle.getString(
-										"LinksList").split(" "));
+								@Override
+								public void run()
+								{
+									if (bundle.getString("LinksList") == null)
+										emptyTv.setVisibility(View.VISIBLE);
+									else
+									{
+										links = Arrays.asList(bundle.getString(
+												"LinksList").split(" "));
 
-								linksLv.setAdapter(new LinkAdapter());
-							}
-						}
-					});
+										linksLv.setAdapter(new LinkAdapter());
+									}
+								}
+							});
 					return true;
 				}
 			});
@@ -97,71 +110,106 @@ public class LinksViewActivity extends StudyBuddyActivity {
 		// android.R.layout.simple_list_item_1, from, to));
 	}
 
-	private class LinkAdapter extends BaseAdapter {
+	private class LinkAdapter extends BaseAdapter
+	{
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see android.widget.Adapter#getCount()
 		 */
 		@Override
-		public int getCount() {
+		public int getCount()
+		{
 			// TODO Auto-generated method stub
 			return links.size();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see android.widget.Adapter#getItem(int)
 		 */
 		@Override
-		public Object getItem(int position) {
+		public Object getItem(int position)
+		{
 			return links.get(position);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see android.widget.Adapter#getItemId(int)
 		 */
 		@Override
-		public long getItemId(int position) {
+		public long getItemId(int position)
+		{
 			// TODO Auto-generated method stub
 			return position;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see android.widget.Adapter#getView(int, android.view.View,
 		 * android.view.ViewGroup)
 		 */
 		@Override
 		public View getView(final int position, View convertView,
-				ViewGroup parent) {
+				ViewGroup parent)
+		{
+			Holder holder = null;
 			if (convertView == null)
-				convertView = new FontFitTextView(LinksViewActivity.this);
+			{
+				convertView = LayoutInflater.from(LinksViewActivity.this)
+						.inflate(R.layout.stb_view_link, null);
+				holder = new Holder();
+				holder.textView = (TextView) convertView
+						.findViewById(R.id.stb_link_name);
+				holder.webView = (WebView) convertView
+						.findViewById(R.id.stb_link_webview);
+				convertView.setTag(holder);
+			} else
+				holder = (Holder) convertView.getTag();
 			String[] parts = getItem(position).toString().split("/");
-			((FontFitTextView) convertView).setText(parts[parts.length - 1]);
-			((FontFitTextView) convertView).setTextSize(50);
-			convertView.setOnClickListener(new OnClickListener() {
+			holder.textView.setText(parts[parts.length - 1]);
+			holder.textView.setTextSize(20);
+			OnClickListener listener = new OnClickListener()
+			{
 
 				@Override
-				public void onClick(View v) {
+				public void onClick(View v)
+				{
 					Intent intent = new Intent(Intent.ACTION_VIEW);
 					intent.setData(Uri.parse(getItem(position).toString()));
 					v.getContext().startActivity(intent);
 
 				}
-			});
+			};
+			convertView.setOnClickListener(listener);
+			if (holder.webView != null)
+			{
+				holder.webView.getSettings().setJavaScriptEnabled(true);
+				holder.webView
+						.loadUrl("https://docs.google.com/gview?embedded=true&url="
+								+ getItem(position).toString());
+
+			}
 			return convertView;
 		}
 	}
 
+	private class Holder
+	{
+		TextView textView;
+		WebView webView;
+	}
+
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
 		case android.R.id.home:
 			Intent intent = NavUtils.getParentActivityIntent(this);
 			intent.putExtra(CourseActivity.COURSE_ID, id);
@@ -172,4 +220,5 @@ public class LinksViewActivity extends StudyBuddyActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
 }

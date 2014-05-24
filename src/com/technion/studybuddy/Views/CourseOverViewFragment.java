@@ -3,16 +3,14 @@ package com.technion.studybuddy.Views;
 import java.util.Observable;
 import java.util.Observer;
 
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.BounceInterpolator;
-import android.widget.RelativeLayout;
+import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 
 import com.technion.studybuddy.R;
@@ -57,11 +55,24 @@ public class CourseOverViewFragment extends Fragment implements Observer,
 		int total = presenter.getTotalItemCount(Constants.LECTURE);
 		lectureProgress.setProgress(total == 0 ? 0 : 100 * done / total);
 		lectureProgress.setText(done + "/" + total);
+		lectureProgress.setInterpolator(new LinearInterpolator());
+		ObjectAnimator lectureAnimator = ObjectAnimator.ofInt(lectureProgress,
+				"progress", 0, total == 0 ? 0 : 100 * done / total);
+		lectureAnimator.setDuration(700);
+		lectureAnimator.setInterpolator(new LinearInterpolator());
+		lectureAnimator.start();
 
 		done = presenter.getDoneItemsCount(Constants.TUTORIAL);
 		total = presenter.getTotalItemCount(Constants.TUTORIAL);
 		tutorialProgress.setProgress(total == 0 ? 0 : 100 * done / total);
 		tutorialProgress.setText(done + "/" + total);
+		tutorialProgress.setInterpolator(new LinearInterpolator());
+		ObjectAnimator tutorialAnimator = ObjectAnimator.ofInt(
+				tutorialProgress, "progress", 0, total == 0 ? 0 : 100 * done
+						/ total);
+		tutorialAnimator.setDuration(700);
+		tutorialAnimator.setInterpolator(new LinearInterpolator());
+		tutorialAnimator.start();
 
 	}
 
@@ -100,12 +111,9 @@ public class CourseOverViewFragment extends Fragment implements Observer,
 		courseName.setText(DataStore.coursesById.get(courseNumber).getName());
 		lectureProgress = (TextProgressBar) fragmentView
 				.findViewById(R.id.stb_lecturesProgressBar);
-		Animation animation = AnimationUtils.loadAnimation(getActivity(),
-				R.anim.stb_in);
-		RelativeLayout relativeLayout = (RelativeLayout) fragmentView
-				.findViewById(R.id.stb_lecturesProgress);
-		animation.setInterpolator(new BounceInterpolator());
-		relativeLayout.setAnimation(animation);
+		fragmentView.findViewById(R.id.stb_lecturesProgress);
+		// animation.setInterpolator(new BounceInterpolator());
+		// relativeLayout.setAnimation(animation);
 		tutorialProgress = (TextProgressBar) fragmentView
 				.findViewById(R.id.stb_tutorialsProgressBar);
 		drawGraph();
