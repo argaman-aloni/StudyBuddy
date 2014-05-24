@@ -22,8 +22,7 @@ import android.widget.TextView;
 import com.technion.studybuddy.R;
 import com.technion.studybuddy.Views.FontFitTextView;
 
-public class LinksViewActivity extends StudyBuddyActivity
-{
+public class LinksViewActivity extends StudyBuddyActivity {
 
 	TextView itemNameTv;
 	TextView courseIdTv;
@@ -34,8 +33,7 @@ public class LinksViewActivity extends StudyBuddyActivity
 	private String id;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.links_view_layout);
 		layout = (LinearLayout) findViewById(R.id.links_view_title_layout);
@@ -48,15 +46,12 @@ public class LinksViewActivity extends StudyBuddyActivity
 		final String PACKAGE = getPackageName();
 
 		itemNameTv.setText(intent.getStringExtra("CourseName"));
-		if (savedInstanceState == null)
-		{
+		if (savedInstanceState == null) {
 			ViewTreeObserver observer = layout.getViewTreeObserver();
-			observer.addOnPreDrawListener(new OnPreDrawListener()
-			{
+			observer.addOnPreDrawListener(new OnPreDrawListener() {
 
 				@Override
-				public boolean onPreDraw()
-				{
+				public boolean onPreDraw() {
 					layout.getViewTreeObserver().removeOnPreDrawListener(this);
 					int left = bundle.getInt(PACKAGE + ".left");
 					int top = bundle.getInt(PACKAGE + ".top");
@@ -77,25 +72,22 @@ public class LinksViewActivity extends StudyBuddyActivity
 					layout.setTranslationY(topDelta);
 
 					layout.animate().setDuration(500).scaleX(1).scaleY(1)
-							.translationX(0).translationY(0)
-							.setInterpolator(new AnticipateInterpolator())
-							.withEndAction(new Runnable()
-							{
+					.translationX(0).translationY(0)
+					.setInterpolator(new AnticipateInterpolator())
+					.withEndAction(new Runnable() {
 
-								@Override
-								public void run()
-								{
-									if (bundle.getString("LinksList") == null)
-										emptyTv.setVisibility(View.VISIBLE);
-									else
-									{
-										links = Arrays.asList(bundle.getString(
-												"LinksList").split(" "));
+						@Override
+						public void run() {
+							if (bundle.getString("LinksList") == null)
+								emptyTv.setVisibility(View.VISIBLE);
+							else {
+								links = Arrays.asList(bundle.getString(
+										"LinksList").split(" "));
 
-										linksLv.setAdapter(new LinkAdapter());
-									}
-								}
-							});
+								linksLv.setAdapter(new LinkAdapter());
+							}
+						}
+					});
 					return true;
 				}
 			});
@@ -105,65 +97,58 @@ public class LinksViewActivity extends StudyBuddyActivity
 		// android.R.layout.simple_list_item_1, from, to));
 	}
 
-	private class LinkAdapter extends BaseAdapter
-	{
+	private class LinkAdapter extends BaseAdapter {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see android.widget.Adapter#getCount()
 		 */
 		@Override
-		public int getCount()
-		{
+		public int getCount() {
 			// TODO Auto-generated method stub
 			return links.size();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see android.widget.Adapter#getItem(int)
 		 */
 		@Override
-		public Object getItem(int position)
-		{
+		public Object getItem(int position) {
 			return links.get(position);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see android.widget.Adapter#getItemId(int)
 		 */
 		@Override
-		public long getItemId(int position)
-		{
+		public long getItemId(int position) {
 			// TODO Auto-generated method stub
 			return position;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see android.widget.Adapter#getView(int, android.view.View,
 		 * android.view.ViewGroup)
 		 */
 		@Override
 		public View getView(final int position, View convertView,
-				ViewGroup parent)
-		{
+				ViewGroup parent) {
 			if (convertView == null)
 				convertView = new FontFitTextView(LinksViewActivity.this);
 			String[] parts = getItem(position).toString().split("/");
 			((FontFitTextView) convertView).setText(parts[parts.length - 1]);
 			((FontFitTextView) convertView).setTextSize(50);
-			convertView.setOnClickListener(new OnClickListener()
-			{
+			convertView.setOnClickListener(new OnClickListener() {
 
 				@Override
-				public void onClick(View v)
-				{
+				public void onClick(View v) {
 					Intent intent = new Intent(Intent.ACTION_VIEW);
 					intent.setData(Uri.parse(getItem(position).toString()));
 					v.getContext().startActivity(intent);
@@ -175,10 +160,8 @@ public class LinksViewActivity extends StudyBuddyActivity
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch (item.getItemId())
-		{
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
 		case android.R.id.home:
 			Intent intent = NavUtils.getParentActivityIntent(this);
 			intent.putExtra(CourseActivity.COURSE_ID, id);
