@@ -2,8 +2,7 @@ package com.technion.studybuddy.utils;
 
 import android.provider.BaseColumns;
 
-public class Constants
-{
+public class Constants {
 	public static final boolean debug = false;
 	public static final String PrefsContext = "prefs";
 	public static final String REGID_PREFS = "regid";
@@ -20,17 +19,19 @@ public class Constants
 	public static final String JSON_ADDON = "json";
 	public static final String TYPE_ADDON = "type";
 
+	// WIDGET DATA
+	public static final String EXTRA_ITEM = "com.technion.studyBuddy.EXTRA_ITEM";
+
 	// sqlite data
 	public static final String Table_Name = "networkStatus";
 	public static final String DB_Name = "networkStatus.db";
 	public static final String Network_fields[] = { BaseColumns._ID, "object",
-			"progress", "type", "priority" };
+		"progress", "type", "priority" };
 	public static final String Network_types[] = {
-			"INTEGER PRIMARY KEY AUTOINCREMENT", "VARCHAR", "INTEGER",
-			"VARCHAR", "INTEGER" };
+		"INTEGER PRIMARY KEY AUTOINCREMENT", "VARCHAR", "INTEGER",
+		"VARCHAR", "INTEGER" };
 
-	public static class Network_fields_constants
-	{
+	public static class Network_fields_constants {
 		public static final int BaseColumn = 0; // 0
 		public static final int object = 1 + Network_fields_constants.BaseColumn; // 1
 		public static final int progress = Network_fields_constants.object + 1; // 2
