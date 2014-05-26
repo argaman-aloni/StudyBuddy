@@ -35,14 +35,14 @@ public class CourseGrabber extends AsyncTask<Void, Void, JSONObject>
 	@Override
 	protected JSONObject doInBackground(Void... params)
 	{
-		String username = context.getSharedPreferences(Constants.PrefsContext,
-				0).getString(Constants.ACCOUNT_NAME, "");
+		context.getSharedPreferences(Constants.PrefsContext, 0).getString(
+				Constants.ACCOUNT_NAME, "");
 		AndroidHttpClient client = AndroidHttpClient.newInstance(
 				"GetAuthCookieClient", context);
 		try
 		{
 			GoogleHttpContext httpContext = CommonUtilities.getContext(context,
-					username, Constants.SERVER_URL);
+					Constants.SERVER_URL);
 			HttpGet httpGet = new HttpGet("http://"
 					+ Constants.DATA_SYNC
 					+ "?"

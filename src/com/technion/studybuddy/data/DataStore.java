@@ -20,6 +20,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.preference.PreferenceManager;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.technion.studybuddy.exceptions.CourseAlreadyExistsException;
 import com.technion.studybuddy.factories.ExamFactory;
@@ -70,6 +71,8 @@ public class DataStore extends Observable implements Composite
 	private final StudyResourceFactory srFactory = new StudyResourceFactory(
 			siFactory);
 	private final ExamFactory examFactory = new ExamFactory();
+
+	private GoogleApiClient mGoogleApiClient;
 
 	private final static WorkStats ws = new WorkStats();
 
@@ -394,5 +397,28 @@ public class DataStore extends Observable implements Composite
 	public List<StudyItem> getAllCourseDoneItems(String courseId)
 	{
 		return getCoursePresenter(courseId).getAllDoneItems();
+	}
+
+	public void setGoogleApiClient(GoogleApiClient mGoogleApiClient)
+	{
+		this.mGoogleApiClient = mGoogleApiClient;
+	}
+
+	/**
+	 * @return the mGoogleApiClient
+	 */
+	public synchronized GoogleApiClient getGoogleApiClient()
+	{
+		return mGoogleApiClient;
+	}
+
+	/**
+	 * @param mGoogleApiClient
+	 *            the mGoogleApiClient to set
+	 */
+	public synchronized void setmGoogleApiClient(
+			GoogleApiClient mGoogleApiClient)
+	{
+		this.mGoogleApiClient = mGoogleApiClient;
 	}
 }

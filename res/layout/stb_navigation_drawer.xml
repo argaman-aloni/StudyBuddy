@@ -58,14 +58,16 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="8dp"
                 android:src="@drawable/profile_pic" />
+
+          
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/overview_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_below="@+id/additional_stuff_layout"
+            android:layout_marginTop="8dp"
             android:background="#8b8989" >
 
             <TextView
@@ -103,16 +105,10 @@
                 android:layout_marginTop="8dp"
                 android:src="@drawable/ic_action_refresh" />
 
-            <TextView
-                android:id="@+id/textView1"
+              <com.google.android.gms.common.SignInButton
+                android:id="@+id/sign_in_button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/imageView1"
-                android:layout_marginTop="8dp"
-                android:layout_toRightOf="@id/imageView1"
-                android:text="Log In"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/stb_white" />
+                android:layout_height="wrap_content" />
         </RelativeLayout>
     </RelativeLayout>
 

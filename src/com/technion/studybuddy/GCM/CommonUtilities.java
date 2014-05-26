@@ -27,8 +27,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 
 import com.google.android.gcm.GCMRegistrar;
@@ -101,14 +99,12 @@ public final class CommonUtilities
 		return prefs.getString(Constants.ACCOUNT_NAME, "");
 	}
 
-	public static GoogleHttpContext getContext(Context activity,
-			String username, String baseUrl)
+	public static GoogleHttpContext getContext(Context activity, String baseUrl)
 	{
 		try
 		{
-			return Constants.debug ? new GoogleHttpContextDev(activity,
-					username, baseUrl) : new GoogleHttpContextProduction(
-					activity, username, baseUrl);
+			return Constants.debug ? new GoogleHttpContextDev(activity, baseUrl)
+					: new GoogleHttpContextProduction(activity, baseUrl);
 		} catch (ClientProtocolException e)
 		{
 			e.printStackTrace();
@@ -140,10 +136,9 @@ public final class CommonUtilities
 
 		final String regId = GCMRegistrar.getRegistrationId(context);
 		if (regId.equals(""))
-		{
 			// Automatically registers application on startup.
 			GCMRegistrar.register(context, CommonUtilities.SENDER_ID);
-		} else // Device is already registered on GCM, check server.
+		else // Device is already registered on GCM, check server.
 		if (GCMRegistrar.isRegisteredOnServer(context))
 			// Skips registration.
 			return null;
@@ -168,9 +163,7 @@ public final class CommonUtilities
 					// unregistered callback upon completion, but
 					// GCMIntentService.onUnregistered() will ignore it.
 					if (!registered)
-					{
 						GCMRegistrar.unregister(context);
-					}
 					return null;
 				}
 
