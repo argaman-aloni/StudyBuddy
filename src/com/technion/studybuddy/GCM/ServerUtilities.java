@@ -30,16 +30,14 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.http.AndroidHttpClient;
 import android.os.Build;
 import android.provider.Settings.Secure;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gcm.GCMRegistrar;
-import com.technion.studybuddy.Views.Activities.StbSettingsActivity;
+import com.google.android.gms.plus.Plus;
+import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.utils.Constants;
 
 /**
@@ -88,8 +86,7 @@ public final class ServerUtilities
 	 * @throws IOException
 	 *             propagated from POST.
 	 */
-	public static void post(String endpoint, String regID, String username)
-			throws IOException
+	public static void post(String endpoint, String regID) throws IOException
 	{
 
 		AndroidHttpClient client = AndroidHttpClient.newInstance(
@@ -98,7 +95,7 @@ public final class ServerUtilities
 		{
 
 			GoogleHttpContext httpContext = CommonUtilities.getContext(
-					ServerUtilities.activity, username, Constants.SERVER_URL);
+					ServerUtilities.activity, Constants.SERVER_URL);
 			HttpPost httpPost = new HttpPost(endpoint);
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 			nameValuePairs.add(new BasicNameValuePair("regid", regID));
@@ -123,7 +120,7 @@ public final class ServerUtilities
 	 */
 	public static boolean register(final Context context, final String regId)
 	{
-		String userName = CommonUtilities.getAccountName(context);
+		CommonUtilities.getAccountName(context);
 		Log.i(CommonUtilities.TAG, "registering device (regId = " + regId + ")");
 		String serverUrl = Constants.SERVER_URL + "/register";
 		Map<String, String> params = new HashMap<String, String>();
@@ -140,7 +137,7 @@ public final class ServerUtilities
 			try
 			{
 
-				post("http://" + serverUrl, regId, userName);
+				post("http://" + serverUrl, regId);
 				GCMRegistrar.setRegisteredOnServer(context, true);
 
 				// TODO update server with regid
@@ -181,19 +178,19 @@ public final class ServerUtilities
 		String regid;
 		setActivity(activity);
 
-		// check if account was configured
-		SharedPreferences prefs = activity.getSharedPreferences(
-				Constants.PrefsContext, 0);
-		String accountName = prefs.getString(Constants.ACCOUNT_NAME, "");
-		if ("".equals(accountName))
-		{
-			Toast.makeText(activity, "please choose account to sign with",
-					Toast.LENGTH_LONG).show();
-			Intent intent = new Intent(activity, StbSettingsActivity.class);
-			activity.startActivity(intent);
-			return;
-
-		}
+		activity.getSharedPreferences(Constants.PrefsContext, 0);
+		Plus.AccountApi.getAccountName(DataStore.getInstance()
+				.getGoogleApiClient());
+		// if ("".equals(accountName))
+		// {
+		// // Toast.makeText(activity, "please choose account to sign with",
+		// // Toast.LENGTH_LONG).show();
+		// // Intent intent = new Intent(activity, StbSettingsActivity.class);
+		// // activity.startActivity(intent);
+		// String email =
+		// return;
+		//
+		// }
 		regid = CommonUtilities.register(activity);
 		if (regid == null)
 			GCMRegistrar.register(activity, CommonUtilities.SENDER_ID);
@@ -225,8 +222,7 @@ public final class ServerUtilities
 				{
 					final String serverUrl = Constants.SERVER_URL
 							+ "/unregister";
-					post("http://" + serverUrl, regId,
-							CommonUtilities.getAccountName(context));
+					post("http://" + serverUrl, regId);
 					GCMRegistrar.setRegisteredOnServer(context, false);
 					String message = "unregistering";
 					CommonUtilities.displayMessage(context, message);

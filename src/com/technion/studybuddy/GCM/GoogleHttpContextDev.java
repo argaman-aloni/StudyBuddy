@@ -31,6 +31,8 @@ import android.net.http.AndroidHttpClient;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
 
+import com.google.android.gms.plus.Plus;
+import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.AccessException;
 
 /**
@@ -59,8 +61,8 @@ public final class GoogleHttpContextDev extends GoogleHttpContext
 	 *             calling should implment onactivityresult and recreate the
 	 *             this context
 	 */
-	public GoogleHttpContextDev(final Context context, final String userName,
-			final String baseUrl) throws ClientProtocolException, IOException,
+	public GoogleHttpContextDev(final Context context, final String baseUrl)
+			throws ClientProtocolException, IOException,
 			OperationCanceledException, AuthenticatorException, AccessException
 	{
 		super(context);
@@ -74,8 +76,9 @@ public final class GoogleHttpContextDev extends GoogleHttpContext
 				AndroidHttpClient httpClient = null;
 				try
 				{
-
-					Account account = getAccountForName(context, userName);
+					String email = Plus.AccountApi.getAccountName(DataStore
+							.getInstance().getGoogleApiClient());
+					Account account = getAccountForName(context, email);
 					String token = getAuthToken(account);
 
 					httpClient = AndroidHttpClient.newInstance(
@@ -87,7 +90,7 @@ public final class GoogleHttpContextDev extends GoogleHttpContext
 
 					setAttribute(ClientContext.COOKIE_STORE, cookieStore_);
 					List<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
-					parameters.add(new BasicNameValuePair("email", userName));
+					parameters.add(new BasicNameValuePair("email", email));
 					parameters.add(new BasicNameValuePair("admin", "True"));
 					parameters.add(new BasicNameValuePair("action", "Login"));
 					HttpEntity entity = new UrlEncodedFormEntity(parameters);
@@ -154,13 +157,9 @@ public final class GoogleHttpContextDev extends GoogleHttpContext
 		AccountManager manager = AccountManager.get(context);
 		Account[] accounts = manager.getAccountsByType("com.google");
 		if (accounts != null)
-		{
 			for (Account account : accounts)
-			{
 				if (account.name.equals(username))
 					return account;
-			}
-		}
 		return null;
 	}
 
@@ -177,6 +176,7 @@ public final class GoogleHttpContextDev extends GoogleHttpContext
 			throws OperationCanceledException, AuthenticatorException,
 			IOException, AccessException
 	{
+
 		AccountManager accountManager = AccountManager.get(context);
 		AccountManagerFuture<Bundle> future = accountManager.getAuthToken(
 				account, "ah", null, false, null, null);

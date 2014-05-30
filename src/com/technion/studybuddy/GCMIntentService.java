@@ -53,7 +53,7 @@ public class GCMIntentService extends GCMBaseIntentService
 			@Override
 			public void execute(Context context, Bundle bundle)
 			{
-				generateNotification(context, bundle.getString("msg"));
+				// generateNotification(context, bundle.getString("msg"));
 				SharedPreferences preferences = context.getSharedPreferences(
 						Constants.PrefsContext, 0);
 				SharedPreferences.Editor editor = preferences.edit();

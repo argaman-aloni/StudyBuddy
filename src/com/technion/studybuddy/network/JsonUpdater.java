@@ -42,14 +42,13 @@ public class JsonUpdater extends AsyncTask<String, Void, JSONObject>
 	@Override
 	protected JSONObject doInBackground(String... params)
 	{
-		String username = context.getSharedPreferences(Constants.PrefsContext,
-				0).getString(Constants.ACCOUNT_NAME, "");
+
 		AndroidHttpClient client = AndroidHttpClient.newInstance(
 				"GetAuthCookieClient", context);
 		try
 		{
 			GoogleHttpContext httpContext = CommonUtilities.getContext(context,
-					username, Constants.SERVER_URL);
+					Constants.SERVER_URL);
 			HttpGet httpGet = new HttpGet(params[0]);
 			HttpResponse res = client.execute(httpGet, httpContext);
 			String json = EntityUtils.toString(res.getEntity());

@@ -41,15 +41,14 @@ public class SendAsyncTask extends AsyncTask<Void, Void, Void>
 	@Override
 	protected Void doInBackground(Void... params)
 	{
-		String username = context.getSharedPreferences(Constants.PrefsContext,
-				0).getString(Constants.ACCOUNT_NAME, "");
+
 		task.markOnProgress(adapter);
 		AndroidHttpClient client = AndroidHttpClient.newInstance(
 				"GetAuthCookieClient", context);
 		try
 		{
 			GoogleHttpContext httpContext = CommonUtilities.getContext(context,
-					username, Constants.SERVER_URL);
+					Constants.SERVER_URL);
 			HttpPost httpPost = new HttpPost("http://" + Constants.DATA_SYNC);
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 			nameValuePairs.add(new BasicNameValuePair(Constants.JSON_ADDON,

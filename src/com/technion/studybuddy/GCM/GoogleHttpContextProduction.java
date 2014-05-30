@@ -23,6 +23,8 @@ import android.net.http.AndroidHttpClient;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
 
+import com.google.android.gms.plus.Plus;
+import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.AccessException;
 import com.technion.studybuddy.exceptions.invalidatedTokenExcpetion;
 
@@ -49,8 +51,7 @@ public class GoogleHttpContextProduction extends GoogleHttpContext
 	 *             this context
 	 */
 	public GoogleHttpContextProduction(final Context context,
-			final String userName, final String baseUrl)
-			throws ClientProtocolException, IOException,
+			final String baseUrl) throws ClientProtocolException, IOException,
 			OperationCanceledException, AuthenticatorException, AccessException
 	{
 		super(context);
@@ -64,16 +65,20 @@ public class GoogleHttpContextProduction extends GoogleHttpContext
 				AndroidHttpClient httpClient = null;
 				httpClient = AndroidHttpClient.newInstance(
 						"GetAuthCookieClient", context);
+				String email = Plus.AccountApi.getAccountName(DataStore
+						.getInstance().getGoogleApiClient());
+				CommonUtilities.getAccountName(context);
 				try
 				{
-					sendRequest(userName, baseUrl, httpClient);
+
+					sendRequest(email, baseUrl, httpClient);
 				} catch (invalidatedTokenExcpetion e)
 				{
 					AccountManager manager = AccountManager.get(context);
 					manager.invalidateAuthToken("com.google", e.getToken());
 					try
 					{
-						sendRequest(userName, baseUrl, httpClient);
+						sendRequest(email, baseUrl, httpClient);
 					} catch (invalidatedTokenExcpetion e1)
 					{
 						e1.printStackTrace();
@@ -81,9 +86,7 @@ public class GoogleHttpContextProduction extends GoogleHttpContext
 				} finally
 				{
 					if (httpClient != null)
-					{
 						httpClient.close();
-					}
 				}
 
 			}
@@ -168,11 +171,9 @@ public class GoogleHttpContextProduction extends GoogleHttpContext
 	private boolean isAuthenticationCookiePresent(CookieStore cookieStore)
 	{
 		for (Cookie cookie : cookieStore.getCookies())
-		{
 			if (cookie.getName().equals("ACSID")
 					|| cookie.getName().equals("SACSID"))
 				return true;
-		}
 		return false;
 	}
 
@@ -187,13 +188,9 @@ public class GoogleHttpContextProduction extends GoogleHttpContext
 		AccountManager manager = AccountManager.get(context);
 		Account[] accounts = manager.getAccountsByType("com.google");
 		if (accounts != null)
-		{
 			for (Account account : accounts)
-			{
 				if (account.name.equals(username))
 					return account;
-			}
-		}
 		return null;
 	}
 

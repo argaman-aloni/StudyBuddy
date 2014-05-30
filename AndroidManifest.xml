@@ -15,7 +15,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -31,6 +30,9 @@
         android:icon="@drawable/stb_icon"
         android:label="@string/app_name"
         android:theme="@style/Theme.Sb_actionbar_style" >
+         <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <receiver
             android:name="com.google.android.gcm.GCMBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
@@ -44,6 +46,7 @@
         <receiver android:name=".widget.STBWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.sense.widget.Widget.REFRESH" />
             </intent-filter>
 
             <meta-data
@@ -105,6 +108,9 @@
         </activity>
 
         <receiver android:name="com.technion.studybuddy.TaskReciever" >
+            <intent-filter>
+                <action android:name="android.net.wifi.STATE_CHANGE" />
+            </intent-filter>
         </receiver>
 
         <activity

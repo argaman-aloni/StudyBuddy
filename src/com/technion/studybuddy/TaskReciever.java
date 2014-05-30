@@ -26,7 +26,7 @@ public class TaskReciever extends BroadcastReceiver
 		CommonUtilities.Network_Type type = CommonUtilities
 				.getNetworkType(context);
 		NetworkDBAdapter adapter = new NetworkDBAdapter(context);
-		if (bundle.containsKey(Constants.JSON_ADDON))
+		if (bundle != null && bundle.containsKey(Constants.JSON_ADDON))
 			adapter.addTask(bundle.getString(Constants.JSON_ADDON),
 					bundle.getString(Constants.TYPE_ADDON));
 		List<SyncTask> remaningTasks = adapter.getTaskNotDone();
