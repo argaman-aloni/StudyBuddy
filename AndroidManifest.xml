@@ -41,7 +41,7 @@
                 <category android:name="com.technion.studybuddy.recognizedtest" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.technion.studybuddy.widget.STBWidgetProvider" >
+        <receiver android:name=".widget.STBWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -51,7 +51,7 @@
                 android:resource="@xml/appwidget_info" />
         </receiver>
 
-        <service android:name="STBWidgetService" />
+        <service android:name=".widget.STBWidgetService" />
         <service android:name="com.technion.studybuddy.GCMIntentService" />
 
         <!-- Study Buddy -->

@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/appwidget_bg_clickable" >
 
     <ListView
         android:id="@+id/widget_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" >
+        android:layout_height="match_parent" >
     </ListView>
 
-</RelativeLayout>
+<!--     <TextView
+        android:id="@+id/widget_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="@color/Maroon"
+        android:text="@string/widget_no_items_to_display"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold" /> -->
+
+</FrameLayout>
