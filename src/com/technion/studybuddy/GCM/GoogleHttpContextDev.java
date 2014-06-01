@@ -34,6 +34,7 @@ import android.provider.Settings.Secure;
 import com.google.android.gms.plus.Plus;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.AccessException;
+import com.technion.studybuddy.utils.Constants;
 
 /**
  * @author Arik
@@ -76,8 +77,17 @@ public final class GoogleHttpContextDev extends GoogleHttpContext
 				AndroidHttpClient httpClient = null;
 				try
 				{
-					String email = Plus.AccountApi.getAccountName(DataStore
-							.getInstance().getGoogleApiClient());
+					String email = "";
+					try
+					{
+						email = Plus.AccountApi.getAccountName(DataStore
+								.getInstance().getGoogleApiClient());
+					} catch (Exception e)
+					{
+						email = context.getSharedPreferences(
+								Constants.PrefsContext, 0).getString(
+								Constants.ACCOUNT_NAME, "");
+					}
 					Account account = getAccountForName(context, email);
 					String token = getAuthToken(account);
 

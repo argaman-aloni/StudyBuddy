@@ -27,6 +27,7 @@ import com.google.android.gms.plus.Plus;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.AccessException;
 import com.technion.studybuddy.exceptions.invalidatedTokenExcpetion;
+import com.technion.studybuddy.utils.Constants;
 
 public class GoogleHttpContextProduction extends GoogleHttpContext
 {
@@ -65,8 +66,18 @@ public class GoogleHttpContextProduction extends GoogleHttpContext
 				AndroidHttpClient httpClient = null;
 				httpClient = AndroidHttpClient.newInstance(
 						"GetAuthCookieClient", context);
-				String email = Plus.AccountApi.getAccountName(DataStore
-						.getInstance().getGoogleApiClient());
+				String email = "";
+				try
+				{
+					email = Plus.AccountApi.getAccountName(DataStore
+							.getInstance().getGoogleApiClient());
+				} catch (Exception e)
+				{
+					email = context.getSharedPreferences(
+							Constants.PrefsContext, 0).getString(
+							Constants.ACCOUNT_NAME, "");
+				}
+
 				CommonUtilities.getAccountName(context);
 				try
 				{

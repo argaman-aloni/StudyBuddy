@@ -41,7 +41,6 @@ import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
-import com.google.android.gms.plus.model.people.Person.Image;
 import com.technion.studybuddy.Adapters.DrawerAdapter;
 import com.technion.studybuddy.GCM.ServerUtilities;
 import com.technion.studybuddy.data.DataStore;
@@ -257,16 +256,28 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 
 		if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null)
 		{
+			SharedPreferences prefs = getSharedPreferences(
+					Constants.PrefsContext, 0);
+
 			DataStore.getInstance().setGoogleApiClient(mGoogleApiClient);
 			Person currentPerson = Plus.PeopleApi
 					.getCurrentPerson(mGoogleApiClient);
-			// String personName = currentPerson.getDisplayName();
-			Image personPhoto = currentPerson.getImage();
+			if (!prefs.contains(Constants.ACCOUNT_NAME))
+			{
+				prefs.edit()
+						.putString(
+								Constants.ACCOUNT_NAME,
+								Plus.AccountApi
+										.getAccountName(mGoogleApiClient))
+						.commit();
+				ServerUtilities.registerToServer(this);
+			} else
+				DataStore.getInstance().getAllCourses();
 			loginTitle.setText(currentPerson.getName().getGivenName() + " "
 					+ currentPerson.getName().getFamilyName());
-			new PictureGrabber().execute(personPhoto.getUrl());
-			ServerUtilities.registerToServer(this);
-			// String personGooglePlusProfile = currentPerson.getUrl();
+			if (currentPerson.hasImage())
+				new PictureGrabber().execute(currentPerson.getImage().getUrl());
+
 		}
 
 	}

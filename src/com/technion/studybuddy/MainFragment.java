@@ -230,7 +230,7 @@ public class MainFragment extends Fragment implements Observer
 			NavUtils.navigateUpFromSameTask(getActivity());
 			return true;
 		case R.id.stb_add_curse:
-			intent = new Intent(getActivity(), EditCourse.class);
+			intent = new Intent(getActivity(), AddCourseActivity.class);
 			startActivityForResult(intent, Activity.RESULT_CANCELED);
 			return true;
 		case R.id.stb_main_settings:
@@ -279,7 +279,8 @@ public class MainFragment extends Fragment implements Observer
 	{
 		updateGraphView();
 		adapter.notifyDataSetChanged();
-		drawerAdapter.notifyDataSetChanged();
+		if (drawerAdapter != null)
+			drawerAdapter.notifyDataSetChanged();
 		setVisibilityEmptyState();
 	}
 
@@ -328,6 +329,31 @@ public class MainFragment extends Fragment implements Observer
 		chartLayout.addView(semesterData);
 		chartLayout.addView(graphView);
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Fragment#onResume()
+	 */
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		DataStore.getInstance().addObserver(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Fragment#onPause()
+	 */
+	@Override
+	public void onPause()
+	{
+		// TODO Auto-generated method stub
+		super.onPause();
+		DataStore.getInstance().deleteObserver(this);
 	}
 
 }

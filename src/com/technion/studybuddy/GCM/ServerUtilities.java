@@ -36,8 +36,6 @@ import android.provider.Settings.Secure;
 import android.util.Log;
 
 import com.google.android.gcm.GCMRegistrar;
-import com.google.android.gms.plus.Plus;
-import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.utils.Constants;
 
 /**
@@ -178,9 +176,6 @@ public final class ServerUtilities
 		String regid;
 		setActivity(activity);
 
-		activity.getSharedPreferences(Constants.PrefsContext, 0);
-		Plus.AccountApi.getAccountName(DataStore.getInstance()
-				.getGoogleApiClient());
 		// if ("".equals(accountName))
 		// {
 		// // Toast.makeText(activity, "please choose account to sign with",

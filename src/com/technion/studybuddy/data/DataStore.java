@@ -421,4 +421,9 @@ public class DataStore extends Observable implements Composite
 	{
 		this.mGoogleApiClient = mGoogleApiClient;
 	}
+
+	public boolean contains(String id)
+	{
+		return DataStore.coursesById.containsKey(id);
+	}
 }

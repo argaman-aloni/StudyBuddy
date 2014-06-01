@@ -92,7 +92,7 @@ public class StudyItemImpl extends AbstractPersistable<StudyResource> implements
 		StringBuilder builder = new StringBuilder();
 		for (String link : _links)
 			builder.append(link).append(" ");
-		links = builder.toString().substring(0, builder.length() - 1);
+		links = builder.toString().isEmpty()?"":builder.toString().substring(0, builder.length() - 1);
 	}
 
 	@Override
