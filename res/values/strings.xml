@@ -55,9 +55,6 @@
     <string name="title_activity_links_view">LinksViewActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_add_course">AddCourseActivity</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="widget_no_items_to_display">No items to display</string>
 
 </resources>
