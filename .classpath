@@ -4,9 +4,14 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="lib" path="android-support-v7-appcompat.jar"/>
 	<classpathentry kind="lib" path="libs/achartengine-1.1.0.jar"/>
 	<classpathentry kind="lib" path="libs/gcm.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CardsUILib"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/google-play-services_lib"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/lib_ViewPagerIndicator"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ormlite-content-provider-library"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/WheelProgress"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
