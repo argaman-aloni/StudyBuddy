@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.technion.studybuddy.Views.FontFitTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="right"
+    android:background="@drawable/stb_search_bg_shadow"
+    android:gravity="center"
+    android:minHeight="16dp"
+    android:minWidth="32dp"
+    
+    android:textColor="#707070" />

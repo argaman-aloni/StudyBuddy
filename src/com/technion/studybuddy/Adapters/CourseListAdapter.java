@@ -30,18 +30,20 @@ public class CourseListAdapter extends BaseAdapter implements Observer
 {
 	private final LayoutInflater mInflater;
 	private final CourseListPresenter presenter;
+	private final Activity context;
 
 	// private Object coursePresenter;
 
 	/**
 	 * 
 	 */
-	public CourseListAdapter(Context context)
+	public CourseListAdapter(Activity context)
 	{
 		super();
 		mInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		presenter = DataStore.getMainPresenter();
+		this.context = context;
 	}
 
 	@Override
@@ -154,7 +156,7 @@ public class CourseListAdapter extends BaseAdapter implements Observer
 				cardUI.addCardToLastStack(exam);
 		}
 		RecyclableCard details = new CourseOverviewCard(courseNumber, cardUI,
-				stack, position, this);
+				stack, position, this, context);
 		details.setOnClickListener(courseClickListener);
 		cardUI.addCardToLastStack(details);
 		// TODO customize view

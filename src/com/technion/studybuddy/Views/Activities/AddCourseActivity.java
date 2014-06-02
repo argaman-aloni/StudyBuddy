@@ -1,4 +1,4 @@
-package com.technion.studybuddy;
+package com.technion.studybuddy.Views.Activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -15,6 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.technion.studybuddy.R;
+import com.technion.studybuddy.R.id;
+import com.technion.studybuddy.R.layout;
+import com.technion.studybuddy.R.menu;
 import com.technion.studybuddy.Views.AddCourseFromWebFragment;
 
 public class AddCourseActivity extends Activity implements

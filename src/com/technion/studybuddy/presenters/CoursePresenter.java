@@ -16,27 +16,32 @@ import com.technion.studybuddy.models.Semester;
 import com.technion.studybuddy.models.StudyItem;
 import com.technion.studybuddy.models.StudyResource;
 
-public class CoursePresenter extends Observable {
+public class CoursePresenter extends Observable
+{
 	String courseNumber;
 	Course course;
 
 	// Arik please check this.... I added this field so that the file would
 	// compile but I don't know if it's what I was supposed to do.
 
-	public CoursePresenter(String courseNumber) {
+	public CoursePresenter(String courseNumber)
+	{
 		this.courseNumber = courseNumber;
 		course = DataStore.coursesById.get(courseNumber);
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return course.getName();
 	}
 
-	public int getCurrentWeekNum(Date today) {
+	public int getCurrentWeekNum(Date today)
+	{
 		return DataStore.semester.getSemesterWeek(today);
 	}
 
-	public Collection<String> getResourceNames() {
+	public Collection<String> getResourceNames()
+	{
 		Collection<StudyResource> srs = course.getAllStudyResources();
 		Collection<String> $ = new ArrayList<String>(srs.size());
 		for (StudyResource sr : srs)
@@ -44,79 +49,100 @@ public class CoursePresenter extends Observable {
 		return $;
 	}
 
-	public String getResourceName(int itemPosition) {
+	public String getResourceName(int itemPosition)
+	{
 
 		return course.getResourceName(itemPosition);
 	}
 
-	public int getSemesterLength() {
+	public int getSemesterLength()
+	{
 		return Semester.WEEKS_IN_SEMESTER;
 	}
 
-	public int getDoneItemsCount(String resourceName) {
-		try {
+	public int getDoneItemsCount(String resourceName)
+	{
+		try
+		{
 			return course.getResourceByName(resourceName).getDoneItemsCount();
-		} catch (NoSuchResourceException e) {
+		} catch (NoSuchResourceException e)
+		{
 			return 0;
 		}
 	}
 
-	public int getTotalItemCount(String resourceName) {
-		try {
+	public int getTotalItemCount(String resourceName)
+	{
+		try
+		{
 			return course.getResourceByName(resourceName).getTotalItemCount();
-		} catch (NoSuchResourceException e) {
+		} catch (NoSuchResourceException e)
+		{
 			return 0;
 		}
 	}
 
-	public int getNumOfItemsBehind(Date date, String resourceName) {
+	public int getNumOfItemsBehind(Date date, String resourceName)
+	{
 
-		try {
+		try
+		{
 			return course.getResourceByName(resourceName).getNumOfItemsBehind(
 					DataStore.semester.getSemesterWeek(date),
 					DataStore.semester.getTotalWeeks());
-		} catch (NoSuchResourceException e) {
+		} catch (NoSuchResourceException e)
+		{
 			return 0;
 		}
 	}
 
-	public int getNumOfItemsDue(Date date, String resourceName) {
+	public int getNumOfItemsDue(Date date, String resourceName)
+	{
 
-		try {
+		try
+		{
 			return course.getResourceByName(resourceName).getNumOfItemsDue(
 					DataStore.semester.getSemesterWeek(date),
 					DataStore.semester.getTotalWeeks());
-		} catch (NoSuchResourceException e) {
+		} catch (NoSuchResourceException e)
+		{
 			return 0;
 		}
 	}
 
-	public int getNumOfItemsBehind(Date date) {
+	public int getNumOfItemsBehind(Date date)
+	{
 
 		return course.getNumOfItemsBehind(
 				DataStore.semester.getSemesterWeek(date),
 				DataStore.semester.getTotalWeeks());
 	}
 
-	public int getNumOfItemsDue(Date date) {
+	public int getNumOfItemsDue(Date date)
+	{
 
 		return course.getNumOfItemsDue(
 				DataStore.semester.getSemesterWeek(date),
 				DataStore.semester.getTotalWeeks());
 	}
 
-	public String getNextItem(String resourseName) {
-		try {
+	public String getNextItem(String resourseName)
+	{
+		try
+		{
 			return course.getResourceByName(resourseName).getNextItem()
 					.getLabel();
-		} catch (NoSuchResourceException e) {
+		} catch (NoSuchResourceException e)
+		{
 			return "";
-		} catch (NoItemsLeftException e) {
+		} catch (NoItemsLeftException e)
+		{
 			return "";
 		}
 	}
 
-	public List<StudyItem> getRemaingItems() {
+	public List<StudyItem> getRemaingItems()
+	{
 		List<StudyItem> allItems = new ArrayList<StudyItem>();
 		for (StudyResource r : course.getAllStudyResources())
 			allItems.addAll(course.getRemainingItems(r.getName()));
@@ -124,7 +150,8 @@ public class CoursePresenter extends Observable {
 
 	}
 
-	public List<StudyItem> getAllItems() {
+	public List<StudyItem> getAllItems()
+	{
 		List<StudyItem> allItems = new ArrayList<StudyItem>();
 		if (course == null)
 			return new ArrayList<>();
@@ -133,7 +160,8 @@ public class CoursePresenter extends Observable {
 		return allItems;
 	}
 
-	public List<StudyItem> getAllDoneItems() {
+	public List<StudyItem> getAllDoneItems()
+	{
 		List<StudyItem> allDoneItems = new ArrayList<StudyItem>();
 		if (course == null)
 			return new ArrayList<>();
@@ -144,24 +172,37 @@ public class CoursePresenter extends Observable {
 		return allDoneItems;
 	}
 
-	public void clearDoneState() {
+	public void clearDoneState()
+	{
 		for (StudyItem studyItem : getAllItems())
 			studyItem.setUnDone();
 	}
 
-	public Date getLastDateStudied() {
+	public Date getLastDateStudied()
+	{
 		List<Date> doneDates = new ArrayList<Date>(course.getDoneDates());
-		Comparator<Date> dateComparator = new Comparator<Date>() {
+		Comparator<Date> dateComparator = new Comparator<Date>()
+		{
 
 			@Override
-			public int compare(Date lhs, Date rhs) {
+			public int compare(Date lhs, Date rhs)
+			{
 
 				return (int) (lhs.getTime() - rhs.getTime());
 			}
-				};
-				Collections.sort(doneDates, dateComparator);
-				if (doneDates.isEmpty())
-					return new Date();
-				return doneDates.get(0);
+		};
+		Collections.sort(doneDates, dateComparator);
+		if (doneDates.isEmpty())
+			return new Date();
+		return doneDates.get(0);
+	}
+
+	public List<String> getLinksFor(String string)
+	{
+		for (StudyResource r : course.getAllStudyResources())
+			for (StudyItem s : r.getItems())
+				if (string.equals(s.getLabel()))
+					return s.getLinks();
+		return new ArrayList<>();
 	}
 }

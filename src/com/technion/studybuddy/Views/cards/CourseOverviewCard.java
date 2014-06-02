@@ -1,14 +1,20 @@
 package com.technion.studybuddy.Views.cards;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
@@ -17,6 +23,7 @@ import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.views.CardUI;
 import com.technion.studybuddy.R;
 import com.technion.studybuddy.Views.Activities.CreateReviewPointActivity;
+import com.technion.studybuddy.Views.Activities.LinksViewActivity;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.presenters.CoursePresenter;
 import com.technion.studybuddy.utils.DateUtils;
@@ -28,14 +35,16 @@ public class CourseOverviewCard extends BaseCard
 	private final CoursePresenter presenter;
 	private final String courseID;
 	private final BaseAdapter baseAdapter;
+	private final Activity context;
 
 	public CourseOverviewCard(String courseID, CardUI cardUI, CardStack stack,
-			int index, BaseAdapter adapter)
+			int index, BaseAdapter adapter, Activity context)
 	{
 		super(cardUI, stack);
 		baseAdapter = adapter;
 		// this.index = index;
 		this.courseID = courseID;
+		this.context = context;
 		presenter = DataStore.getInstance().getCoursePresenter(courseID);// DataStore.getMainPresenter();
 	}
 
@@ -95,6 +104,10 @@ public class CourseOverviewCard extends BaseCard
 
 			}
 		});
+		ListView items = (ListView) convertView.findViewById(R.id.next_items);
+		if (items == null)
+			return;
+		items.setAdapter(new NextItemsAdapter());
 	}
 
 	@Override
@@ -137,6 +150,95 @@ public class CourseOverviewCard extends BaseCard
 			return true;
 		}
 
+	}
+
+	private class NextItemsAdapter extends BaseAdapter
+	{
+
+		private final List<String> next;
+
+		/**
+		 * 
+		 */
+		public NextItemsAdapter()
+		{
+			super();
+			next = new ArrayList<>();
+			for (String resourseType : presenter.getResourceNames())
+			{
+				String name = presenter.getNextItem(resourseType);
+				if (null != name && !name.isEmpty())
+					next.add(presenter.getNextItem(resourseType));
+			}
+		}
+
+		@Override
+		public int getCount()
+		{
+			return next.size();
+		}
+
+		@Override
+		public Object getItem(int position)
+		{
+			return next.get(position);
+		}
+
+		@Override
+		public long getItemId(int position)
+		{
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public View getView(final int position, View convertView,
+				ViewGroup parent)
+		{
+			if (convertView == null)
+				convertView = LayoutInflater.from(context).inflate(
+						R.layout.stb_course_item_resourse, null);
+			TextView t = (TextView) convertView;
+
+			t.setText(getItem(position).toString());
+			t.setOnClickListener(new OnClickListener()
+			{
+
+				@Override
+				public void onClick(View v)
+				{
+					// presenter.g
+					Intent intent = new Intent(v.getContext(),
+							LinksViewActivity.class);
+					intent.putExtra("CourseName", getItem(position).toString());
+					intent.putExtra("courseId", courseID);
+					intent.putExtra("LinksList", formatToSend(presenter
+							.getLinksFor(next.get(position))));
+					int[] location = new int[2];
+					v.getLocationOnScreen(location);
+					String PACKAGE = context.getPackageName();
+					intent.putExtra(PACKAGE + ".left", location[0]);
+					intent.putExtra(PACKAGE + ".top", location[1]);
+					intent.putExtra(PACKAGE + ".width", v.getWidth());
+					intent.putExtra(PACKAGE + ".height", v.getHeight());
+					context.startActivity(intent);
+					context.overridePendingTransition(0, 0);
+				}
+			});
+			return convertView;
+		}
+	}
+
+	public String formatToSend(List<String> links)
+	{
+		StringBuilder builder = new StringBuilder();
+		if (!links.isEmpty())
+		{
+			for (String link : links)
+				builder.append(link).append(" ");
+			return builder.toString().substring(0, builder.length() - 1);
+		}
+		return null;
 	}
 
 }

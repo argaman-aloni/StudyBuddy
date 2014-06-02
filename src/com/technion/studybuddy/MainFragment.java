@@ -4,7 +4,6 @@
 package com.technion.studybuddy;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -13,11 +12,8 @@ import org.achartengine.GraphicalView;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,16 +33,13 @@ import com.technion.studybuddy.Adapters.DrawerAdapter;
 import com.technion.studybuddy.GCM.GoogleHttpContext;
 import com.technion.studybuddy.GCM.ServerUtilities;
 import com.technion.studybuddy.Views.NowLayout;
+import com.technion.studybuddy.Views.Activities.AddCourseActivity;
 import com.technion.studybuddy.Views.Activities.EditCourse;
 import com.technion.studybuddy.Views.Activities.StbSettingsActivity;
 import com.technion.studybuddy.charts.PieChartBuilder;
 import com.technion.studybuddy.data.DataStore;
-import com.technion.studybuddy.exceptions.CourseAlreadyExistsException;
-import com.technion.studybuddy.exceptions.NoSuchResourceException;
 import com.technion.studybuddy.graphs.GraphFactory;
 import com.technion.studybuddy.models.Courses;
-import com.technion.studybuddy.models.StudyItem;
-import com.technion.studybuddy.utils.Constants;
 
 /**
  * @author Argaman
@@ -66,73 +59,12 @@ public class MainFragment extends Fragment implements Observer
 	private View rootView;
 	private View semesterData;
 
-	private SharedPreferences sharedPreferences;
-
-	private void createExmapleCourse()
-	{
-		sharedPreferences.edit().putBoolean("firstUse", false).commit();
-		String num = "123456";
-		String name = "Example course";
-
-		int lecturesAmount = 6;
-		int tutorialsAmount = 6;
-
-		try
-		{
-			DataStore.getInstance().addCourse(num, name, lecturesAmount,
-					tutorialsAmount);
-		} catch (CourseAlreadyExistsException e)
-		{
-			String errMsg = "A course with num " + num + " already exists.";
-			Toast.makeText(rootView.getContext(), errMsg, Toast.LENGTH_SHORT)
-					.show();
-			return;
-		}
-		try
-		{
-			List<StudyItem> lectureItems = DataStore.coursesById.get("123456")
-					.getResourceByName(Constants.LECTURE).getItems();
-
-			lectureItems.get(3).toggleDone();
-			lectureItems.get(0).toggleDone();
-			lectureItems.get(4).toggleDone();
-			lectureItems.get(5).toggleDone();
-			lectureItems.get(0).setLabel("example topic");
-			lectureItems.get(1).setLabel("Click for details");
-			lectureItems.get(2).setLabel("Click to Mark");
-			lectureItems.get(3).setLabel("Click to unmark");
-			lectureItems.get(4).setLabel("try to long press to open menu");
-
-			List<StudyItem> tutorialItems = DataStore.coursesById.get("123456")
-					.getResourceByName(Constants.TUTORIAL).getItems();
-			tutorialItems.get(3).toggleDone();
-			tutorialItems.get(0).toggleDone();
-
-			tutorialItems.get(2).toggleDone();
-			tutorialItems.get(4).toggleDone();
-			tutorialItems.get(5).toggleDone();
-			tutorialItems.get(0).setLabel("example topic");
-			tutorialItems.get(1).setLabel("Click for details");
-			tutorialItems.get(2).setLabel("Click to Mark");
-			tutorialItems.get(3).setLabel("Click to unmark");
-			tutorialItems.get(4).setLabel("try to long press to open menu");
-		} catch (NoSuchResourceException e)
-		{
-			e.printStackTrace();
-		}
-		DataStore.getInstance().addExam(
-				num,
-				"example exam ",
-				new Date(System.currentTimeMillis() + 8
-						* DateUtils.DAY_IN_MILLIS));
-	}
-
 	private void initInitialView()
 	{
 		layout = (NowLayout) rootView.findViewById(R.id.course_list);
 		emptyState = (LinearLayout) rootView
 				.findViewById(R.id.stb_main_empty_state);
-		adapter = new CourseListAdapter(rootView.getContext());
+		adapter = new CourseListAdapter(getActivity());
 		layout.setAdapter(adapter);
 		Button btn = (Button) rootView
 				.findViewById(R.id.stb_main_empty_state_button);
@@ -171,12 +103,6 @@ public class MainFragment extends Fragment implements Observer
 						+ " / "
 						+ DataStore.semester.getTotalWeeks()));
 		updateGraphView();
-		sharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(rootView.getContext());
-		// boolean firstUse = sharedPreferences.getBoolean("firstUse", true);
-		// if (firstUse) {
-		// createExmapleCourse();
-		// }
 	}
 
 	@Override

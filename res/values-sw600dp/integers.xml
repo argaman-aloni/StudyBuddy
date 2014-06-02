@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="stb_num_of_columns">2</integer>
+    <integer name="stb_num_of_columns">1</integer>
     <integer name="stb_num_of_columns_course_Items">1</integer>
 	<bool name="stb_date_picker">true</bool>   
     <integer name="stb_num_of_columns_resourse">4</integer>

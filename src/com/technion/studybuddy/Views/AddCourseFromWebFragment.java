@@ -19,6 +19,7 @@ import android.app.ProgressDialog;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -153,10 +154,12 @@ public class AddCourseFromWebFragment extends Fragment
 	private class GetCourses extends AsyncTask<Void, Void, JSONArray>
 	{
 
+		private ProgressDialog dialog;
+
 		@Override
 		protected JSONArray doInBackground(Void... params)
 		{
-
+			Looper.prepare();
 			AndroidHttpClient client = AndroidHttpClient.newInstance(
 					"GetAuthCookieClient", getActivity());
 			try
@@ -166,10 +169,14 @@ public class AddCourseFromWebFragment extends Fragment
 				HttpGet httpGet = new HttpGet(Constants.SERVER_URL_FULL
 						+ "/data?type=all");
 				HttpResponse res = client.execute(httpGet, httpContext);
+
 				String json = EntityUtils.toString(res.getEntity());
 				return new JSONArray(json);
 			} catch (IOException | JSONException e)
 			{
+				Toast.makeText(getActivity(),
+						"No internet conneticity please try again later",
+						Toast.LENGTH_LONG).show();
 				e.printStackTrace();
 			} finally
 			{
@@ -186,6 +193,11 @@ public class AddCourseFromWebFragment extends Fragment
 		@Override
 		protected void onPostExecute(JSONArray result)
 		{
+			if (result == null)
+			{
+				dialog.dismiss();
+				return;
+			}
 			List<String> names = new ArrayList<>();
 			List<String> ids = new ArrayList<>();
 			try
@@ -201,7 +213,21 @@ public class AddCourseFromWebFragment extends Fragment
 			}
 			adapter = new AddCourseAdapter(names, ids);
 			courses.setAdapter(adapter);
+			dialog.dismiss();
+		}
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see android.os.AsyncTask#onPreExecute()
+		 */
+		@Override
+		protected void onPreExecute()
+		{
+
+			super.onPreExecute();
+			dialog = ProgressDialog.show(getActivity(), "",
+					"Loading courses. Please wait...", true);
 		}
 
 	}
