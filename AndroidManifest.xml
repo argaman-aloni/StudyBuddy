@@ -121,6 +121,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.technion.studybuddy.Views.Activities.CourseActivity" />
         </activity>
+        <activity android:name="AddCourseActivity"></activity>
     </application>
 
 </manifest>
