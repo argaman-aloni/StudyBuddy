@@ -22,6 +22,7 @@ import android.preference.PreferenceManager;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.technion.studybuddy.Tasks.CourseGrabber;
 import com.technion.studybuddy.exceptions.CourseAlreadyExistsException;
 import com.technion.studybuddy.factories.ExamFactory;
 import com.technion.studybuddy.factories.StudyItemsFactory;
@@ -34,7 +35,6 @@ import com.technion.studybuddy.models.Semester;
 import com.technion.studybuddy.models.StudyItem;
 import com.technion.studybuddy.models.StudyResource;
 import com.technion.studybuddy.models.WorkStats;
-import com.technion.studybuddy.network.CourseGrabber;
 import com.technion.studybuddy.persisters.Persister;
 import com.technion.studybuddy.presenters.CourseListPresenter;
 import com.technion.studybuddy.presenters.CoursePresenter;

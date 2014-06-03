@@ -13,7 +13,7 @@
     </style>
 
     
-
+ 
     <!-- Studdy Buddy -->
     <style name="stb_nowCardStyle" parent="android:Widget.TextView">
         <item name="android:background">@drawable/stb_search_bg_shadow</item>

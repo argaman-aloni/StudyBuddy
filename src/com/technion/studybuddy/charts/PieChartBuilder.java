@@ -16,7 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
 import com.technion.studybuddy.R;
-import com.technion.studybuddy.Views.ChartFullFragment;
+import com.technion.studybuddy.Views.Framgments.ChartFullFragment;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.models.WorkStats;
 

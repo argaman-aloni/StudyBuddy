@@ -1,4 +1,4 @@
-package com.technion.studybuddy.Views;
+package com.technion.studybuddy.Views.Framgments;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -15,6 +15,9 @@ import android.widget.TextView;
 
 import com.technion.studybuddy.R;
 import com.technion.studybuddy.Adapters.TaskAdapter;
+import com.technion.studybuddy.Views.MessageBar;
+import com.technion.studybuddy.Views.NowLayout;
+import com.technion.studybuddy.Views.MessageBar.OnMessageClickListener;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.presenters.CoursePresenter;
 import com.technion.studybuddy.utils.Constants;

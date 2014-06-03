@@ -1,4 +1,4 @@
-package com.technion.studybuddy.Views;
+package com.technion.studybuddy.Views.Framgments;
 
 import java.util.Date;
 import java.util.Observable;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.technion.studybuddy.R;
 import com.technion.studybuddy.Adapters.ResourceGridAdapter;
+import com.technion.studybuddy.Views.NowLayout;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.NoSuchResourceException;
 import com.technion.studybuddy.models.StudyResource;

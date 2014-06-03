@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+   
+    <EditText
+        android:id="@+id/stb_course_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="@string/enter_course_num"
+        android:inputType="number" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/stb_create_course"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/stb_course_num"
+        android:layout_below="@id/stb_course_num"
+        android:layout_marginTop="24dp"
+        android:text="Create Course" />
+
+</RelativeLayout>

@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.technion.studybuddy.Views;
+package com.technion.studybuddy.Views.Framgments;
 
 import org.achartengine.GraphicalView;
 

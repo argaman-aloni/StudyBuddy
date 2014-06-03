@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.technion.studybuddy.Views.CourseOverViewFragment;
-import com.technion.studybuddy.Views.ResourceFragment;
+import com.technion.studybuddy.Views.Framgments.CourseOverViewFragment;
+import com.technion.studybuddy.Views.Framgments.ResourceFragment;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.presenters.CoursePresenter;
 

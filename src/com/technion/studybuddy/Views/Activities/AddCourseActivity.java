@@ -8,18 +8,12 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.technion.studybuddy.R;
-import com.technion.studybuddy.R.id;
-import com.technion.studybuddy.R.layout;
-import com.technion.studybuddy.R.menu;
-import com.technion.studybuddy.Views.AddCourseFromWebFragment;
+import com.technion.studybuddy.Views.Framgments.AddCourseFromWebFragment;
+import com.technion.studybuddy.Views.Framgments.NewCourseFragment;
 
 public class AddCourseActivity extends Activity implements
 		ActionBar.TabListener
@@ -143,7 +137,7 @@ public class AddCourseActivity extends Activity implements
 			// getItem is called to instantiate the fragment for the given page.
 			// Return a PlaceholderFragment (defined as a static inner class
 			// below).
-			return PlaceholderFragment.newInstance(position + 1);
+			return new NewCourseFragment();
 		}
 
 		@Override
@@ -163,42 +157,5 @@ public class AddCourseActivity extends Activity implements
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
-	public static class PlaceholderFragment extends Fragment
-	{
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-		private static final String ARG_SECTION_NUMBER = "section_number";
-
-		/**
-		 * Returns a new instance of this fragment for the given section number.
-		 */
-		public static PlaceholderFragment newInstance(int sectionNumber)
-		{
-			PlaceholderFragment fragment = new PlaceholderFragment();
-			Bundle args = new Bundle();
-			args.putInt(PlaceholderFragment.ARG_SECTION_NUMBER, sectionNumber);
-			fragment.setArguments(args);
-			return fragment;
-		}
-
-		public PlaceholderFragment()
-		{
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState)
-		{
-			View rootView = inflater.inflate(R.layout.fragment_add_course,
-					container, false);
-			TextView textView = (TextView) rootView
-					.findViewById(R.id.section_label);
-			textView.setText(Integer.toString(getArguments().getInt(
-					PlaceholderFragment.ARG_SECTION_NUMBER)));
-			return rootView;
-		}
-	}
 
 }

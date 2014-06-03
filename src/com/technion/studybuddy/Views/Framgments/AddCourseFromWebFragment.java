@@ -1,21 +1,18 @@
-package com.technion.studybuddy.Views;
+package com.technion.studybuddy.Views.Framgments;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,10 +28,14 @@ import android.widget.Toast;
 import com.technion.studybuddy.R;
 import com.technion.studybuddy.GCM.CommonUtilities;
 import com.technion.studybuddy.GCM.GoogleHttpContext;
+import com.technion.studybuddy.Tasks.RegisterCourseCallback;
+import com.technion.studybuddy.Tasks.RegisterCourseTask;
+import com.technion.studybuddy.Views.NowLayout;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.utils.Constants;
 
-public class AddCourseFromWebFragment extends Fragment
+public class AddCourseFromWebFragment extends Fragment implements
+		RegisterCourseCallback
 {
 
 	private NowLayout courses;
@@ -114,7 +115,8 @@ public class AddCourseFromWebFragment extends Fragment
 					{
 						if (!DataStore.getInstance()
 								.contains(ids.get(position)))
-							new RegisterCourseTask(ids.get(position)).execute();
+							new RegisterCourseTask(ids.get(position),
+									AddCourseFromWebFragment.this).execute();
 						else
 							Toast.makeText(getActivity(),
 									"Course allready registered",
@@ -232,78 +234,17 @@ public class AddCourseFromWebFragment extends Fragment
 
 	}
 
-	private class RegisterCourseTask extends AsyncTask<Void, Void, Void>
+	@Override
+	public Context getContext()
 	{
-
-		private ProgressDialog dialog;
-		private final String id;
-
-		/**
-		 * @param view
-		 * @param string
-		 */
-		public RegisterCourseTask(String _id)
-		{
-			super();
-			id = _id;
-		}
-
-		@Override
-		protected Void doInBackground(Void... params)
-		{
-
-			AndroidHttpClient client = AndroidHttpClient.newInstance(
-					"GetAuthCookieClient", getActivity());
-			try
-			{
-				GoogleHttpContext httpContext = CommonUtilities.getContext(
-						getActivity(), Constants.SERVER_URL);
-				HttpPost httpPost = new HttpPost(Constants.SERVER_URL_FULL
-						+ "/data");
-				List<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
-				parameters.add(new BasicNameValuePair("type", "courseTaken"));
-				parameters.add(new BasicNameValuePair("id", id));
-				HttpEntity entity = new UrlEncodedFormEntity(parameters);
-				httpPost.setEntity(entity);
-				HttpResponse res = client.execute(httpPost, httpContext);
-				res.toString();
-
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-			} finally
-			{
-				client.close();
-			}
-			return null;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-		 */
-		@Override
-		protected void onPostExecute(Void result)
-		{
-			DataStore.getInstance().getAllCourses();
-
-			dialog.dismiss();
-			adapter.notifyDataSetChanged();
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see android.os.AsyncTask#onPreExecute()
-		 */
-		@Override
-		protected void onPreExecute()
-		{
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-			dialog = ProgressDialog.show(getActivity(), "",
-					"Registering course " + id + ". Please wait...", true);
-		}
+		return getActivity();
 	}
+
+	@Override
+	public void update()
+	{
+		adapter.notifyDataSetChanged();
+
+	}
+
 }
