@@ -27,6 +27,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -102,9 +104,9 @@ public class MainFragment extends Fragment implements Observer {
 		weekCount.setText("week "
 				+ String.valueOf(currentWeek < DataStore.semester
 						.getTotalWeeks() ? currentWeek : DataStore.semester
-								.getTotalWeeks()
-								+ " / "
-								+ DataStore.semester.getTotalWeeks()));
+						.getTotalWeeks()
+						+ " / "
+						+ DataStore.semester.getTotalWeeks()));
 		updateGraphView();
 	}
 
@@ -141,7 +143,7 @@ public class MainFragment extends Fragment implements Observer {
 			locationInArray = sharedPref.getInt(Constants.locationInArray, 0);
 		else
 			locationInArray = savedInstanceState
-			.getInt(Constants.locationInArray);
+					.getInt(Constants.locationInArray);
 		initInitialView();
 		setVisibilityEmptyState();
 		DataStore.getInstance().addObserver(this);
@@ -155,6 +157,9 @@ public class MainFragment extends Fragment implements Observer {
 			String[] array = getResources().getStringArray(
 					R.array.popup_notifications);
 			bubbleTv.setText(array[locationInArray % array.length]);
+			Animation animation = AnimationUtils.loadAnimation(getActivity(),
+					R.anim.stb_in);
+			bubbleTv.setAnimation(animation);
 		}
 
 		setHasOptionsMenu(true);
@@ -269,7 +274,7 @@ public class MainFragment extends Fragment implements Observer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see android.app.Fragment#onResume()
 	 */
 	@Override
@@ -280,7 +285,7 @@ public class MainFragment extends Fragment implements Observer {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see android.app.Fragment#onPause()
 	 */
 	@Override

@@ -65,5 +65,7 @@
         <item>Did you know? You can watch your studying statistics, just click on the graph here to view them!</item>
         <item>Did you know? You can watch your courses in out website! the adress is: http://studybuddyserver.appspot.com/courses</item>
     </string-array>
+        <string name="vertical_orientation">VERTICAL</string>
+        <string name="horizontal_orientation">HORIZONTAL</string>
 
 </resources>
