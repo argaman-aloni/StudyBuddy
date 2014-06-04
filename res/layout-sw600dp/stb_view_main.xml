@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e3e3e3"
+    android:orientation="vertical"
+    android:weightSum="6" >
+
+    <LinearLayout
+        android:id="@+id/Chart_layout"
+        style="@style/stb_nowCardStyle"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:padding="16dp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="2"
+        android:orientation="vertical" >
+
+        <com.technion.studybuddy.Views.NowLayout
+            android:id="@+id/course_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="@integer/stb_num_of_columns" >
+        </com.technion.studybuddy.Views.NowLayout>
+
+        <LinearLayout
+            android:id="@+id/stb_main_empty_state"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible" >
+
+            <TextView
+                android:id="@+id/stb_main_empty_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stb_empty_state_title"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="40sp" />
+
+            <Button
+                android:id="@+id/stb_main_empty_state_button"
+                style="?android:borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stb_empty_state_button"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/darker_gray" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/bubble_main_tv"
+        android:layout_weight="2"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:gravity="center"
+        android:background="@drawable/notification_bubble"
+        android:text="BLAH BLAH BLAH" />
+
+</LinearLayout>

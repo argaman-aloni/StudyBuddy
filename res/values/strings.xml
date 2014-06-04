@@ -57,4 +57,13 @@
     <string name="action_settings">Settings</string>
     <string name="widget_no_items_to_display">No items to display</string>
 
+    <string-array name="popup_notifications">
+        <item>Did you know? Logging in enables you to sync your activities through the devices! Just open the drawer and lets become Study buddies!</item>
+        <item>Did you know? You can add registered courses with a single click! Let\'s get started!</item>
+        <item>Did you know? You can register a new Course by it\'s course number and we will find everything for you!</item>
+        <item>Did you know? StudyBuddy had a Widget! Now you can see your next activities in the main screen!</item>
+        <item>Did you know? You can watch your studying statistics, just click on the graph here to view them!</item>
+        <item>Did you know? You can watch your courses in out website! the adress is: http://studybuddyserver.appspot.com/courses</item>
+    </string-array>
+
 </resources>

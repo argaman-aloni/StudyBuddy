@@ -40,7 +40,7 @@
     <string name="stb_add_all_str">Add all</string>
     <string name="stb_title_activity_create_review_point">Create Review Point</string>
     <string name="action_settings">Settings</string>
-    <string name="action_register">Register</string>
+    <string name="action_register">Refresh</string>
     <string name="enter_course_num">Enter course number</string>
 
     <string name="title_activity_stb_settings">Settings</string>
