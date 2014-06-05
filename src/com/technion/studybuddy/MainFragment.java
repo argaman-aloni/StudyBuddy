@@ -48,10 +48,6 @@ import com.technion.studybuddy.graphs.GraphFactory;
 import com.technion.studybuddy.models.Courses;
 import com.technion.studybuddy.utils.Constants;
 
-/**
- * @author Argaman
- *
- */
 public class MainFragment extends Fragment implements Observer {
 
 	public static final int USER_PERMISSION1 = 0;
@@ -229,6 +225,7 @@ public class MainFragment extends Fragment implements Observer {
 		if (drawerAdapter != null)
 			drawerAdapter.notifyDataSetChanged();
 		setVisibilityEmptyState();
+		// update the widget!!!!!!!!
 	}
 
 	private void updateGraphView() {

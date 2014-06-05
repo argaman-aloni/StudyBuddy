@@ -10,8 +10,8 @@
 
     <string-array name="resources_array">
         <item>Overview</item>
-        <item>Lectures</item>
-        <item>Tutorials</item>
+        <item>Lecture</item>
+        <item>Tutorial</item>
     </string-array>
     <string-array name="pie_chart_labels">
         <item>Sunday</item>
