@@ -53,7 +53,7 @@ public class STBWidgetProvider extends AppWidgetProvider {
 			Intent startActivityIntent = new Intent(context,
 					CourseActivity.class);
 			startActivityIntent
-			.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, i);
+					.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, i);
 			startActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivityIntent.setData(Uri.parse(intent
@@ -61,7 +61,7 @@ public class STBWidgetProvider extends AppWidgetProvider {
 			PendingIntent pendIntent = PendingIntent.getActivity(context, 0,
 					startActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 			rv.setPendingIntentTemplate(R.id.widget_listview, pendIntent);
-			// rv.setEmptyView(R.id.widget_listview, R.id.widget_empty_view);
+			rv.setEmptyView(R.id.widget_listview, R.id.widget_empty_view);
 
 			appWidgetManager.updateAppWidget(i, rv);
 		}

@@ -17,6 +17,7 @@
         android:padding="16dp" />
 
     <FrameLayout
+        android:id="@+id/course_list_container"
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="2"

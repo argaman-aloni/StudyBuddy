@@ -17,7 +17,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +29,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +52,7 @@ public class MainFragment extends Fragment implements Observer {
 
 	public static final int USER_PERMISSION1 = 0;
 
+	private FrameLayout frameLayout;
 	private CourseListAdapter adapter;
 	private LinearLayout chartLayout;
 	private DrawerAdapter drawerAdapter;
@@ -100,9 +101,9 @@ public class MainFragment extends Fragment implements Observer {
 		weekCount.setText("week "
 				+ String.valueOf(currentWeek < DataStore.semester
 						.getTotalWeeks() ? currentWeek : DataStore.semester
-						.getTotalWeeks()
-						+ " / "
-						+ DataStore.semester.getTotalWeeks()));
+								.getTotalWeeks()
+								+ " / "
+								+ DataStore.semester.getTotalWeeks()));
 		updateGraphView();
 	}
 
@@ -139,23 +140,34 @@ public class MainFragment extends Fragment implements Observer {
 			locationInArray = sharedPref.getInt(Constants.locationInArray, 0);
 		else
 			locationInArray = savedInstanceState
-					.getInt(Constants.locationInArray);
+			.getInt(Constants.locationInArray);
 		initInitialView();
 		setVisibilityEmptyState();
 		DataStore.getInstance().addObserver(this);
 		initSemester();
 
-		if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
-			// on a large screen device ...
-			TextView bubbleTv = (TextView) rootView
-					.findViewById(R.id.bubble_main_tv);
-			Log.d("BIG SCREEN", "got to the big screen resolution");
+		TextView bubbleTv = (TextView) rootView
+				.findViewById(R.id.bubble_main_tv);
+		if (null != bubbleTv) {
+			frameLayout = (FrameLayout) rootView
+					.findViewById(R.id.course_list_container);
 			String[] array = getResources().getStringArray(
 					R.array.popup_notifications);
 			bubbleTv.setText(array[locationInArray % array.length]);
 			Animation animation = AnimationUtils.loadAnimation(getActivity(),
 					R.anim.stb_in);
 			bubbleTv.setAnimation(animation);
+			bubbleTv.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					v.setVisibility(View.GONE);
+					// LayoutParams parms = (LayoutParams)
+					// frameLayout.getLayoutParams();
+					// parms.height = screen_height;
+					// frameLayout.setLayoutParams();
+				}
+			});
 		}
 
 		setHasOptionsMenu(true);
@@ -271,7 +283,7 @@ public class MainFragment extends Fragment implements Observer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see android.app.Fragment#onResume()
 	 */
 	@Override
@@ -282,7 +294,7 @@ public class MainFragment extends Fragment implements Observer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see android.app.Fragment#onPause()
 	 */
 	@Override
