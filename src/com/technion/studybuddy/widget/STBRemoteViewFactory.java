@@ -70,9 +70,8 @@ public class STBRemoteViewFactory implements RemoteViewsFactory, Observer {
 		rv.setTextViewText(R.id.widget_item_behind_name, items.get(position)
 				.getLabel());
 		Intent fillIntent = new Intent();
-		fillIntent.putExtra(CourseActivity.COURSE_ID,
-				items.get(position).getParent().getParent().getId()).putExtra(
-						CourseActivity.FRAGMENT, items.get(position).getItemType());
+		fillIntent.putExtra(CourseActivity.COURSE_ID, course.getId()).putExtra(
+				CourseActivity.FRAGMENT, items.get(position).getItemType());
 		rv.setOnClickFillInIntent(R.id.widget_item_layout, fillIntent);
 		return rv;
 	}
