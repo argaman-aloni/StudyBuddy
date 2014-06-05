@@ -21,11 +21,9 @@ import com.technion.studybuddy.utils.Constants;
 
 public class RegisterCourseTask extends AsyncTask<Void, Void, Void>
 {
-
 	private ProgressDialog dialog;
 	private final String id;
 	private final RegisterCourseCallback callback;
-	String error = "";
 
 	/**
 	 * @param view

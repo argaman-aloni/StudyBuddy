@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.views.CardUI;
 import com.technion.studybuddy.R;
+import com.technion.studybuddy.Tasks.DeleteCourseTask;
 import com.technion.studybuddy.Views.Activities.CreateReviewPointActivity;
 import com.technion.studybuddy.Views.Activities.LinksViewActivity;
 import com.technion.studybuddy.data.DataStore;
@@ -63,7 +64,6 @@ public class CourseOverviewCard extends BaseCard
 				.findViewById(R.id.stb_progressBar);
 		TextView lastStudied = (TextView) convertView
 				.findViewById(R.id.stb_card_last_study);
-		// TODO change to last time studied
 		Date date = presenter.getLastDateStudied();
 		Date now = new Date();
 		int lastTimestudied = DateUtils.daysInRange(now, date);
@@ -136,8 +136,10 @@ public class CourseOverviewCard extends BaseCard
 			{
 
 			case R.id.stb_discard_curse:
+				new DeleteCourseTask(context).execute(courseID);
 				DataStore.getInstance().deleteCourse(courseID);
 				baseAdapter.notifyDataSetChanged();
+
 				break;
 			case R.id.stb_course_card_add_exam:
 				context.startActivity(new Intent(context,
@@ -187,7 +189,6 @@ public class CourseOverviewCard extends BaseCard
 		@Override
 		public long getItemId(int position)
 		{
-			// TODO Auto-generated method stub
 			return 0;
 		}
 

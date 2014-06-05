@@ -16,7 +16,6 @@ import android.content.Context;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,8 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.technion.studybuddy.R;
-import com.technion.studybuddy.GCM.CommonUtilities;
-import com.technion.studybuddy.GCM.GoogleHttpContext;
 import com.technion.studybuddy.Tasks.RegisterCourseCallback;
 import com.technion.studybuddy.Tasks.RegisterCourseTask;
 import com.technion.studybuddy.Views.NowLayout;
@@ -157,28 +154,28 @@ public class AddCourseFromWebFragment extends Fragment implements
 	{
 
 		private ProgressDialog dialog;
+		private boolean isError = false;
+		private String error;
 
 		@Override
 		protected JSONArray doInBackground(Void... params)
 		{
-			Looper.prepare();
 			AndroidHttpClient client = AndroidHttpClient.newInstance(
 					"GetAuthCookieClient", getActivity());
 			try
 			{
-				GoogleHttpContext httpContext = CommonUtilities.getContext(
-						getActivity(), Constants.SERVER_URL);
+				// CommonUtilities.getContext(getActivity(),
+				// Constants.SERVER_URL);
 				HttpGet httpGet = new HttpGet(Constants.SERVER_URL_FULL
 						+ "/data?type=all");
-				HttpResponse res = client.execute(httpGet, httpContext);
+				HttpResponse res = client.execute(httpGet);
 
 				String json = EntityUtils.toString(res.getEntity());
 				return new JSONArray(json);
 			} catch (IOException | JSONException e)
 			{
-				Toast.makeText(getActivity(),
-						"No internet conneticity please try again later",
-						Toast.LENGTH_LONG).show();
+				isError = true;
+				error = "No internet conneticity please try again later";
 				e.printStackTrace();
 			} finally
 			{
@@ -195,6 +192,8 @@ public class AddCourseFromWebFragment extends Fragment implements
 		@Override
 		protected void onPostExecute(JSONArray result)
 		{
+			if (isError)
+				Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
 			if (result == null)
 			{
 				dialog.dismiss();

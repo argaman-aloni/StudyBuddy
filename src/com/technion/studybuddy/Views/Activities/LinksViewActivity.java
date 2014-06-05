@@ -46,13 +46,14 @@ public class LinksViewActivity extends StudyBuddyActivity
 		setContentView(R.layout.links_view_layout);
 		layout = (LinearLayout) findViewById(R.id.links_view_title_layout);
 		itemNameTv = (TextView) findViewById(R.id.item_name);
+
 		linksLv = (ListView) findViewById(R.id.listView1);
 		id = getIntent().getStringExtra("courseId");
 		emptyTv = (TextView) findViewById(R.id.links_empty_tv);
 		Intent intent = getIntent();
 		final Bundle bundle = intent.getExtras();
 		final String PACKAGE = getPackageName();
-
+		setTitle(intent.getStringExtra("CourseName"));
 		itemNameTv.setText(intent.getStringExtra("CourseName"));
 		if (savedInstanceState == null)
 		{
