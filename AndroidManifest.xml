@@ -54,7 +54,8 @@
                 android:resource="@xml/appwidget_info" />
         </receiver>
 
-        <service android:name=".widget.STBWidgetService" />
+        <service android:name=".widget.STBWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
         <service android:name="com.technion.studybuddy.GCMIntentService" />
 
         <!-- Study Buddy -->

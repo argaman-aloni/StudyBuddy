@@ -107,9 +107,8 @@ public class WorkStats extends Observable {
 			public void run() {
 				increase(d);
 				getCourseItemSyncIntent(it);
-
+				// updateWidgetData();
 			}
-
 		});
 
 		it.onUnDone(new Action() {
@@ -118,6 +117,7 @@ public class WorkStats extends Observable {
 			public void run() {
 				decrease(d);
 				getCourseItemSyncIntent(it);
+				// updateWidgetData();
 			}
 		});
 	}
@@ -181,4 +181,18 @@ public class WorkStats extends Observable {
 		intent.putExtra(Constants.TYPE_ADDON, Constants.TYPE_COURSEITEM);
 		context.sendBroadcast(intent);
 	}
+
+	// private void updateWidgetData() {
+	// Context context = DataStore.getContext();
+	// Intent intent = new Intent(context, STBWidgetProvider.class);
+	// intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
+	// AppWidgetManager manager = AppWidgetManager.getInstance(context);
+	// ComponentName compName = new ComponentName(context,
+	// STBWidgetProvider.class);
+	// int[] widgetIds = manager.getAppWidgetIds(compName);
+	// intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds);
+	// intent.putExtra("Caller", "Called from workStats!!!!!!!");
+	// context.sendBroadcast(intent);
+	// }
+
 }
