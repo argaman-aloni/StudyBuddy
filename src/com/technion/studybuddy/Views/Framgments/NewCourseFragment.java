@@ -21,8 +21,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.technion.studybuddy.R;
-import com.technion.studybuddy.GCM.CommonUtilities;
-import com.technion.studybuddy.GCM.GoogleHttpContext;
 import com.technion.studybuddy.Tasks.RegisterCourseCallback;
 import com.technion.studybuddy.Tasks.RegisterCourseTask;
 import com.technion.studybuddy.utils.Constants;
@@ -111,11 +109,10 @@ public class NewCourseFragment extends Fragment implements
 					"GetAuthCookieClient", getActivity());
 			try
 			{
-				GoogleHttpContext httpContext = CommonUtilities.getContext(
-						getActivity(), Constants.SERVER_URL);
+
 				HttpGet httpPost = new HttpGet(Constants.SERVER_URL_FULL
 						+ "/addcourse?id=" + id);
-				HttpResponse res = client.execute(httpPost, httpContext);
+				HttpResponse res = client.execute(httpPost);
 				result = res.getStatusLine().getStatusCode() == HttpStatus.SC_OK;
 				switch (res.getStatusLine().getStatusCode())
 				{

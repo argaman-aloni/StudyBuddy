@@ -23,14 +23,11 @@
             android:layout_weight="1"
             android:orientation="vertical" />
 
-        <TextView
-            android:id="@+id/bubble_main_tv"
-            android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="1"
-            android:background="@drawable/notification_bubble"
-            android:gravity="center"
-            android:text="BLAH BLAH BLAH" />
+        <com.technion.studybuddy.Tooltip.ToolTipRelativeLayout
+            android:id="@+id/activity_main_tooltipframelayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        </com.technion.studybuddy.Tooltip.ToolTipRelativeLayout>
     </LinearLayout>
 
     <FrameLayout

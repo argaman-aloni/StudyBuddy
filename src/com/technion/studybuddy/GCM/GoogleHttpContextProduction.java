@@ -23,6 +23,7 @@ import android.net.http.AndroidHttpClient;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.AccessException;
@@ -69,8 +70,10 @@ public class GoogleHttpContextProduction extends GoogleHttpContext
 				String email = "";
 				try
 				{
-					email = Plus.AccountApi.getAccountName(DataStore
-							.getInstance().getGoogleApiClient());
+					GoogleApiClient googleApiClient = DataStore.getInstance()
+							.getGoogleApiClient();
+					googleApiClient.connect();
+					email = Plus.AccountApi.getAccountName(googleApiClient);
 				} catch (Exception e)
 				{
 					email = context.getSharedPreferences(

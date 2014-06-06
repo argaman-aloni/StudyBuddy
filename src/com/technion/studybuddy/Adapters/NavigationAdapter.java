@@ -102,7 +102,6 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 	@Override
 	public long getGroupId(int groupPosition)
 	{
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

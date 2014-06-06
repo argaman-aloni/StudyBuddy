@@ -16,8 +16,9 @@ import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.provider.Settings.Secure;
 
-import com.technion.studybuddy.GCM.CommonUtilities;
 import com.technion.studybuddy.GCM.GoogleHttpContext;
+import com.technion.studybuddy.GCM.NotRegisteredException;
+import com.technion.studybuddy.GCM.ServerUtilities;
 import com.technion.studybuddy.utils.Constants;
 
 public class SendAsyncTask extends AsyncTask<Void, Void, Void>
@@ -47,7 +48,7 @@ public class SendAsyncTask extends AsyncTask<Void, Void, Void>
 				"GetAuthCookieClient", context);
 		try
 		{
-			GoogleHttpContext httpContext = CommonUtilities.getContext(context,
+			GoogleHttpContext httpContext = ServerUtilities.getContext(context,
 					Constants.SERVER_URL);
 			HttpPost httpPost = new HttpPost("http://" + Constants.DATA_SYNC);
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -69,6 +70,9 @@ public class SendAsyncTask extends AsyncTask<Void, Void, Void>
 		} catch (IOException e)
 		{
 			e.printStackTrace();
+		} catch (NotRegisteredException e)
+		{
+			return null;
 		} finally
 		{
 			client.close();

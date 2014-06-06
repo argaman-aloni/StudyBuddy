@@ -14,8 +14,9 @@ import android.app.ProgressDialog;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 
-import com.technion.studybuddy.GCM.CommonUtilities;
 import com.technion.studybuddy.GCM.GoogleHttpContext;
+import com.technion.studybuddy.GCM.NotRegisteredException;
+import com.technion.studybuddy.GCM.ServerUtilities;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.utils.Constants;
 
@@ -44,7 +45,7 @@ public class RegisterCourseTask extends AsyncTask<Void, Void, Void>
 				"GetAuthCookieClient", callback.getContext());
 		try
 		{
-			GoogleHttpContext httpContext = CommonUtilities.getContext(
+			GoogleHttpContext httpContext = ServerUtilities.getContext(
 					callback.getContext(), Constants.SERVER_URL);
 			HttpPost httpPost = new HttpPost(Constants.SERVER_URL_FULL
 					+ "/data");
@@ -56,9 +57,9 @@ public class RegisterCourseTask extends AsyncTask<Void, Void, Void>
 			HttpResponse res = client.execute(httpPost, httpContext);
 			res.toString();
 
-		} catch (IOException e)
+		} catch (IOException | NotRegisteredException e)
 		{
-			e.printStackTrace();
+			return null;
 		} finally
 		{
 			client.close();

@@ -12,8 +12,9 @@ import android.content.Context;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 
-import com.technion.studybuddy.GCM.CommonUtilities;
 import com.technion.studybuddy.GCM.GoogleHttpContext;
+import com.technion.studybuddy.GCM.NotRegisteredException;
+import com.technion.studybuddy.GCM.ServerUtilities;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.utils.Constants;
 
@@ -47,7 +48,7 @@ public class JsonUpdater extends AsyncTask<String, Void, JSONObject>
 				"GetAuthCookieClient", context);
 		try
 		{
-			GoogleHttpContext httpContext = CommonUtilities.getContext(context,
+			GoogleHttpContext httpContext = ServerUtilities.getContext(context,
 					Constants.SERVER_URL);
 			HttpGet httpGet = new HttpGet(params[0]);
 			HttpResponse res = client.execute(httpGet, httpContext);
@@ -56,6 +57,10 @@ public class JsonUpdater extends AsyncTask<String, Void, JSONObject>
 		} catch (IOException | JSONException e)
 		{
 			e.printStackTrace();
+		} catch (NotRegisteredException e)
+		{
+			// cannot sync without user
+			return null;
 		} finally
 		{
 			client.close();
@@ -71,7 +76,8 @@ public class JsonUpdater extends AsyncTask<String, Void, JSONObject>
 	@Override
 	protected void onPostExecute(JSONObject result)
 	{
-		// super.onPostExecute(result);
+		if (result == null)
+			return;
 		try
 		{
 
@@ -95,5 +101,4 @@ public class JsonUpdater extends AsyncTask<String, Void, JSONObject>
 			e.printStackTrace();
 		}
 	}
-
 }

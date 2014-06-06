@@ -24,10 +24,13 @@ import java.util.Random;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Context;
 import android.net.http.AndroidHttpClient;
@@ -36,6 +39,7 @@ import android.provider.Settings.Secure;
 import android.util.Log;
 
 import com.google.android.gcm.GCMRegistrar;
+import com.technion.studybuddy.exceptions.AccessException;
 import com.technion.studybuddy.utils.Constants;
 
 /**
@@ -50,7 +54,15 @@ public final class ServerUtilities
 	private static final int MAX_ATTEMPTS = 5;
 	private static final Random random = new Random();
 
-	// TODO chenge to actual user selection
+	/**
+	 * @param prefs
+	 * @return
+	 */
+	public static boolean isRegistered(Context context)
+	{
+		return context.getSharedPreferences(Constants.PrefsContext, 0)
+				.getBoolean(Constants.IS_REGISTERED, false);
+	}
 
 	private static String capitalize(String s)
 	{
@@ -92,7 +104,7 @@ public final class ServerUtilities
 		try
 		{
 
-			GoogleHttpContext httpContext = CommonUtilities.getContext(
+			GoogleHttpContext httpContext = ServerUtilities.getContext(
 					ServerUtilities.activity, Constants.SERVER_URL);
 			HttpPost httpPost = new HttpPost(endpoint);
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -105,6 +117,10 @@ public final class ServerUtilities
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			HttpResponse res = client.execute(httpPost, httpContext);
 			res.toString();
+		} catch (NotRegisteredException e)
+		{
+			// cannot be registered with play registration
+			e.printStackTrace();
 		} finally
 		{
 			client.close();
@@ -239,5 +255,33 @@ public final class ServerUtilities
 			}
 		}).start();
 
+	}
+
+	public static GoogleHttpContext getContext(Context activity, String baseUrl)
+			throws NotRegisteredException
+	{
+		if (!isRegistered(activity))
+			throw new NotRegisteredException();
+		try
+		{
+			return Constants.debug ? new GoogleHttpContextDev(activity, baseUrl)
+					: new GoogleHttpContextProduction(activity, baseUrl);
+		} catch (ClientProtocolException e)
+		{
+			e.printStackTrace();
+		} catch (OperationCanceledException e)
+		{
+			e.printStackTrace();
+		} catch (AuthenticatorException e)
+		{
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		} catch (AccessException e)
+		{
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

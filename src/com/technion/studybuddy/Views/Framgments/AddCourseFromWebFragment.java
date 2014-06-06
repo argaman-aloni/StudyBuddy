@@ -104,25 +104,24 @@ public class AddCourseFromWebFragment extends Fragment implements
 						(TextView) convertView.findViewById(R.id.course_id),
 						(TextView) convertView.findViewById(R.id.course_taken));
 				convertView.setTag(holder);
-				convertView.setOnClickListener(new OnClickListener()
-				{
-
-					@Override
-					public void onClick(View v)
-					{
-						if (!DataStore.getInstance()
-								.contains(ids.get(position)))
-							new RegisterCourseTask(ids.get(position),
-									AddCourseFromWebFragment.this).execute();
-						else
-							Toast.makeText(getActivity(),
-									"Course allready registered",
-									Toast.LENGTH_LONG).show();
-					}
-				});
 			} else
 				holder = (Holder) convertView.getTag();
 			holder.id.setText(ids.get(position));
+			convertView.setOnClickListener(new OnClickListener()
+			{
+
+				@Override
+				public void onClick(View v)
+				{
+					if (!DataStore.getInstance().contains(ids.get(position)))
+						new RegisterCourseTask(ids.get(position),
+								AddCourseFromWebFragment.this).execute();
+					else
+						Toast.makeText(getActivity(),
+								"Course allready registered", Toast.LENGTH_LONG)
+								.show();
+				}
+			});
 			holder.name.setText(names.get(position));
 			holder.taken.setText((DataStore.getInstance().contains(
 					ids.get(position)) ? "Taken" : ""));

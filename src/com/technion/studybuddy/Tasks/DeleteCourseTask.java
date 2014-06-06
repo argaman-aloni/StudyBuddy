@@ -8,8 +8,9 @@ import android.content.Context;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 
-import com.technion.studybuddy.GCM.CommonUtilities;
 import com.technion.studybuddy.GCM.GoogleHttpContext;
+import com.technion.studybuddy.GCM.NotRegisteredException;
+import com.technion.studybuddy.GCM.ServerUtilities;
 import com.technion.studybuddy.utils.Constants;
 
 public class DeleteCourseTask extends AsyncTask<String, Void, Void>
@@ -24,7 +25,7 @@ public class DeleteCourseTask extends AsyncTask<String, Void, Void>
 				"GetAuthCookieClient", context);
 		try
 		{
-			GoogleHttpContext httpContext = CommonUtilities.getContext(context,
+			GoogleHttpContext httpContext = ServerUtilities.getContext(context,
 					Constants.SERVER_URL);
 			HttpDelete httpPost = new HttpDelete(Constants.SERVER_URL_FULL
 					+ "/data");
@@ -35,6 +36,10 @@ public class DeleteCourseTask extends AsyncTask<String, Void, Void>
 		} catch (IOException e)
 		{
 			e.printStackTrace();
+		} catch (NotRegisteredException e)
+		{
+			// course cannot be deleted from server if not registered
+			return null;
 		} finally
 		{
 			client.close();

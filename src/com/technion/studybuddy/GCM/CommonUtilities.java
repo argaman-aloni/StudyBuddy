@@ -15,12 +15,6 @@
  */
 package com.technion.studybuddy.GCM;
 
-import java.io.IOException;
-
-import org.apache.http.client.ClientProtocolException;
-
-import android.accounts.AuthenticatorException;
-import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +24,6 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 
 import com.google.android.gcm.GCMRegistrar;
-import com.technion.studybuddy.exceptions.AccessException;
 import com.technion.studybuddy.network.NetworkTaskImportence;
 import com.technion.studybuddy.network.SendAsyncTask;
 import com.technion.studybuddy.utils.Constants;
@@ -97,31 +90,6 @@ public final class CommonUtilities
 		SharedPreferences prefs = context.getSharedPreferences(
 				Constants.PrefsContext, 0);
 		return prefs.getString(Constants.ACCOUNT_NAME, "");
-	}
-
-	public static GoogleHttpContext getContext(Context activity, String baseUrl)
-	{
-		try
-		{
-			return Constants.debug ? new GoogleHttpContextDev(activity, baseUrl)
-					: new GoogleHttpContextProduction(activity, baseUrl);
-		} catch (ClientProtocolException e)
-		{
-			e.printStackTrace();
-		} catch (OperationCanceledException e)
-		{
-			e.printStackTrace();
-		} catch (AuthenticatorException e)
-		{
-			e.printStackTrace();
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		} catch (AccessException e)
-		{
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	public static String register(final Activity context)

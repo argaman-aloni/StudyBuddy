@@ -7,6 +7,7 @@
     android:paddingLeft="32dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
+      android:textAppearance="?android:attr/textAppearanceMedium"
     android:textColor="@android:color/black" >
 
 </TextView>

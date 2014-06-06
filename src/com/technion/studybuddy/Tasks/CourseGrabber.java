@@ -12,8 +12,8 @@ import android.os.AsyncTask;
 import android.provider.Settings.Secure;
 import android.widget.Toast;
 
-import com.technion.studybuddy.GCM.CommonUtilities;
 import com.technion.studybuddy.GCM.GoogleHttpContext;
+import com.technion.studybuddy.GCM.ServerUtilities;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.utils.Constants;
 
@@ -42,7 +42,7 @@ public class CourseGrabber extends AsyncTask<Void, Void, JSONObject>
 		int responseCode = 200;
 		try
 		{
-			GoogleHttpContext httpContext = CommonUtilities.getContext(context,
+			GoogleHttpContext httpContext = ServerUtilities.getContext(context,
 					Constants.SERVER_URL);
 			HttpGet httpGet = new HttpGet("http://"
 					+ Constants.DATA_SYNC
