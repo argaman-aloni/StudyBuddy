@@ -1,4 +1,4 @@
-package com.technion.studybuddy.network;
+package com.technion.studybuddy.Tasks;
 
 import java.io.IOException;
 

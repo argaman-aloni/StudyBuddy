@@ -34,8 +34,8 @@ import com.technion.studybuddy.GCM.Action;
 import com.technion.studybuddy.GCM.CommonUtilities;
 import com.technion.studybuddy.GCM.GCMAction;
 import com.technion.studybuddy.GCM.ServerUtilities;
+import com.technion.studybuddy.Tasks.JsonUpdater;
 import com.technion.studybuddy.data.DataStore;
-import com.technion.studybuddy.network.JsonUpdater;
 import com.technion.studybuddy.utils.Constants;
 
 /**

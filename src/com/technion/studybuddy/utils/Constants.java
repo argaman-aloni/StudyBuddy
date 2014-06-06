@@ -2,7 +2,8 @@ package com.technion.studybuddy.utils;
 
 import android.provider.BaseColumns;
 
-public class Constants {
+public class Constants
+{
 	public static final boolean debug = false;
 	public static final String PrefsContext = "prefs";
 	public static final String REGID_PREFS = "regid";
@@ -31,7 +32,8 @@ public class Constants {
 			"INTEGER PRIMARY KEY AUTOINCREMENT", "VARCHAR", "INTEGER",
 			"VARCHAR", "INTEGER" };
 
-	public static class Network_fields_constants {
+	public static class Network_fields_constants
+	{
 		public static final int BaseColumn = 0; // 0
 		public static final int object = 1 + Network_fields_constants.BaseColumn; // 1
 		public static final int progress = Network_fields_constants.object + 1; // 2

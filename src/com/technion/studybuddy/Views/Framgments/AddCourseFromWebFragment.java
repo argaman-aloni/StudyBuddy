@@ -25,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.technion.studybuddy.R;
+import com.technion.studybuddy.GCM.ServerUtilities;
+import com.technion.studybuddy.Tasks.DownloadCourseNoContext;
 import com.technion.studybuddy.Tasks.RegisterCourseCallback;
 import com.technion.studybuddy.Tasks.RegisterCourseTask;
 import com.technion.studybuddy.Views.NowLayout;
@@ -114,9 +116,14 @@ public class AddCourseFromWebFragment extends Fragment implements
 				public void onClick(View v)
 				{
 					if (!DataStore.getInstance().contains(ids.get(position)))
-						new RegisterCourseTask(ids.get(position),
-								AddCourseFromWebFragment.this).execute();
-					else
+					{
+						if (ServerUtilities.isRegistered(getContext()))
+							new RegisterCourseTask(ids.get(position),
+									AddCourseFromWebFragment.this).execute();
+						else
+							new DownloadCourseNoContext(getContext(), ids
+									.get(position)).execute();
+					} else
 						Toast.makeText(getActivity(),
 								"Course allready registered", Toast.LENGTH_LONG)
 								.show();
@@ -163,8 +170,6 @@ public class AddCourseFromWebFragment extends Fragment implements
 					"GetAuthCookieClient", getActivity());
 			try
 			{
-				// CommonUtilities.getContext(getActivity(),
-				// Constants.SERVER_URL);
 				HttpGet httpGet = new HttpGet(Constants.SERVER_URL_FULL
 						+ "/data?type=all");
 				HttpResponse res = client.execute(httpGet);

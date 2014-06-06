@@ -7,53 +7,43 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
-import android.provider.Settings.Secure;
 import android.widget.Toast;
 
-import com.technion.studybuddy.GCM.GoogleHttpContext;
-import com.technion.studybuddy.GCM.ServerUtilities;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.utils.Constants;
 
-public class CourseGrabber extends AsyncTask<Void, Void, JSONObject>
+public class DownloadCourseNoContext extends AsyncTask<Void, Void, JSONObject>
 {
-	private final Context context;
-	private String error;
-	private boolean isError = false;
 
-	/**
-	 * @param context
-	 */
-	public CourseGrabber(Context context)
+	private boolean isError;
+	private String error;
+	private final Context context;
+	private final String id;
+	ProgressDialog dialog;
+
+	public DownloadCourseNoContext(Context context2, String id)
 	{
-		super();
-		this.context = context;
+		context = context2;
+		this.id = id;
 	}
 
 	@Override
 	protected JSONObject doInBackground(Void... params)
 	{
-
 		AndroidHttpClient client = AndroidHttpClient.newInstance(
 				"GetAuthCookieClient", context);
 		int responseCode = 200;
 		try
 		{
-			GoogleHttpContext httpContext = ServerUtilities.getContext(context,
-					Constants.SERVER_URL);
-			HttpGet httpGet = new HttpGet("http://"
-					+ Constants.DATA_SYNC
-					+ "?"
-					+ Constants.TYPE_ADDON
-					+ "="
-					+ Constants.COURSE_ALL
-					+ "&deviceID="
-					+ Secure.getString(context.getContentResolver(),
-							Secure.ANDROID_ID));
-			HttpResponse res = client.execute(httpGet, httpContext);
+
+			HttpGet httpGet = new HttpGet("http://" + Constants.DATA_SYNC + "?"
+					+ Constants.TYPE_ADDON + "=course.single&id=" + id);
+
+			HttpResponse res = client.execute(httpGet);
 			responseCode = res.getStatusLine().getStatusCode();
 			String json = EntityUtils.toString(res.getEntity());
 
@@ -92,26 +82,37 @@ public class CourseGrabber extends AsyncTask<Void, Void, JSONObject>
 	@Override
 	protected void onPostExecute(JSONObject result)
 	{
+
 		if (isError)
 			Toast.makeText(context, error, Toast.LENGTH_LONG).show();
 		try
 		{
 			if (result != null)
-				DataStore.getInstance().createCourseFromJson(result);
-			JSONArray courses = result.getJSONArray("courses");
-			for (int i = 0; i < courses.length(); i++)
 			{
-				JSONObject singleCourse = courses.getJSONObject(i)
-						.getJSONObject("course");
-				String url = Constants.SERVER_URL_FULL
-						+ "/data?type=course.status&id="
-						+ singleCourse.getString("id");
-				new JsonUpdater(context, "course.status").execute(url);
-
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("courses", new JSONArray().put(new JSONObject()
+						.put("course", result)));
+				DataStore.getInstance().createCourseFromJson(jsonObject);
 			}
 		} catch (JSONException e)
 		{
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		dialog.dismiss();
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPreExecute()
+	 */
+	@Override
+	protected void onPreExecute()
+	{
+		super.onPreExecute();
+		dialog = ProgressDialog.show(context, "", "Downloading course " + id
+				+ ". Please wait...", true);
+	}
+
 }
