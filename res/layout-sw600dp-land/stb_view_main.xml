@@ -12,22 +12,21 @@
         android:layout_width="0px"
         android:layout_height="match_parent"
         android:layout_weight="2"
-        android:orientation="vertical"
-        android:weightSum="2" >
-
-        <LinearLayout
-            android:id="@+id/Chart_layout"
-            style="@style/stb_nowCardStyle"
-            android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="1"
-            android:orientation="vertical" />
+        android:orientation="vertical" >
 
         <com.technion.studybuddy.Tooltip.ToolTipRelativeLayout
             android:id="@+id/activity_main_tooltipframelayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
         </com.technion.studybuddy.Tooltip.ToolTipRelativeLayout>
+        
+        <LinearLayout
+            android:id="@+id/Chart_layout"
+            style="@style/stb_nowCardStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
     </LinearLayout>
 
     <FrameLayout
