@@ -6,6 +6,7 @@ import java.net.URL;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.content.SharedPreferences;
@@ -47,8 +48,7 @@ import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.utils.Constants;
 
 public class MainActivity extends Activity implements ConnectionCallbacks,
-		OnConnectionFailedListener, OnClickListener
-{
+OnConnectionFailedListener, OnClickListener {
 
 	public static final int USER_PERMISSION1 = 0;
 	DrawerAdapter adapter;
@@ -66,6 +66,8 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 	 * resolve all issues preventing sign-in without waiting.
 	 */
 	private boolean mSignInClicked;
+	private int locationInArray;
+	private SharedPreferences sharedPref;
 
 	/*
 	 * Store the connection result from onConnectionFailed callbacks so that we
@@ -74,19 +76,16 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 	private ConnectionResult mConnectionResult;
 	private RelativeLayout loginLayout;
 
-	private void initloginState()
-	{
+	private void initloginState() {
 		loginLayout = (RelativeLayout) findViewById(R.id.login_panel);
 		loginTitle = (TextView) findViewById(R.id.login_tv);
 		loginState = (TextView) findViewById(R.id.status_tv);
 
 		if (ServerUtilities.isRegistered(this))
-			loginState.setOnClickListener(new OnClickListener()
-			{
+			loginState.setOnClickListener(new OnClickListener() {
 
 				@Override
-				public void onClick(View v)
-				{
+				public void onClick(View v) {
 					SharedPreferences prefs = getSharedPreferences(
 							Constants.PrefsContext, 0);
 					String regid = prefs.getString(Constants.REGID_PREFS, "");
@@ -110,12 +109,10 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 				}
 			});
 		else
-			loginLayout.setOnClickListener(new OnClickListener()
-			{
+			loginLayout.setOnClickListener(new OnClickListener() {
 
 				@Override
-				public void onClick(View v)
-				{
+				public void onClick(View v) {
 					ServerUtilities.registerToServer(MainActivity.this);
 				}
 			});
@@ -124,17 +121,16 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.technion.coolie.CoolieActivity#onCreate(android.os.Bundle)
 	 */
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mGoogleApiClient = new GoogleApiClient.Builder(this)
-				.addConnectionCallbacks(this)
-				.addOnConnectionFailedListener(this).addApi(Plus.API)
-				.addScope(Plus.SCOPE_PLUS_LOGIN).build();
+		.addConnectionCallbacks(this)
+		.addOnConnectionFailedListener(this).addApi(Plus.API)
+		.addScope(Plus.SCOPE_PLUS_LOGIN).build();
 
 		setContentView(R.layout.stb_navigation_drawer);
 
@@ -163,8 +159,7 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
+	public boolean onOptionsItemSelected(MenuItem item) {
 		// Pass the event to ActionBarDrawerToggle, if it returns
 		// true, then it has handled the app icon touch event
 		if (mDrawerToggle.onOptionsItemSelected(item))
@@ -174,31 +169,27 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 	}
 
 	@Override
-	protected void onPostCreate(Bundle savedInstanceState)
-	{
+	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		// Sync the toggle state after onRestoreInstanceState has occurred.
 		mDrawerToggle.syncState();
 	}
 
 	@Override
-	protected void onStart()
-	{
+	protected void onStart() {
 		super.onStart();
 		adapter.notifyDataSetChanged();
 		mGoogleApiClient.connect();
 	}
 
-	private void selectItem(int position)
-	{
+	private void selectItem(int position) {
 		// update the main content by replacing fragments
-		if (position == -1)
-		{
+		if (position == -1) {
 			MainFragment fragment = new MainFragment();
 			fragment.setDrawerAdapter(adapter);
 			FragmentManager fragmentManager = getFragmentManager();
 			fragmentManager.beginTransaction()
-					.replace(R.id.content_frame, fragment).commit();
+			.replace(R.id.content_frame, fragment).commit();
 		}
 
 		// update selected item and title, then close the drawer
@@ -206,24 +197,20 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 		mDrawerLayout.closeDrawer(mRelativeLayout);
 	}
 
-	private void setToggleDrawerParams()
-	{
+	private void setToggleDrawerParams() {
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				R.drawable.ic_drawer, R.string.drawer_open,
-				R.string.drawer_close)
-		{
+				R.string.drawer_close) {
 
 			@Override
-			public void onDrawerClosed(View view)
-			{
+			public void onDrawerClosed(View view) {
 				super.onDrawerClosed(view);
 				getActionBar().setTitle(getTitle());
 				invalidateOptionsMenu();
 			}
 
 			@Override
-			public void onDrawerOpened(View drawerView)
-			{
+			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
 				getActionBar().setTitle(getTitle());
 				invalidateOptionsMenu(); // creates call to
@@ -233,10 +220,8 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 	}
 
 	@Override
-	public void onConnectionFailed(ConnectionResult result)
-	{
-		if (!mIntentInProgress)
-		{
+	public void onConnectionFailed(ConnectionResult result) {
+		if (!mIntentInProgress) {
 			// Store the ConnectionResult so that we can use it later when the
 			// user clicks
 			// 'sign-in'.
@@ -252,12 +237,10 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 	}
 
 	@Override
-	public void onConnected(Bundle arg0)
-	{
+	public void onConnected(Bundle arg0) {
 		mSignInClicked = false;
 
-		if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null)
-		{
+		if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
 			loginLayout.setVisibility(View.GONE);
 			loginTitle.setText(getSharedPreferences(Constants.PrefsContext, 0)
 					.getString(Constants.ACCOUNT_NAME, ""));
@@ -274,11 +257,10 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 					.getCurrentPerson(mGoogleApiClient);
 			String accountName = Plus.AccountApi
 					.getAccountName(mGoogleApiClient);
-			if (!ServerUtilities.isRegistered(this) && !accountName.isEmpty())
-			{
+			if (!ServerUtilities.isRegistered(this) && !accountName.isEmpty()) {
 
 				prefs.edit().putString(Constants.ACCOUNT_NAME, accountName)
-						.putBoolean(Constants.IS_REGISTERED, true).commit();
+				.putBoolean(Constants.IS_REGISTERED, true).commit();
 				ServerUtilities.registerToServer(this);
 			} else
 				DataStore.getInstance().getAllCourses();
@@ -292,43 +274,53 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 	}
 
 	@Override
-	public void onConnectionSuspended(int arg0)
-	{
+	public void onConnectionSuspended(int arg0) {
 		mGoogleApiClient.connect();
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see android.app.Activity#onStop()
 	 */
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see android.app.Activity#onStop()
 	 */
 	@Override
-	protected void onStop()
-	{
+	protected void onStop() {
 		super.onStop();
 		if (mGoogleApiClient.isConnected())
 			mGoogleApiClient.disconnect();
 
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		sharedPref = getSharedPreferences(Constants.popupSaredPrefrence,
+				Context.MODE_PRIVATE);
+		if (sharedPref.getInt(Constants.locationInArray, 0) < getResources()
+				.getStringArray(R.array.popup_notifications).length) {
+			SharedPreferences.Editor editor = sharedPref.edit();
+			locationInArray = sharedPref.getInt(Constants.locationInArray, 0);
+			editor.putInt(Constants.locationInArray, ++locationInArray);
+			editor.commit();
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see android.app.Activity#onActivityResult(int, int,
 	 * android.content.Intent)
 	 */
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == MainActivity.RC_SIGN_IN)
-		{
+		if (requestCode == MainActivity.RC_SIGN_IN) {
 			mIntentInProgress = false;
 
 			if (!mGoogleApiClient.isConnecting())
@@ -338,27 +330,22 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 	}
 
 	@Override
-	public void onClick(View view)
-	{
+	public void onClick(View view) {
 		if (view.getId() == R.id.sign_in_button
-				&& !mGoogleApiClient.isConnecting())
-		{
+				&& !mGoogleApiClient.isConnecting()) {
 			mSignInClicked = true;
 			resolveSignInErrors();
 		}
 
 	}
 
-	private void resolveSignInErrors()
-	{
+	private void resolveSignInErrors() {
 		if (mConnectionResult.hasResolution())
-			try
-			{
+			try {
 				mIntentInProgress = true;
 				mConnectionResult.startResolutionForResult(this,
 						MainActivity.RC_SIGN_IN);
-			} catch (SendIntentException e)
-			{
+			} catch (SendIntentException e) {
 				// The intent was canceled before it was sent. Return to the
 				// default
 				// state and attempt to connect to get an updated
@@ -368,18 +355,14 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 			}
 	}
 
-	class PictureGrabber extends AsyncTask<String, Void, Bitmap>
-	{
+	class PictureGrabber extends AsyncTask<String, Void, Bitmap> {
 
 		@Override
-		protected Bitmap doInBackground(String... params)
-		{
-			try
-			{
+		protected Bitmap doInBackground(String... params) {
+			try {
 				return BitmapFactory.decodeStream((InputStream) new URL(
 						params[0]).getContent());
-			} catch (IOException e)
-			{
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			return null;
@@ -387,12 +370,11 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 		 */
 		@Override
-		protected void onPostExecute(Bitmap result)
-		{
+		protected void onPostExecute(Bitmap result) {
 			if (result == null)
 				return;
 			ImageView profilePic = (ImageView) MainActivity.this
@@ -401,8 +383,7 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 		}
 	}
 
-	private Bitmap getCroppedBitmap(Bitmap bitmap)
-	{
+	private Bitmap getCroppedBitmap(Bitmap bitmap) {
 		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
 				bitmap.getHeight(), Config.ARGB_8888);
 		Canvas canvas = new Canvas(output);
