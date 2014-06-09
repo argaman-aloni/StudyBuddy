@@ -52,7 +52,7 @@ import com.technion.studybuddy.models.Courses;
 import com.technion.studybuddy.utils.Constants;
 
 public class MainFragment extends Fragment implements Observer,
-		ToolTipView.OnToolTipViewClickedListener {
+ToolTipView.OnToolTipViewClickedListener {
 
 	public static final int USER_PERMISSION1 = 0;
 	private ToolTipView mRedToolTipView;
@@ -107,9 +107,9 @@ public class MainFragment extends Fragment implements Observer,
 		weekCount.setText("week "
 				+ String.valueOf(currentWeek < DataStore.semester
 						.getTotalWeeks() ? currentWeek : DataStore.semester
-						.getTotalWeeks()
-						+ " / "
-						+ DataStore.semester.getTotalWeeks()));
+								.getTotalWeeks()
+								+ " / "
+								+ DataStore.semester.getTotalWeeks()));
 		updateGraphView();
 	}
 
@@ -275,7 +275,7 @@ public class MainFragment extends Fragment implements Observer,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see android.app.Fragment#onResume()
 	 */
 	@Override
@@ -286,7 +286,7 @@ public class MainFragment extends Fragment implements Observer,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see android.app.Fragment#onPause()
 	 */
 	@Override
@@ -308,6 +308,10 @@ public class MainFragment extends Fragment implements Observer,
 	@Override
 	public void onToolTipViewClicked(ToolTipView toolTipView) {
 		mRedToolTipView = null;
+		SharedPreferences.Editor editor = sharedPref.edit();
+		locationInArray = sharedPref.getInt(Constants.locationInArray, 0);
+		editor.putInt(Constants.locationInArray, ++locationInArray);
+		editor.commit();
 	}
 
 	private void setToolTip() {
