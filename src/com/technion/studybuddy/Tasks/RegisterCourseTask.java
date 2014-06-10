@@ -17,7 +17,6 @@ import android.os.AsyncTask;
 import com.technion.studybuddy.GCM.GoogleHttpContext;
 import com.technion.studybuddy.GCM.NotRegisteredException;
 import com.technion.studybuddy.GCM.ServerUtilities;
-import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.utils.Constants;
 
 public class RegisterCourseTask extends AsyncTask<Void, Void, Void>
@@ -75,7 +74,7 @@ public class RegisterCourseTask extends AsyncTask<Void, Void, Void>
 	@Override
 	protected void onPostExecute(Void result)
 	{
-		DataStore.getInstance().getAllCourses();
+		new DownloadCourseNoContext(callback.getContext(), id).execute();
 		dialog.dismiss();
 		callback.update();
 	}

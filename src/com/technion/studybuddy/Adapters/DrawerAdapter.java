@@ -81,6 +81,7 @@ public class DrawerAdapter extends BaseExpandableListAdapter
 		final String[] resources = v.getResources().getStringArray(
 				R.array.resources_array);
 		holder.child.setText(resources[childPosition]);
+		holder.child.setTextSize(20);
 		v.setOnClickListener(new OnClickListener()
 		{
 			@Override

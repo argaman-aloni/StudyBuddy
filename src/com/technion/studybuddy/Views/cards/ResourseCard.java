@@ -3,8 +3,8 @@ package com.technion.studybuddy.Views.cards;
 import java.util.Date;
 
 import android.view.View;
-import android.widget.TextView;
 
+import com.androidquery.AQuery;
 import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.views.CardUI;
 import com.technion.studybuddy.R;
@@ -13,11 +13,11 @@ import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.presenters.CoursePresenter;
 import com.todddavies.components.progressbar.ProgressWheel;
 
+public class ResourseCard extends BaseCard
+{
 
-public class ResourseCard extends BaseCard {
-
-	private String resourseType;
-	private String courseId;
+	private final String resourseType;
+	private final String courseId;
 	private CoursePresenter presenter;
 
 	/**
@@ -26,7 +26,7 @@ public class ResourseCard extends BaseCard {
 	 * @param presenter
 	 */
 	public ResourseCard(String courseID, CardUI cardUI, CardStack stack,
-					String resourseName)
+			String resourseName)
 	{
 		super(cardUI, stack);
 
@@ -37,40 +37,32 @@ public class ResourseCard extends BaseCard {
 	}
 
 	@Override
-	protected void applyTo(View convertView) {
+	protected void applyTo(View convertView)
+	{
+		AQuery aq = new AQuery(convertView);
+		aq.hardwareAccelerated11();
 		presenter = DataStore.getInstance().getCoursePresenter(courseId);
 
-		TextView title = (TextView) convertView
-						.findViewById(R.id.stb_resourse_card_title);
-		TextView numOfItems = (TextView) convertView
-						.findViewById(R.id.stb_resourse_card_items);
-		TextView nextItem = (TextView) convertView
-						.findViewById(R.id.stb_resourse_card_next);
-		title.setText(resourseType);
 		int numOfItemLeft = presenter.getNumOfItemsBehind(new Date(),
-						resourseType);
-		numOfItems.setText(String.valueOf(numOfItemLeft));
-		nextItem.setText("Next item : "+presenter.getNextItem(resourseType));
+				resourseType);
+		aq.id(R.id.stb_resourse_card_title).text(resourseType);
+		aq.id(R.id.stb_resourse_card_items).text(String.valueOf(numOfItemLeft));
+		aq.id(R.id.stb_resourse_card_next).text(
+				"Next item : " + presenter.getNextItem(resourseType));
 
 		int stripeColor = ColorTable.getColor(numOfItemLeft);
-
+		aq.id(R.id.stb_resource_stripe).backgroundColor(stripeColor);
 		final ProgressWheel pw = (ProgressWheel) convertView
-						.findViewById(R.id.stb_rsc_progressBar);
-
+				.findViewById(R.id.stb_rsc_progressBar);
 		int done = presenter.getDoneItemsCount(resourseType);
 		int total = presenter.getNumOfItemsDue(new Date(), resourseType);
-
 		pw.setProgress(total == 0 ? 0 : 360 * done / total);
 		pw.setText(String.valueOf(done) + "/" + total);
-
-	
-
-		convertView.findViewById(R.id.stb_resource_stripe).setBackgroundColor(
-						stripeColor);
 	}
 
 	@Override
-	protected int getCardLayoutId() {
+	protected int getCardLayoutId()
+	{
 		return R.layout.stb_view_resourse_card;
 	}
 

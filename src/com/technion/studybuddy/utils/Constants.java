@@ -54,5 +54,6 @@ public class Constants
 	// Notification shared preference data
 	public static final String popupSaredPrefrence = "com.technion.studybuddy.SHARED_PREFRENCE";
 	public static final String locationInArray = "com.technion.studybuddy.SHARED_PREFRENCE.location_in_array";
+	public static final String DELETECOURSE = "deleteCourse";
 
 }

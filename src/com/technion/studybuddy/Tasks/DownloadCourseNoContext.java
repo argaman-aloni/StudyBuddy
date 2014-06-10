@@ -25,9 +25,9 @@ public class DownloadCourseNoContext extends AsyncTask<Void, Void, JSONObject>
 	private final String id;
 	ProgressDialog dialog;
 
-	public DownloadCourseNoContext(Context context2, String id)
+	public DownloadCourseNoContext(Context context, String id)
 	{
-		context = context2;
+		this.context = context;
 		this.id = id;
 	}
 

@@ -3,19 +3,26 @@ package com.technion.studybuddy.GCM;
 public enum GCMAction
 {
 
-	ACK
-	{
+	ACK {
+		@Override
 		public String toString()
 		{
 			return "ACK";
 		}
 	},
 
-	UPDATE
-	{
+	UPDATE {
+		@Override
 		public String toString()
 		{
 			return "update";
+		}
+	},
+	DELETE {
+		@Override
+		public String toString()
+		{
+			return "delete";
 		}
 	}
 }

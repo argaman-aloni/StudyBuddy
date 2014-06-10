@@ -77,17 +77,9 @@ public class CourseListAdapter extends BaseAdapter implements Observer
 		{
 			view = convertView;
 			ViewHolder holder = (ViewHolder) view.getTag();
-			// holder.cardUI.get
 			holder.cardUI.clearCards();
 
 		}
-		// CoursePresenter coursePresenter =
-		// DataStore.getInstance().getCoursePresenter(courseNumber);
-		// int remaingingLectures =
-		// coursePresenter.getStudyItemsRemaining(coursePresenter.getResourceName(0)).size();
-		// int remaingingTutorials =
-		// coursePresenter.getStudyItemsRemaining(coursePresenter.getResourceName(1)).size();
-		//
 		ViewHolder holder = (ViewHolder) view.getTag();
 		AnimatedCardUI cardUI = holder.cardUI;
 
@@ -159,17 +151,6 @@ public class CourseListAdapter extends BaseAdapter implements Observer
 				stack, position, this, context);
 		details.setOnClickListener(courseClickListener);
 		cardUI.addCardToLastStack(details);
-		// TODO customize view
-		// View barChartView = GraphFactory.getCourseProgressGraph(
-		// mInflater.getContext(),
-		// currentCoursePresenter.getProgressMap(),
-		// currentCoursePresenter.getCurrentWeekNum(new Date()),
-		// currentCoursePresenter.getSemesterLength());
-		// holder.chart.removeAllViews();
-		// holder.chart.addView(barChartView);
-		// holder.courseName.setText(courseName);
-		// holder.courseNumber.setText(courseNumber);
-		// view.setOnClickListener(new IndexedOnclickListener(position));
 		cardUI.refresh();
 		return view;
 	}
@@ -181,53 +162,19 @@ public class CourseListAdapter extends BaseAdapter implements Observer
 		view = mInflater.inflate(R.layout.stb_view_course_card, null);
 
 		ViewHolder holder = new ViewHolder();
-		// holder.chart = (LinearLayout)
-		// view.findViewById(R.id.stb_course_chart);
-		// holder.courseName = (TextView) view.findViewById(R.id.course_name);
-		// holder.courseNumber = (TextView)
-		// view.findViewById(R.id.course_number);
 		holder.cardUI = (AnimatedCardUI) view.findViewById(R.id.card_ui);
 		view.setTag(holder);
 		return view;
 	}
 
-	// private class IndexedOnclickListener implements OnClickListener
-	// {
-	// private final int position;
-	//
-	// public IndexedOnclickListener(int position)
-	// {
-	// this.position = position;
-	// }
-	//
-	// @Override
-	// public void onClick(View v)
-	// {
-	// Intent intent = new Intent(v.getContext(), CourseActivity.class);
-	// intent.putExtra(CourseActivity.COURSE_ID,
-	// presenter.getIdByPosition(position));
-	// v.getContext().startActivity(intent);
-	//
-	// }
-	// }
-
 	private class ViewHolder
 	{
-		// public LinearLayout chart;
-		// public TextView courseName;
-		// public TextView courseNumber;
 		public AnimatedCardUI cardUI;
-		// public View mainCardView;
 	}
 
 	@Override
 	public void update(Observable observable, Object data)
 	{
-		// String change = (String) data;
-		// if (change != DataStore.CLASS_LIST)
-		// return;
-
 		notifyDataSetChanged();
-
 	}
 }

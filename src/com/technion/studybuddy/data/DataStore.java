@@ -175,7 +175,7 @@ public class DataStore extends Observable implements Composite
 	}
 
 	@Override
-	public void accept(CompositeVisitor cv)
+	public synchronized void accept(CompositeVisitor cv)
 	{
 
 		if (DataStore.semester != null)
@@ -187,7 +187,7 @@ public class DataStore extends Observable implements Composite
 		cv.visit(DataStore.ws);
 	}
 
-	public void addCourse(final Course c)
+	public synchronized void addCourse(final Course c)
 	{
 		DataStore.coursesList.add(c);
 		DataStore.coursesById.put(c.getId(), c);
@@ -300,6 +300,7 @@ public class DataStore extends Observable implements Composite
 	{
 		DataStore.coursesById.get(courseNumber).delete();
 		setChanged();
+
 		notifyObservers();
 	}
 
@@ -362,7 +363,8 @@ public class DataStore extends Observable implements Composite
 
 	}
 
-	public void updateCourseFromJson(JSONObject object) throws JSONException
+	public synchronized :void updateCourseFromJson(JSONObject object)
+			throws JSONException
 	{
 		JSONArray array = object.getJSONArray("items");
 		DataStore.getInstance().getCoursePresenter(object.getString("id"))
@@ -396,7 +398,7 @@ public class DataStore extends Observable implements Composite
 		notifyObservers(DataStore.CLASS_LIST);
 	}
 
-	public List<StudyItem> getAllCourseDoneItems(String courseId)
+	public synchronized List<StudyItem> getAllCourseDoneItems(String courseId)
 	{
 		return getCoursePresenter(courseId).getAllDoneItems();
 	}
@@ -460,6 +462,7 @@ public class DataStore extends Observable implements Composite
 		@Override
 		public void run()
 		{
+
 			addCourse(course);
 			Persist.getInstance().visit(course);
 

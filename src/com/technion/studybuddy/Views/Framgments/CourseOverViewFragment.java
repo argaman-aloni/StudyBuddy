@@ -5,7 +5,6 @@ import java.util.Observer;
 
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,16 +14,13 @@ import android.widget.TextView;
 
 import com.technion.studybuddy.R;
 import com.technion.studybuddy.Adapters.TaskAdapter;
-import com.technion.studybuddy.Views.MessageBar;
 import com.technion.studybuddy.Views.NowLayout;
-import com.technion.studybuddy.Views.MessageBar.OnMessageClickListener;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.presenters.CoursePresenter;
 import com.technion.studybuddy.utils.Constants;
 import com.wvr.widget.TextProgressBar;
 
-public class CourseOverViewFragment extends Fragment implements Observer,
-		MessageBar.OnMessageClickListener
+public class CourseOverViewFragment extends Fragment implements Observer
 {
 	public static final String courseNumberArg = "courseNameArg";
 
@@ -110,65 +106,19 @@ public class CourseOverViewFragment extends Fragment implements Observer,
 				container, false);
 		TextView courseName = (TextView) fragmentView
 				.findViewById(R.id.stb_simester);
-		// TODO check layout land of courseName
 		courseName.setText(DataStore.coursesById.get(courseNumber).getName());
 		lectureProgress = (TextProgressBar) fragmentView
 				.findViewById(R.id.stb_lecturesProgressBar);
 		fragmentView.findViewById(R.id.stb_lecturesProgress);
-		// animation.setInterpolator(new BounceInterpolator());
-		// relativeLayout.setAnimation(animation);
 		tutorialProgress = (TextProgressBar) fragmentView
 				.findViewById(R.id.stb_tutorialsProgressBar);
 		drawGraph();
 		adapter = new TaskAdapter(getActivity(), courseNumber);
 		NowLayout layout = (NowLayout) fragmentView
 				.findViewById(R.id.course_list);
-		// new SwipeDismissListViewTouchListener(layout, new DismissCallbacks()
-		// {
-		//
-		// @Override
-		// public boolean canDismiss(int position)
-		// {
-		// // TODO Auto-generated method stub
-		// return true;
-		// }
-		//
-		// @Override
-		// public void onDismiss(NowLayout mListView,
-		// int[] reverseSortedPositions)
-		// {
-		// // adapter.remove(i);
-		// try
-		// {
-		// // MessageBar bar = new MessageBar(getActivity());
-		// // bar.setOnClickListener(CourseOverViewFragment.this);
-		// // Bundle b = new Bundle();
-		// // b.putInt("id", reverseSortedPositions[0]);
-		// // bar.show("Item marked done", "Button!",
-		// // R.drawable.ic_action_undo, b);
-		// adapter.remove(reverseSortedPositions[0]);
-		// DataStore.getInstance().notifyObservers();
-		// drawGraph();
-		// } catch (Exception e)
-		// {
-		// e.printStackTrace();
-		// }
-		//
-		// }
-		// });
-		// layout.setOnTouchListener(listener);
 		layout.setAdapter(adapter);
 		return fragmentView;
 
-	}
-
-	@Override
-	public void onMessageClick(Parcelable token)
-	{
-		Bundle b = (Bundle) token;
-		int id = b.getInt("id");
-		adapter.restore(id);
-		drawGraph();
 	}
 
 	@Override

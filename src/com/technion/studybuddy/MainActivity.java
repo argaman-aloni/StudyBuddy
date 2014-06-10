@@ -1,18 +1,16 @@
 package com.technion.studybuddy;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.IntentSender.SendIntentException;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -20,7 +18,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -32,8 +29,11 @@ import android.view.View.OnClickListener;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxStatus;
+import com.androidquery.callback.BitmapAjaxCallback;
+import com.androidquery.util.AQUtility;
 import com.google.android.gcm.GCMRegistrar;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -52,8 +52,8 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 
 	public static final int USER_PERMISSION1 = 0;
 	DrawerAdapter adapter;
-	private TextView loginState;
-	private TextView loginTitle;
+	// private TextView loginState;
+	// private TextView loginTitle;
 	private DrawerLayout mDrawerLayout;
 	private ExpandableListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -72,16 +72,15 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 	 * can resolve them when the user clicks sign-in.
 	 */
 	private ConnectionResult mConnectionResult;
-	private RelativeLayout loginLayout;
+	// private RelativeLayout loginLayout;
+	private DeleteReciever deleteReciever;
+	private AQuery aq;
 
 	private void initloginState()
 	{
-		loginLayout = (RelativeLayout) findViewById(R.id.login_panel);
-		loginTitle = (TextView) findViewById(R.id.login_tv);
-		loginState = (TextView) findViewById(R.id.status_tv);
 
 		if (ServerUtilities.isRegistered(this))
-			loginState.setOnClickListener(new OnClickListener()
+			aq.id(R.id.status_tv).clicked(new OnClickListener()
 			{
 
 				@Override
@@ -101,16 +100,16 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 					Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
 					mGoogleApiClient.disconnect();
 					mGoogleApiClient.connect();
-					loginLayout.setVisibility(View.VISIBLE);
-					loginTitle.setText("Logged as:");
-					loginState.setText("not logged");
+					aq.id(R.id.login_panel).visible();
+					aq.id(R.id.login_tv).text("Logged as:");
+					aq.id("not logged in");
 					ImageView view = (ImageView) findViewById(R.id.profile_pic_iv);
 					view.setBackgroundResource(R.drawable.profile_pic);
 
 				}
 			});
 		else
-			loginLayout.setOnClickListener(new OnClickListener()
+			aq.id(R.id.login_panel).clicked(new OnClickListener()
 			{
 
 				@Override
@@ -131,6 +130,7 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		aq = new AQuery(this);
 		mGoogleApiClient = new GoogleApiClient.Builder(this)
 				.addConnectionCallbacks(this)
 				.addOnConnectionFailedListener(this).addApi(Plus.API)
@@ -258,14 +258,11 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 
 		if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null)
 		{
-			loginLayout.setVisibility(View.GONE);
-			loginTitle.setText(getSharedPreferences(Constants.PrefsContext, 0)
-					.getString(Constants.ACCOUNT_NAME, ""));
-			String str = "<html><body><u>log out</u></body></html>";
-			loginState.setText(Html.fromHtml(str));
-
-			loginState.setTextColor(Color.BLUE);
-
+			aq.id(R.id.login_panel).visibility(View.GONE);
+			aq.id(R.id.status_tv)
+					.text(Html
+							.fromHtml("<html><body><u>log out</u></body></html>"))
+					.textColor(Color.BLUE);
 			SharedPreferences prefs = getSharedPreferences(
 					Constants.PrefsContext, 0);
 
@@ -282,11 +279,22 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 				ServerUtilities.registerToServer(this);
 			} else
 				DataStore.getInstance().getAllCourses();
-			loginTitle.setText(currentPerson.getName().getGivenName() + " "
-					+ currentPerson.getName().getFamilyName());
-			if (currentPerson.hasImage())
-				new PictureGrabber().execute(currentPerson.getImage().getUrl());
+			aq.id(R.id.login_tv).text(
+					currentPerson.getName().getGivenName() + " "
+							+ currentPerson.getName().getFamilyName(), true);
 
+			if (currentPerson.hasImage())
+				aq.id(R.id.profile_pic_iv).image(
+						currentPerson.getImage().getUrl(), true, true, 0, 0,
+						new BitmapAjaxCallback()
+						{
+							@Override
+							protected void callback(String url, ImageView iv,
+									Bitmap bm, AjaxStatus status)
+							{
+								iv.setImageBitmap(getCroppedBitmap(bm));
+							}
+						});
 		}
 
 	}
@@ -298,11 +306,6 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onStop()
-	 */
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -368,39 +371,6 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 			}
 	}
 
-	class PictureGrabber extends AsyncTask<String, Void, Bitmap>
-	{
-
-		@Override
-		protected Bitmap doInBackground(String... params)
-		{
-			try
-			{
-				return BitmapFactory.decodeStream((InputStream) new URL(
-						params[0]).getContent());
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-			return null;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-		 */
-		@Override
-		protected void onPostExecute(Bitmap result)
-		{
-			if (result == null)
-				return;
-			ImageView profilePic = (ImageView) MainActivity.this
-					.findViewById(R.id.profile_pic_iv);
-			profilePic.setImageBitmap(getCroppedBitmap(result));
-		}
-	}
-
 	private Bitmap getCroppedBitmap(Bitmap bitmap)
 	{
 		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
@@ -422,5 +392,71 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 		canvas.drawBitmap(bitmap, rect, rect, paint);
 
 		return output;
+	}
+
+	public class DeleteReciever extends BroadcastReceiver
+	{
+
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			DataStore.getInstance().deleteCourse(
+					intent.getExtras().getString("id"));
+
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onResume()
+	 */
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		if (deleteReciever == null)
+			deleteReciever = new DeleteReciever();
+		registerReceiver(deleteReciever, new IntentFilter(
+				Constants.DELETECOURSE));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onPause()
+	 */
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		unregisterReceiver(deleteReciever);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onLowMemory()
+	 */
+	@Override
+	public void onLowMemory()
+	{
+		super.onLowMemory();
+		BitmapAjaxCallback.clearCache();
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onDestroy()
+	 */
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		if (isTaskRoot())
+			AQUtility.cleanCacheAsync(this);
 	}
 }

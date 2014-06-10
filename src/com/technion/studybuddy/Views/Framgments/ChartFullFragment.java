@@ -11,7 +11,6 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.technion.studybuddy.R;
 import com.technion.studybuddy.charts.ProgressPieChart;
@@ -30,7 +29,8 @@ public class ChartFullFragment extends DialogFragment
 	private GraphicalView graphicalView = null;
 	private LinearLayout layout;
 	WorkStats stats = DataStore.getStats();
-	private TextView tv;
+
+	// private TextView tv;
 
 	public ChartFullFragment()
 	{

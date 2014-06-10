@@ -28,12 +28,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidquery.AQuery;
 import com.technion.studybuddy.Adapters.CourseListAdapter;
 import com.technion.studybuddy.Adapters.DrawerAdapter;
 import com.technion.studybuddy.GCM.GoogleHttpContext;
@@ -41,9 +40,7 @@ import com.technion.studybuddy.GCM.ServerUtilities;
 import com.technion.studybuddy.Tooltip.ToolTip;
 import com.technion.studybuddy.Tooltip.ToolTipRelativeLayout;
 import com.technion.studybuddy.Tooltip.ToolTipView;
-import com.technion.studybuddy.Views.NowLayout;
 import com.technion.studybuddy.Views.Activities.AddCourseActivity;
-import com.technion.studybuddy.Views.Activities.EditCourse;
 import com.technion.studybuddy.Views.Activities.StbSettingsActivity;
 import com.technion.studybuddy.charts.PieChartBuilder;
 import com.technion.studybuddy.data.DataStore;
@@ -57,43 +54,36 @@ public class MainFragment extends Fragment implements Observer,
 
 	public static final int USER_PERMISSION1 = 0;
 	private ToolTipView mRedToolTipView;
-	private FrameLayout frameLayout;
+	// private FrameLayout frameLayout;
 	private CourseListAdapter adapter;
 	private LinearLayout chartLayout;
 	private DrawerAdapter drawerAdapter;
-	private LinearLayout emptyState;
 	private GraphicalView graphView;
-	private NowLayout layout;
 	private View rootView;
 	private View semesterData;
 	private int locationInArray;
-
+	private AQuery aq;
 	private SharedPreferences sharedPref;
 
 	private ToolTipRelativeLayout mToolTipFrameLayout;
 
 	private void initInitialView()
 	{
-		layout = (NowLayout) rootView.findViewById(R.id.course_list);
-		emptyState = (LinearLayout) rootView
-				.findViewById(R.id.stb_main_empty_state);
+
 		adapter = new CourseListAdapter(getActivity());
-		layout.setAdapter(adapter);
-		Button btn = (Button) rootView
-				.findViewById(R.id.stb_main_empty_state_button);
-		btn.setOnClickListener(new OnClickListener()
+		aq.id(R.id.course_list).adapter(adapter);
+		aq.id(R.id.stb_main_empty_state_button).clicked(new OnClickListener()
 		{
 
 			@Override
 			public void onClick(View v)
 			{
 				startActivityForResult(new Intent(v.getContext(),
-						EditCourse.class), Activity.RESULT_CANCELED);
+						AddCourseActivity.class), Activity.RESULT_CANCELED);
 			}
 		});
 		DataStore.getInstance().addObserver(adapter);
 		DataStore.getStats().addObserver(this);
-		// WeeklyGraph
 		chartLayout = (LinearLayout) rootView.findViewById(R.id.Chart_layout);
 		chartLayout.setClickable(true);
 	}
@@ -106,8 +96,7 @@ public class MainFragment extends Fragment implements Observer,
 				.findViewById(R.id.stb_simester);
 		TextView weekCount = (TextView) semesterData
 				.findViewById(R.id.stb_week_count);
-		// TODO: change this to be dynamic.
-		simterTextView.setText("Semester : Winter");
+		simterTextView.setText("Semester : Spring");
 		int currentWeek = DataStore.semester.getSemesterWeek(new Date());
 		weekCount.setText("week "
 				+ String.valueOf(currentWeek < DataStore.semester
@@ -124,8 +113,6 @@ public class MainFragment extends Fragment implements Observer,
 		DataStore.getInstance().notifyObservers();
 		switch (requestCode)
 		{
-		// if the user approved the use of the account make another request
-		// for the auth token else display a message
 		case GoogleHttpContext.USER_PERMISSION:
 			if (resultCode == Activity.RESULT_OK)
 				Toast.makeText(getActivity(),
@@ -145,6 +132,7 @@ public class MainFragment extends Fragment implements Observer,
 			Bundle savedInstanceState)
 	{
 		rootView = inflater.inflate(R.layout.stb_view_main, container, false);
+		aq = new AQuery(rootView);
 		mToolTipFrameLayout = (ToolTipRelativeLayout) rootView
 				.findViewById(R.id.activity_main_tooltipframelayout);
 		if (mToolTipFrameLayout != null)
@@ -234,12 +222,12 @@ public class MainFragment extends Fragment implements Observer,
 	{
 		if (adapter.getCount() == 0)
 		{
-			emptyState.setVisibility(View.VISIBLE);
-			layout.setVisibility(View.GONE);
+			aq.id(R.id.stb_main_empty_state).visible();
+			aq.id(R.id.course_list).visibility(View.GONE);
 		} else
 		{
-			layout.setVisibility(View.VISIBLE);
-			emptyState.setVisibility(View.GONE);
+			aq.id(R.id.course_list).visible();
+			aq.id(R.id.stb_main_empty_state).visibility(View.GONE);
 		}
 	}
 

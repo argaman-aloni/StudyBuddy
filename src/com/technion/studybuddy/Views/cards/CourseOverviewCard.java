@@ -13,12 +13,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
+import com.androidquery.AQuery;
 import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.views.CardUI;
 import com.technion.studybuddy.R;
@@ -52,39 +51,28 @@ public class CourseOverviewCard extends BaseCard
 	@Override
 	protected void applyTo(View convertView)
 	{
-		TextView titleTextView = (TextView) convertView
-				.findViewById(R.id.stb_course_item_title);
-		titleTextView.setText(presenter.getName());
-		TextView desctiption = (TextView) convertView
-				.findViewById(R.id.stb_course_item_description);
-		desctiption.setText("course " + courseID);
-		convertView.findViewById(R.id.stb_stripe).setBackgroundResource(
-				R.drawable.stb_graient);
+		AQuery aQuery = new AQuery(convertView);
+		aQuery.hardwareAccelerated11();
+		aQuery.id(R.id.stb_course_item_title).text(presenter.getName());
+		aQuery.id(R.id.stb_course_item_description).text("course " + courseID);
+		aQuery.id(R.id.stb_stripe).background(R.drawable.stb_graient);
 		final ProgressWheel pw = (ProgressWheel) convertView
 				.findViewById(R.id.stb_progressBar);
-		TextView lastStudied = (TextView) convertView
-				.findViewById(R.id.stb_card_last_study);
 		Date date = presenter.getLastDateStudied();
 		Date now = new Date();
 		int lastTimestudied = DateUtils.daysInRange(now, date);
-		if (lastTimestudied > 0)
-			lastStudied.setText("last time studied : " + lastTimestudied
-					+ " days ago");
-		else
-			lastStudied.setText("last time studied : today");
-
+		aQuery.id(R.id.stb_card_last_study).text(
+				"last time studied : "
+						+ (lastTimestudied > 0 ? lastTimestudied + " days ago"
+								: " today"));
 		int total = presenter.getNumOfItemsDue(now);
 		int done = 0;
-
 		for (String resourceName : presenter.getResourceNames())
 			done += presenter.getDoneItemsCount(resourceName);
-
 		pw.setProgress(total == 0 ? 0 : 360 * done / total);
 		pw.setText(done + "/" + total);
 
-		final ImageView imageView = (ImageView) convertView
-				.findViewById(R.id.stb_overflow);
-		imageView.setOnClickListener(new OnClickListener()
+		aQuery.id(R.id.stb_overflow).clicked(new OnClickListener()
 		{
 
 			@Override
@@ -104,10 +92,7 @@ public class CourseOverviewCard extends BaseCard
 
 			}
 		});
-		ListView items = (ListView) convertView.findViewById(R.id.next_items);
-		if (items == null)
-			return;
-		items.setAdapter(new NextItemsAdapter());
+		aQuery.id(R.id.next_items).adapter(new NextItemsAdapter());
 	}
 
 	@Override
