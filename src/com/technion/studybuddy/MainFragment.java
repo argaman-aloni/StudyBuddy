@@ -28,12 +28,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidquery.AQuery;
 import com.technion.studybuddy.Adapters.CourseListAdapter;
 import com.technion.studybuddy.Adapters.DrawerAdapter;
 import com.technion.studybuddy.GCM.GoogleHttpContext;
@@ -41,9 +40,7 @@ import com.technion.studybuddy.GCM.ServerUtilities;
 import com.technion.studybuddy.Tooltip.ToolTip;
 import com.technion.studybuddy.Tooltip.ToolTipRelativeLayout;
 import com.technion.studybuddy.Tooltip.ToolTipView;
-import com.technion.studybuddy.Views.NowLayout;
 import com.technion.studybuddy.Views.Activities.AddCourseActivity;
-import com.technion.studybuddy.Views.Activities.EditCourse;
 import com.technion.studybuddy.Views.Activities.StbSettingsActivity;
 import com.technion.studybuddy.charts.PieChartBuilder;
 import com.technion.studybuddy.data.DataStore;
@@ -52,49 +49,45 @@ import com.technion.studybuddy.models.Courses;
 import com.technion.studybuddy.utils.Constants;
 
 public class MainFragment extends Fragment implements Observer,
-ToolTipView.OnToolTipViewClickedListener {
+		ToolTipView.OnToolTipViewClickedListener
+{
 
 	public static final int USER_PERMISSION1 = 0;
 	private ToolTipView mRedToolTipView;
-	private FrameLayout frameLayout;
 	private CourseListAdapter adapter;
 	private LinearLayout chartLayout;
 	private DrawerAdapter drawerAdapter;
-	private LinearLayout emptyState;
 	private GraphicalView graphView;
-	private NowLayout layout;
 	private View rootView;
 	private View semesterData;
 	private int locationInArray;
-
+	private AQuery aq;
 	private SharedPreferences sharedPref;
 
 	private ToolTipRelativeLayout mToolTipFrameLayout;
 
-	private void initInitialView() {
-		layout = (NowLayout) rootView.findViewById(R.id.course_list);
-		emptyState = (LinearLayout) rootView
-				.findViewById(R.id.stb_main_empty_state);
+	private void initInitialView()
+	{
 		adapter = new CourseListAdapter(getActivity());
-		layout.setAdapter(adapter);
-		Button btn = (Button) rootView
-				.findViewById(R.id.stb_main_empty_state_button);
-		btn.setOnClickListener(new OnClickListener() {
+		aq.id(R.id.course_list).adapter(adapter);
+		aq.id(R.id.stb_main_empty_state_button).clicked(new OnClickListener()
+		{
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				startActivityForResult(new Intent(v.getContext(),
-						EditCourse.class), Activity.RESULT_CANCELED);
+						AddCourseActivity.class), Activity.RESULT_CANCELED);
 			}
 		});
 		DataStore.getInstance().addObserver(adapter);
 		DataStore.getStats().addObserver(this);
-		// WeeklyGraph
 		chartLayout = (LinearLayout) rootView.findViewById(R.id.Chart_layout);
 		chartLayout.setClickable(true);
 	}
 
-	private void initSemester() {
+	private void initSemester()
+	{
 		semesterData = LayoutInflater.from(rootView.getContext()).inflate(
 				R.layout.stb_view_simester_data, null);
 		TextView simterTextView = (TextView) semesterData
@@ -107,16 +100,18 @@ ToolTipView.OnToolTipViewClickedListener {
 		weekCount.setText("week "
 				+ String.valueOf(currentWeek < DataStore.semester
 						.getTotalWeeks() ? currentWeek : DataStore.semester
-								.getTotalWeeks()
-								+ " / "
-								+ DataStore.semester.getTotalWeeks()));
+						.getTotalWeeks()
+						+ " / "
+						+ DataStore.semester.getTotalWeeks()));
 		updateGraphView();
 	}
 
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
 		DataStore.getInstance().notifyObservers();
-		switch (requestCode) {
+		switch (requestCode)
+		{
 		// if the user approved the use of the account make another request
 		// for the auth token else display a message
 		case GoogleHttpContext.USER_PERMISSION:
@@ -128,26 +123,27 @@ ToolTipView.OnToolTipViewClickedListener {
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+	{
 		inflater.inflate(R.menu.stb_main_menu, menu);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+			Bundle savedInstanceState)
+	{
 		rootView = inflater.inflate(R.layout.stb_view_main, container, false);
+		aq = new AQuery(rootView);
 		mToolTipFrameLayout = (ToolTipRelativeLayout) rootView
 				.findViewById(R.id.activity_main_tooltipframelayout);
 		if (mToolTipFrameLayout != null)
-			new Handler().postDelayed(new Runnable() {
+			new Handler().postDelayed(new Runnable()
+			{
 				@Override
-				public void run() {
+				public void run()
+				{
 					setToolTip();
 				}
-
-				/**
-				 *
-				 */
 
 			}, DataStore.getMainPresenter().getCount() * 80 + 300);
 		DataStore.setContext(rootView.getContext());
@@ -155,8 +151,11 @@ ToolTipView.OnToolTipViewClickedListener {
 		Context context = getActivity();
 		sharedPref = context.getSharedPreferences(
 				Constants.popupSaredPrefrence, Context.MODE_PRIVATE);
-		locationInArray = sharedPref.getInt(Constants.locationInArray, 0);
-
+		if (savedInstanceState == null)
+			locationInArray = sharedPref.getInt(Constants.locationInArray, 0);
+		else
+			locationInArray = savedInstanceState
+					.getInt(Constants.locationInArray);
 		initInitialView();
 		setVisibilityEmptyState();
 		DataStore.getInstance().addObserver(this);
@@ -167,16 +166,19 @@ ToolTipView.OnToolTipViewClickedListener {
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
+	public void onSaveInstanceState(Bundle outState)
+	{
 		super.onSaveInstanceState(outState);
 		outState.putInt(Constants.popupSaredPrefrence, locationInArray);
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
 
 		Intent intent = null;
-		switch (item.getItemId()) {
+		switch (item.getItemId())
+		{
 		case android.R.id.home:
 
 			NavUtils.navigateUpFromSameTask(getActivity());
@@ -208,22 +210,27 @@ ToolTipView.OnToolTipViewClickedListener {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void setDrawerAdapter(DrawerAdapter adapter2) {
+	public void setDrawerAdapter(DrawerAdapter adapter2)
+	{
 		drawerAdapter = adapter2;
 	}
 
-	private void setVisibilityEmptyState() {
-		if (adapter.getCount() == 0) {
-			emptyState.setVisibility(View.VISIBLE);
-			layout.setVisibility(View.GONE);
-		} else {
-			layout.setVisibility(View.VISIBLE);
-			emptyState.setVisibility(View.GONE);
+	private void setVisibilityEmptyState()
+	{
+		if (adapter.getCount() == 0)
+		{
+			aq.id(R.id.stb_main_empty_state).visible();
+			aq.id(R.id.course_list).visibility(View.GONE);
+		} else
+		{
+			aq.id(R.id.course_list).visible();
+			aq.id(R.id.stb_main_empty_state).visibility(View.GONE);
 		}
 	}
 
 	@Override
-	public void update(Observable observable, Object data) {
+	public void update(Observable observable, Object data)
+	{
 		updateGraphView();
 		adapter.notifyDataSetChanged();
 		if (drawerAdapter != null)
@@ -232,17 +239,21 @@ ToolTipView.OnToolTipViewClickedListener {
 		// update the widget!!!!!!!!
 	}
 
-	private void updateGraphView() {
+	private void updateGraphView()
+	{
 		chartLayout.removeAllViews();
 		Date today = new Date();
 		graphView = GraphFactory.getWeeklyProgressGraph(rootView.getContext(),
 				today, DataStore.getInstance().getWorkStats(today, 7));
 		graphView.setClickable(true);
-		graphView.setOnTouchListener(new OnTouchListener() {
+		graphView.setOnTouchListener(new OnTouchListener()
+		{
 
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				switch (event.getAction()) {
+			public boolean onTouch(View v, MotionEvent event)
+			{
+				switch (event.getAction())
+				{
 				case MotionEvent.ACTION_DOWN:
 					v.setAlpha((float) 0.5);
 					return false;
@@ -258,10 +269,12 @@ ToolTipView.OnToolTipViewClickedListener {
 
 		});
 
-		graphView.setOnClickListener(new OnClickListener() {
+		graphView.setOnClickListener(new OnClickListener()
+		{
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				Intent intent = new Intent(v.getContext(),
 						PieChartBuilder.class);
 				startActivity(intent);
@@ -275,28 +288,31 @@ ToolTipView.OnToolTipViewClickedListener {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see android.app.Fragment#onResume()
 	 */
 	@Override
-	public void onResume() {
+	public void onResume()
+	{
 		super.onResume();
 		DataStore.getInstance().addObserver(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see android.app.Fragment#onPause()
 	 */
 	@Override
-	public void onPause() {
+	public void onPause()
+	{
 		super.onPause();
 		DataStore.getInstance().deleteObserver(this);
 	}
 
 	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
+	public void onConfigurationChanged(Configuration newConfig)
+	{
 		super.onConfigurationChanged(newConfig);
 		Bundle bundle = new Bundle();
 		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
@@ -306,7 +322,8 @@ ToolTipView.OnToolTipViewClickedListener {
 	}
 
 	@Override
-	public void onToolTipViewClicked(ToolTipView toolTipView) {
+	public void onToolTipViewClicked(ToolTipView toolTipView)
+	{
 		mRedToolTipView = null;
 		SharedPreferences.Editor editor = sharedPref.edit();
 		locationInArray = sharedPref.getInt(Constants.locationInArray, 0);
@@ -314,11 +331,13 @@ ToolTipView.OnToolTipViewClickedListener {
 		editor.commit();
 	}
 
-	private void setToolTip() {
+	private void setToolTip()
+	{
 		String[] array = getResources().getStringArray(
 				R.array.popup_notifications);
 
-		if (locationInArray < array.length) {
+		if (locationInArray < array.length)
+		{
 			int location = locationInArray % array.length;
 			ToolTip toolTip = new ToolTip().withText(array[location])
 					.withColor(Color.RED).withShadow();

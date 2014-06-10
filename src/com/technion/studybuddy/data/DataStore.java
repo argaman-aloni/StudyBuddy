@@ -363,7 +363,7 @@ public class DataStore extends Observable implements Composite
 
 	}
 
-	public synchronized :void updateCourseFromJson(JSONObject object)
+	public synchronized void updateCourseFromJson(JSONObject object)
 			throws JSONException
 	{
 		JSONArray array = object.getJSONArray("items");
