@@ -328,7 +328,7 @@ public class MainFragment extends Fragment implements Observer,
 		SharedPreferences.Editor editor = sharedPref.edit();
 		locationInArray = sharedPref.getInt(Constants.locationInArray, 0);
 		editor.putInt(Constants.locationInArray, ++locationInArray);
-		editor.commit();
+		editor.apply();
 	}
 
 	private void setToolTip()

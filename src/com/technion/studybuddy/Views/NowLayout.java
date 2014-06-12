@@ -10,7 +10,6 @@ import android.widget.GridView;
 
 import com.technion.studybuddy.R;
 
-
 public class NowLayout extends GridView implements OnGlobalLayoutListener
 {
 	private boolean onLoad = false;
@@ -34,7 +33,6 @@ public class NowLayout extends GridView implements OnGlobalLayoutListener
 		getViewTreeObserver().addOnGlobalLayoutListener(this);
 	}
 
-	
 	@Override
 	public void onGlobalLayout()
 	{
@@ -54,9 +52,7 @@ public class NowLayout extends GridView implements OnGlobalLayoutListener
 			child.getLocationOnScreen(location);
 
 			if (location[1] > heightPx)
-			{
 				break;
-			}
 
 			final Animation animation = inversed ? AnimationUtils
 					.loadAnimation(getContext(), R.anim.stb_slide_up_left)

@@ -56,7 +56,7 @@ public class GCMIntentService extends GCMBaseIntentService
 				editor.putBoolean(Constants.IS_REGISTERED, true);
 				editor.putString(Constants.REGID_PREFS,
 						bundle.getString("callback"));
-				editor.commit();
+				editor.apply();
 				DataStore.getInstance().getAllCourses();
 			}
 		});

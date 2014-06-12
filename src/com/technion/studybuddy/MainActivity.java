@@ -90,7 +90,7 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 					editor.remove(Constants.IS_REGISTERED);
 					editor.remove(Constants.REGID_PREFS);
 					editor.remove(Constants.ACCOUNT_NAME);
-					editor.commit();
+					editor.apply();
 					Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
 					mGoogleApiClient.disconnect();
 					mGoogleApiClient.connect();
@@ -269,7 +269,7 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 			{
 
 				prefs.edit().putString(Constants.ACCOUNT_NAME, accountName)
-						.putBoolean(Constants.IS_REGISTERED, true).commit();
+						.putBoolean(Constants.IS_REGISTERED, true).apply();
 				ServerUtilities.registerToServer(this);
 			} else
 				DataStore.getInstance().getAllCourses();
@@ -331,7 +331,7 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 			SharedPreferences.Editor editor = sharedPref.edit();
 			locationInArray = sharedPref.getInt(Constants.locationInArray, 0);
 			editor.putInt(Constants.locationInArray, ++locationInArray);
-			editor.commit();
+			editor.apply();
 		}
 	}
 

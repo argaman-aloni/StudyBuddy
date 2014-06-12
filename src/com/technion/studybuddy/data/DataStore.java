@@ -433,18 +433,18 @@ public class DataStore extends Observable implements Composite
 
 	public void updateWidgetData()
 	{
-		Context context = DataStore.getContext();
-		Intent intent = new Intent(context, STBWidgetProvider.class);
+		Intent intent = new Intent(DataStore.context, STBWidgetProvider.class);
 		intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
-		AppWidgetManager manager = AppWidgetManager.getInstance(context);
-		ComponentName compName = new ComponentName(context,
+		AppWidgetManager manager = AppWidgetManager
+				.getInstance(DataStore.context);
+		ComponentName compName = new ComponentName(DataStore.context,
 				STBWidgetProvider.class);
 		int[] widgetIds = manager.getAppWidgetIds(compName);
 		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds);
 		intent.putExtra("Caller", "Called from DataStore!!!!!!!!!!!!!");
 		manager.notifyAppWidgetViewDataChanged(
 				manager.getAppWidgetIds(compName), R.id.widget_listview);
-		context.sendBroadcast(intent);
+		DataStore.context.sendBroadcast(intent);
 	}
 
 	@Override
@@ -462,10 +462,8 @@ public class DataStore extends Observable implements Composite
 		@Override
 		public void run()
 		{
-
 			addCourse(course);
 			Persist.getInstance().visit(course);
-
 		}
 
 		/**

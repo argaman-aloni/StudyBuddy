@@ -12,12 +12,12 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
-import com.technion.studybuddy.utils.Constants;
+
 import com.technion.studybuddy.R;
 import com.technion.studybuddy.data.DataStore;
+import com.technion.studybuddy.utils.Constants;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -64,12 +64,10 @@ public class StbSettingsActivity extends PreferenceActivity
 			{
 				preference.setSummary("Sync account is: " + stringValue);
 				editor.putString(Constants.ACCOUNT_NAME, stringValue);
-				editor.commit();
+				editor.apply();
 			} else if ("stb_simester_length".equals(key))
-			{
 				preference.setSummary("semester is " + stringValue
 						+ " weeks long");
-			}
 			return true;
 
 		}
@@ -102,16 +100,15 @@ public class StbSettingsActivity extends PreferenceActivity
 	private static void bindPreferenceSummaryToValue(Preference preference)
 	{
 		// Set the listener to watch for value changes.
-		preference
-				.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
+		// preference
+		// .setOnPreferenceChangeListener(StbSettingsActivity.sBindPreferenceSummaryToValueListener);
 
 		// Trigger the listener immediately with the preference's
 		// current value.
-		sBindPreferenceSummaryToValueListener.onPreferenceChange(
-				preference,
-				PreferenceManager.getDefaultSharedPreferences(
-						preference.getContext()).getString(preference.getKey(),
-						""));
+		// StbSettingsActivity.sBindPreferenceSummaryToValueListener
+		// .onPreferenceChange(preference, PreferenceManager
+		// .getDefaultSharedPreferences(preference.getContext())
+		// .getString(preference.getKey(), ""));
 	}
 
 	/**
@@ -123,7 +120,7 @@ public class StbSettingsActivity extends PreferenceActivity
 	 */
 	private static boolean isSimplePreferences(Context context)
 	{
-		return ALWAYS_SIMPLE_PREFS
+		return StbSettingsActivity.ALWAYS_SIMPLE_PREFS
 				|| Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB
 				|| !isXLargeTablet(context);
 	}
@@ -143,9 +140,7 @@ public class StbSettingsActivity extends PreferenceActivity
 	public void onBuildHeaders(List<Header> target)
 	{
 		if (!isSimplePreferences(this))
-		{
 			loadHeadersFromResource(R.xml.stb_pref_headers, target);
-		}
 	}
 
 	/** {@inheritDoc} */
@@ -174,9 +169,7 @@ public class StbSettingsActivity extends PreferenceActivity
 	private void setupActionBar()
 	{
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-		{
 			getActionBar().setDisplayHomeAsUpEnabled(true);
-		}
 	}
 
 	/**

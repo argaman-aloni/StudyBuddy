@@ -59,8 +59,20 @@ public class CourseGrabber extends AsyncTask<Void, Void, JSONObject>
 
 			try
 			{
-				return new JSONObject(json);
+				JSONObject result = new JSONObject(json);
 
+				JSONArray courses = result.getJSONArray("courses");
+				for (int i = 0; i < courses.length(); i++)
+				{
+					JSONObject singleCourse = courses.getJSONObject(i)
+							.getJSONObject("course");
+					String url = Constants.SERVER_URL_FULL
+							+ "/data?type=course.status&id="
+							+ singleCourse.getString("id");
+					new JsonUpdater(context, "course.status").execute(url);
+
+				}
+				return result;
 			} catch (JSONException e)
 			{
 				isError = true;
@@ -82,6 +94,7 @@ public class CourseGrabber extends AsyncTask<Void, Void, JSONObject>
 			client.close();
 		}
 		return null;
+
 	}
 
 	/*
@@ -94,24 +107,13 @@ public class CourseGrabber extends AsyncTask<Void, Void, JSONObject>
 	{
 		if (isError)
 			Toast.makeText(context, error, Toast.LENGTH_LONG).show();
-		try
-		{
-			if (result != null)
-				DataStore.getInstance().createCourseFromJson(result);
-			JSONArray courses = result.getJSONArray("courses");
-			for (int i = 0; i < courses.length(); i++)
+		if (result != null)
+			try
 			{
-				JSONObject singleCourse = courses.getJSONObject(i)
-						.getJSONObject("course");
-				String url = Constants.SERVER_URL_FULL
-						+ "/data?type=course.status&id="
-						+ singleCourse.getString("id");
-				new JsonUpdater(context, "course.status").execute(url);
-
+				DataStore.getInstance().createCourseFromJson(result);
+			} catch (JSONException e)
+			{
+				e.printStackTrace();
 			}
-		} catch (JSONException e)
-		{
-			e.printStackTrace();
-		}
 	}
 }
