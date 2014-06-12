@@ -103,17 +103,25 @@ public class CourseGrabber extends AsyncTask<Void, Void, JSONObject>
 	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 	 */
 	@Override
-	protected void onPostExecute(JSONObject result)
+	protected void onPostExecute(final JSONObject result)
 	{
 		if (isError)
 			Toast.makeText(context, error, Toast.LENGTH_LONG).show();
 		if (result != null)
-			try
+			new Thread(new Runnable()
 			{
-				DataStore.getInstance().createCourseFromJson(result);
-			} catch (JSONException e)
-			{
-				e.printStackTrace();
-			}
+
+				@Override
+				public void run()
+				{
+					try
+					{
+						DataStore.getInstance().createCourseFromJson(result);
+					} catch (JSONException e)
+					{
+						e.printStackTrace();
+					}
+				}
+			}).start();
 	}
 }

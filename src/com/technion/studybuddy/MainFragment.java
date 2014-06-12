@@ -80,7 +80,7 @@ public class MainFragment extends Fragment implements Observer,
 						AddCourseActivity.class), Activity.RESULT_CANCELED);
 			}
 		});
-		DataStore.getInstance().addObserver(adapter);
+		DataStore.getInstance().addObserver(this);
 		DataStore.getStats().addObserver(this);
 		chartLayout = (LinearLayout) rootView.findViewById(R.id.Chart_layout);
 		chartLayout.setClickable(true);
@@ -231,12 +231,21 @@ public class MainFragment extends Fragment implements Observer,
 	@Override
 	public void update(Observable observable, Object data)
 	{
-		updateGraphView();
-		adapter.notifyDataSetChanged();
-		if (drawerAdapter != null)
-			drawerAdapter.notifyDataSetChanged();
-		setVisibilityEmptyState();
-		// update the widget!!!!!!!!
+		getActivity().runOnUiThread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				// update the widget!!!!!!!!
+				updateGraphView();
+				adapter.notifyDataSetChanged();
+				if (drawerAdapter != null)
+					drawerAdapter.notifyDataSetChanged();
+				setVisibilityEmptyState();
+
+			}
+		});
+
 	}
 
 	private void updateGraphView()
@@ -296,6 +305,7 @@ public class MainFragment extends Fragment implements Observer,
 	{
 		super.onResume();
 		DataStore.getInstance().addObserver(this);
+		DataStore.getStats().addObserver(this);
 	}
 
 	/*
@@ -308,6 +318,7 @@ public class MainFragment extends Fragment implements Observer,
 	{
 		super.onPause();
 		DataStore.getInstance().deleteObserver(this);
+		DataStore.getStats().deleteObserver(this);
 	}
 
 	@Override

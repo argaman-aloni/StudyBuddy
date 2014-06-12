@@ -3,7 +3,6 @@ package com.technion.studybuddy.presenters;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.exceptions.CourseAlreadyExistsException;
 
-
 public class EditCoursePresenter
 {
 
@@ -15,21 +14,16 @@ public class EditCoursePresenter
 
 	}
 
-	public void commitCourse(	String newCourseId,
-								String courseName,
-								int numLectures,
-								int numTutorials)
-					throws CourseAlreadyExistsException
+	public void commitCourse(String newCourseId, String courseName,
+			int numLectures, int numTutorials)
+			throws CourseAlreadyExistsException
 	{
 		if (isEditMode)
-		{
 			DataStore.getInstance().editCourse(oldCourseID, newCourseId,
-							courseName, numLectures, numTutorials);
-		} else
-		{
+					courseName, numLectures, numTutorials);
+		else
 			DataStore.getInstance().addCourse(newCourseId, courseName,
-							numLectures, numTutorials);
-		}
+					numLectures, numTutorials);
 
 	}
 
@@ -57,7 +51,7 @@ public class EditCoursePresenter
 			return 0;
 
 		return DataStore.coursesById.get(oldCourseID)
-						.getResourceTotalItemCount(name);
+				.getResourceTotalItemCount(name);
 	}
 
 	public void reset()

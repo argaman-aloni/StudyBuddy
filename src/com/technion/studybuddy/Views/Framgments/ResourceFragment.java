@@ -148,7 +148,15 @@ public class ResourceFragment extends Fragment implements Observer
 	@Override
 	public void update(Observable observable, Object data)
 	{
-		resourceAdapter.notifyDataSetChanged();
+		getActivity().runOnUiThread(new Runnable()
+		{
+
+			@Override
+			public void run()
+			{
+				resourceAdapter.notifyDataSetChanged();
+			}
+		});
 	}
 
 	/*

@@ -1,8 +1,6 @@
 package com.technion.studybuddy.Adapters;
 
 import java.util.Date;
-import java.util.Observable;
-import java.util.Observer;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,7 +24,7 @@ import com.technion.studybuddy.models.ExamDate;
 import com.technion.studybuddy.presenters.CourseListPresenter;
 import com.technion.studybuddy.presenters.CoursePresenter;
 
-public class CourseListAdapter extends BaseAdapter implements Observer
+public class CourseListAdapter extends BaseAdapter
 {
 	private final LayoutInflater mInflater;
 	private final CourseListPresenter presenter;
@@ -172,9 +170,4 @@ public class CourseListAdapter extends BaseAdapter implements Observer
 		public AnimatedCardUI cardUI;
 	}
 
-	@Override
-	public void update(Observable observable, Object data)
-	{
-		notifyDataSetChanged();
-	}
 }

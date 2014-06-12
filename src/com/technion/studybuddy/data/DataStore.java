@@ -218,30 +218,35 @@ public class DataStore extends Observable implements Composite
 
 	}
 
-	public void addCourse(String newCourseId, String courseName,
-			int numLectures, int numTutorials)
-			throws CourseAlreadyExistsException
+	public void addCourse(final String newCourseId, final String courseName,
+			final int numLectures, final int numTutorials)
+
 	{
+		new Thread(new Runnable()
+		{
 
-		if (DataStore.coursesById.containsKey(newCourseId))
-			throw new CourseAlreadyExistsException();
+			@Override
+			public void run()
+			{
+				if (DataStore.coursesById.containsKey(newCourseId))
+					return;
+				Course c = new CourseImpl(newCourseId, courseName);
+				StudyResource lectures = srFactory.createWithNumItems(
+						Constants.LECTURE, numLectures);
+				StudyResource tutorials = srFactory.createWithNumItems(
+						Constants.TUTORIAL, numTutorials);
+				c.addStudyResource(lectures);
+				c.addStudyResource(tutorials);
 
-		Course c = new CourseImpl(newCourseId, courseName);
+				addCourse(c);
 
-		StudyResource lectures = srFactory.createWithNumItems(
-				Constants.LECTURE, numLectures);
-		StudyResource tutorials = srFactory.createWithNumItems(
-				Constants.TUTORIAL, numTutorials);
+				Persist.getInstance().visit(c);
 
-		c.addStudyResource(lectures);
-		c.addStudyResource(tutorials);
+				setChanged();
+				notifyObservers(DataStore.CLASS_LIST);
 
-		addCourse(c);
-
-		Persist.getInstance().visit(c);
-
-		setChanged();
-		notifyObservers(DataStore.CLASS_LIST);
+			}
+		}).start();
 
 	}
 

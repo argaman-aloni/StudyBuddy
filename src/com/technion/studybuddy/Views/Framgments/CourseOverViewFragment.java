@@ -124,8 +124,17 @@ public class CourseOverViewFragment extends Fragment implements Observer
 	@Override
 	public void update(Observable observable, Object data)
 	{
-		if (fragmentView != null)
-			drawGraph();
+		if (null != getActivity())
+			getActivity().runOnUiThread(new Runnable()
+			{
+
+				@Override
+				public void run()
+				{
+					if (fragmentView != null)
+						drawGraph();
+				}
+			});
 	}
 
 }
