@@ -75,4 +75,13 @@ public enum DateUtils {
 		return calendar.get(Calendar.DAY_OF_WEEK) - 1;
 
 	}
+
+	public static boolean largerOequal(Date d1, Date d2) {
+		return d1.after(d2) || d1.equals(d2);
+	}
+
+	public static boolean smallerOequal(Date d1, Date d2) {
+		return d1.before(d2) || d1.equals(d2);
+	}
+
 }

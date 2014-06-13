@@ -7,7 +7,6 @@ import org.achartengine.renderer.DefaultRenderer;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -20,8 +19,7 @@ import com.technion.studybuddy.Views.Framgments.ChartFullFragment;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.models.WorkStats;
 
-public class PieChartBuilder extends Activity
-{
+public class PieChartBuilder extends Activity {
 	ProgressPieChart chart = new ProgressPieChart();
 	private DefaultRenderer mRenderer = new DefaultRenderer();
 	/** The main series that will include all the data. */
@@ -33,15 +31,12 @@ public class PieChartBuilder extends Activity
 	private final String TAG = "TAG";
 
 	private void addLClickListener(final GraphicalView graphicalView,
-			final int index)
-	{
+			final int index) {
 		graphicalView.setOnTouchListener(null);
-		graphicalView.setOnClickListener(new OnClickListener()
-		{
+		graphicalView.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 				int[] location = new int[2];
 				v.getLocationOnScreen(location);
 				ChartFullFragment chartFragment = new ChartFullFragment();
@@ -56,14 +51,10 @@ public class PieChartBuilder extends Activity
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.xy_chart);
 		LinearLayout[] layouts = new LinearLayout[3];
-		double[] arr = stats.getLecturesStats();
-		for (int i = 0; i < 7; i++)
-			Log.d("Lectures", String.valueOf(arr[i]));
 		setOverviews(layouts);
 		setLectures(layouts);
 		setTutorials(layouts);
@@ -73,8 +64,7 @@ public class PieChartBuilder extends Activity
 	}
 
 	@Override
-	protected void onRestoreInstanceState(Bundle savedState)
-	{
+	protected void onRestoreInstanceState(Bundle savedState) {
 		super.onRestoreInstanceState(savedState);
 		mSeries = (CategorySeries) savedState.getSerializable("current_series");
 		mRenderer = (DefaultRenderer) savedState
@@ -82,15 +72,13 @@ public class PieChartBuilder extends Activity
 	}
 
 	@Override
-	protected void onSaveInstanceState(Bundle outState)
-	{
+	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putSerializable("current_series", mSeries);
 		outState.putSerializable("current_renderer", mRenderer);
 	}
 
-	private void setLectures(LinearLayout[] layouts)
-	{
+	private void setLectures(LinearLayout[] layouts) {
 		pieCharts[1] = chart
 				.getLecturesPieChart(this, stats.getLecturesStats());
 		layouts[1] = (LinearLayout) findViewById(R.id.chart2);
@@ -101,8 +89,7 @@ public class PieChartBuilder extends Activity
 		layouts[1].setAnimation(animation);
 	}
 
-	private void setOverviews(LinearLayout[] layouts)
-	{
+	private void setOverviews(LinearLayout[] layouts) {
 		pieCharts[0] = chart.getOverviewPieChart(this, stats.getTotalStats());
 		layouts[0] = (LinearLayout) findViewById(R.id.chart);
 		layouts[0].addView(pieCharts[0], new LayoutParams(
@@ -111,8 +98,7 @@ public class PieChartBuilder extends Activity
 		pieCharts[0].setAnimation(animation);
 	}
 
-	private void setTutorials(LinearLayout[] layouts)
-	{
+	private void setTutorials(LinearLayout[] layouts) {
 		pieCharts[2] = chart.getTutorialsPieChart(this,
 				stats.getTutorialsStats());
 		layouts[2] = (LinearLayout) findViewById(R.id.chart3);

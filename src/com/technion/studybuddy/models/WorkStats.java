@@ -61,23 +61,35 @@ public class WorkStats extends Observable {
 	public Integer[] getStatsForRange(Date d1, Date d2) {
 		Date n1 = DateUtils.getMidnight(d1);
 		Date n2 = DateUtils.getMidnight(d2);
-		List<Integer> values = new ArrayList<Integer>();
+		new ArrayList<Integer>();
 
-		for (Date d : DateUtils.getRange(n1, n2))
-			if (statsMap.containsKey(d))
-				values.add(statsMap.get(d));
-			else
-				values.add(0);
+		Integer[] arr = new Integer[DAYS_IN_WEEK];
+		initArray(arr);
+		for (Course course : DataStore.coursesList)
+			for (StudyItem item : DataStore.getInstance()
+					.getAllCourseDoneItems(course.getId()))
+				try {
+					Date doneDate = item.getDoneDate();
+					if (!(doneDate.before(n1) || doneDate.after(n2)))
+						arr[DateUtils.getDayOfWeekFromDate(doneDate) + 1]++;
+				} catch (ItemNotDoneError e) {
+				}
+		System.out.println(arr);
+		return arr;
+	}
 
-		return values.toArray(new Integer[values.size()]);
+	private void initArray(Integer[] values) {
+		for (int i = 0; i < DAYS_IN_WEEK; i++)
+			values[i] = 0;
 	}
 
 	public Integer[] getStatsLastXDays(Date today, int days) {
 		Date last = DateUtils.getMidnight(today);
-
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(last);
-		cal.add(Calendar.DAY_OF_MONTH, 1 - days);
+		cal.add(Calendar.DATE, 1);
+		last = cal.getTime();
+		cal.add(Calendar.DAY_OF_MONTH, 1 - (days + 1));
 
 		Date first = cal.getTime();
 
