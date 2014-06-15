@@ -11,8 +11,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.androidquery.AQuery;
 import com.technion.studybuddy.R;
 import com.technion.studybuddy.Adapters.ResourceGridAdapter;
 import com.technion.studybuddy.Views.NowLayout;
@@ -64,6 +64,8 @@ public class ResourceFragment extends Fragment implements Observer
 	private StudyResource resource;
 
 	private ResourceGridAdapter resourceAdapter;
+
+	private AQuery aq;
 
 	public ResourceFragment()
 	{
@@ -121,13 +123,17 @@ public class ResourceFragment extends Fragment implements Observer
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
+
 		View view = inflater.inflate(R.layout.stb_view_resource, container,
 				false);
-		((TextView) view.findViewById(R.id.resource_type)).setText(String
-				.valueOf(resource.getNumOfItemsBehind(
+		aq = new AQuery(view);
+		aq.hardwareAccelerated11();
+		aq.id(R.id.resource_type).text(
+				String.valueOf(resource.getNumOfItemsBehind(
 						DataStore.semester.getSemesterWeek(new Date()),
 						DataStore.semester.getTotalWeeks()))
-				+ " " + resource.getName() + " behind");
+						+ " "
+						+ resource.getName() + " behind");
 		resourceAdapter = new ResourceGridAdapter(getActivity(),
 				resource.getItems());
 

@@ -134,6 +134,7 @@ public class MainFragment extends Fragment implements Observer,
 	{
 		rootView = inflater.inflate(R.layout.stb_view_main, container, false);
 		aq = new AQuery(rootView);
+		aq.hardwareAccelerated11();
 		mToolTipFrameLayout = (ToolTipRelativeLayout) rootView
 				.findViewById(R.id.activity_main_tooltipframelayout);
 		if (mToolTipFrameLayout != null)

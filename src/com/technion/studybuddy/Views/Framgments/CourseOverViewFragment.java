@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 
+import com.androidquery.AQuery;
 import com.technion.studybuddy.R;
 import com.technion.studybuddy.Adapters.TaskAdapter;
-import com.technion.studybuddy.Views.NowLayout;
 import com.technion.studybuddy.data.DataStore;
 import com.technion.studybuddy.presenters.CoursePresenter;
 import com.technion.studybuddy.utils.Constants;
@@ -101,22 +101,23 @@ public class CourseOverViewFragment extends Fragment implements Observer
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
+
 		presenter = DataStore.getInstance().getCoursePresenter(courseNumber);
 		fragmentView = inflater.inflate(R.layout.stb_view_course_main,
 				container, false);
+		AQuery aq = new AQuery(fragmentView);
+		aq.hardwareAccelerated11();
 		TextView courseName = (TextView) fragmentView
 				.findViewById(R.id.stb_simester);
 		courseName.setText(DataStore.coursesById.get(courseNumber).getName());
 		lectureProgress = (TextProgressBar) fragmentView
 				.findViewById(R.id.stb_lecturesProgressBar);
-		fragmentView.findViewById(R.id.stb_lecturesProgress);
 		tutorialProgress = (TextProgressBar) fragmentView
 				.findViewById(R.id.stb_tutorialsProgressBar);
 		drawGraph();
 		adapter = new TaskAdapter(getActivity(), courseNumber);
-		NowLayout layout = (NowLayout) fragmentView
-				.findViewById(R.id.course_list);
-		layout.setAdapter(adapter);
+
+		aq.id(R.id.course_list).adapter(adapter);
 		return fragmentView;
 
 	}

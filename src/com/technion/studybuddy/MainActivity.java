@@ -125,6 +125,7 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 	{
 		super.onCreate(savedInstanceState);
 		aq = new AQuery(this);
+		aq.hardwareAccelerated11();
 		mGoogleApiClient = new GoogleApiClient.Builder(this)
 				.addConnectionCallbacks(this)
 				.addOnConnectionFailedListener(this).addApi(Plus.API)

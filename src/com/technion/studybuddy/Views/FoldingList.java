@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ListView;
 
 import com.technion.studybuddy.R;
@@ -56,7 +57,7 @@ public class FoldingList extends ListView implements OnGlobalLayoutListener
 			final Animation animation = AnimationUtils.loadAnimation(
 					getContext(), R.anim.fold);
 			animation.setStartOffset(250 * i);
-
+			animation.setInterpolator(new OvershootInterpolator());
 			child.startAnimation(animation);
 		}
 		onLoad = true;
