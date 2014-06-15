@@ -3,9 +3,10 @@
     tools:context="com.technion.studybuddy.LinksViewActivity" >
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_mark"
         android:orderInCategory="100"
-        android:showAsAction="never"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_checkmark_holo_light"
         android:title="@string/action_settings"/>
 
 </menu>

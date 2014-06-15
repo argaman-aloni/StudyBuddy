@@ -55,7 +55,7 @@ public class FoldingList extends ListView implements OnGlobalLayoutListener
 
 			final Animation animation = AnimationUtils.loadAnimation(
 					getContext(), R.anim.fold);
-			animation.setStartOffset(300 * i);
+			animation.setStartOffset(250 * i);
 
 			child.startAnimation(animation);
 		}

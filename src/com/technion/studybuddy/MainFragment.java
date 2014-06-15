@@ -344,7 +344,7 @@ public class MainFragment extends Fragment implements Observer,
 
 	private void setToolTip()
 	{
-		String[] array = getResources().getStringArray(
+		String[] array = getActivity().getResources().getStringArray(
 				R.array.popup_notifications);
 
 		if (locationInArray < array.length)

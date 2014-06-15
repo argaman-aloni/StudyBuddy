@@ -25,10 +25,12 @@ import android.graphics.Color;
 
 import com.technion.studybuddy.R;
 
-public class ProgressPieChart extends GenericChartGenerator {
+public class ProgressPieChart extends GenericChartGenerator
+{
 
 	private DefaultRenderer createPieChartRenderer(int[] colors, String title,
-			int gradStart, int intgradEnd) {
+			int gradStart, int intgradEnd)
+	{
 		DefaultRenderer renderer = buildCategoryRenderer(colors);
 		renderer.setDisplayValues(false);
 		renderer.setShowLabels(false);
@@ -44,17 +46,21 @@ public class ProgressPieChart extends GenericChartGenerator {
 		return renderer;
 	}
 
-	public GraphicalView getLecturesPieChart(Context context, double[] values) {
+	public GraphicalView getLecturesPieChart(Context context, double[] values)
+	{
 		int[] colors = parseColors(context.getResources().getStringArray(
 				R.array.lectures_colors));
-		return ChartFactory.getPieChartView(
-				context,
-				buildCategoryDataset("Project lectures", values, context),
-				createPieChartRenderer(colors, "Lectures", Color.MAGENTA,
-						Color.RED));
+		return ChartFactory
+				.getPieChartView(
+						context,
+						buildCategoryDataset("Project lectures", values,
+								context),
+						createPieChartRenderer(colors, "Lectures", Color.RED,
+								Color.RED));
 	}
 
-	public GraphicalView getOverviewPieChart(Context context, double[] values) {
+	public GraphicalView getOverviewPieChart(Context context, double[] values)
+	{
 		int[] colors = parseColors(context.getResources().getStringArray(
 				R.array.overview_colors));
 		return ChartFactory
@@ -63,20 +69,22 @@ public class ProgressPieChart extends GenericChartGenerator {
 						buildCategoryDataset("Project overview", values,
 								context),
 						createPieChartRenderer(colors, "Overview", colors[0],
-								colors[2]));
+								colors[0]));
 	}
 
-	public GraphicalView getTutorialsPieChart(Context context, double[] values) {
+	public GraphicalView getTutorialsPieChart(Context context, double[] values)
+	{
 		int[] colors = parseColors(context.getResources().getStringArray(
 				R.array.tutorials_colors));
 		return ChartFactory.getPieChartView(
 				context,
 				buildCategoryDataset("Project tutorials", values, context),
-				createPieChartRenderer(colors, "Tutorials", Color.CYAN,
+				createPieChartRenderer(colors, "Tutorials", Color.BLUE,
 						Color.BLUE));
 	}
 
-	private int[] parseColors(String[] stringArray) {
+	private int[] parseColors(String[] stringArray)
+	{
 		int[] result = new int[stringArray.length];
 		for (int i = 0; i < stringArray.length; i++)
 			result[i] = Color.parseColor(stringArray[i]);

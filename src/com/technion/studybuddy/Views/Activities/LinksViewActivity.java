@@ -1,6 +1,7 @@
 package com.technion.studybuddy.Views.Activities;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +25,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.technion.studybuddy.R;
+import com.technion.studybuddy.data.Persist;
+import com.technion.studybuddy.models.StudyItem;
+import com.technion.studybuddy.presenters.CoursePresenter;
 
 public class LinksViewActivity extends StudyBuddyActivity
 {
@@ -38,6 +43,7 @@ public class LinksViewActivity extends StudyBuddyActivity
 	protected int width;
 	protected int top;
 	protected int left;
+	private StudyItem currentItem;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -53,8 +59,16 @@ public class LinksViewActivity extends StudyBuddyActivity
 		Intent intent = getIntent();
 		final Bundle bundle = intent.getExtras();
 		final String PACKAGE = getPackageName();
-		setTitle(intent.getStringExtra("CourseName"));
-		itemNameTv.setText(intent.getStringExtra("CourseName"));
+		String courseItem = intent.getStringExtra("CourseName");
+		setTitle(courseItem);
+		itemNameTv.setText(courseItem);
+
+		CoursePresenter presenter = new CoursePresenter(id);
+
+		for (StudyItem item : presenter.getAllItems())
+			if (item.getLabel().equals(courseItem))
+				currentItem = item;
+
 		if (savedInstanceState == null)
 		{
 			ViewTreeObserver observer = layout.getViewTreeObserver();
@@ -110,6 +124,35 @@ public class LinksViewActivity extends StudyBuddyActivity
 		}
 
 		// android.R.layout.simple_list_item_1, from, to));
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		getMenuInflater().inflate(R.menu.links_view, menu);
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+		case android.R.id.home:
+			Intent intent = NavUtils.getParentActivityIntent(this);
+			intent.putExtra(CourseActivity.COURSE_ID, id);
+			intent.putExtra(CourseActivity.FRAGMENT, "Overview");
+
+			NavUtils.navigateUpTo(this, intent);
+			return true;
+		case R.id.action_mark:
+			currentItem.setDone(new Date());
+			Persist.getInstance().visit(currentItem);
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	private class LinkAdapter extends BaseAdapter
@@ -207,22 +250,6 @@ public class LinksViewActivity extends StudyBuddyActivity
 	{
 		TextView textView;
 		WebView webView;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch (item.getItemId())
-		{
-		case android.R.id.home:
-			Intent intent = NavUtils.getParentActivityIntent(this);
-			intent.putExtra(CourseActivity.COURSE_ID, id);
-			intent.putExtra(CourseActivity.FRAGMENT, "Overview");
-
-			NavUtils.navigateUpTo(this, intent);
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 
 }

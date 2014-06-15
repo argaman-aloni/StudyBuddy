@@ -23,18 +23,21 @@ import com.technion.studybuddy.utils.Action;
 import com.technion.studybuddy.utils.Constants;
 import com.technion.studybuddy.utils.DateUtils;
 
-public class WorkStats extends Observable {
+public class WorkStats extends Observable
+{
 
 	private final int DAYS_IN_WEEK = 7;
 
 	private final Map<Date, Integer> statsMap = new HashMap<Date, Integer>();
 
-	public void loadStats(Collection<Date> dates) {
+	public void loadStats(Collection<Date> dates)
+	{
 		for (Date d : dates)
 			increase(d);
 	}
 
-	public void decrease(Date d) {
+	public void decrease(Date d)
+	{
 		Date u = DateUtils.getMidnight(d);
 		if (!statsMap.containsKey(u))
 			return;
@@ -50,7 +53,8 @@ public class WorkStats extends Observable {
 		notifyObservers();
 	}
 
-	public int getStatsForDate(Date date) {
+	public int getStatsForDate(Date date)
+	{
 		Date n = DateUtils.getMidnight(date);
 		if (statsMap.containsKey(n))
 			return statsMap.get(n);
@@ -58,7 +62,8 @@ public class WorkStats extends Observable {
 		return 0;
 	}
 
-	public Integer[] getStatsForRange(Date d1, Date d2) {
+	public Integer[] getStatsForRange(Date d1, Date d2)
+	{
 		Date n1 = DateUtils.getMidnight(d1);
 		Date n2 = DateUtils.getMidnight(d2);
 		new ArrayList<Integer>();
@@ -68,22 +73,39 @@ public class WorkStats extends Observable {
 		for (Course course : DataStore.coursesList)
 			for (StudyItem item : DataStore.getInstance()
 					.getAllCourseDoneItems(course.getId()))
-				try {
+				try
+				{
 					Date doneDate = item.getDoneDate();
 					if (!(doneDate.before(n1) || doneDate.after(n2)))
-						arr[DateUtils.getDayOfWeekFromDate(doneDate) + 1]++;
-				} catch (ItemNotDoneError e) {
+					{
+						int location = getLocationFromDate(n2, doneDate);
+						arr[location]++;
+					}
+				} catch (ItemNotDoneError e)
+				{
 				}
 		System.out.println(arr);
 		return arr;
 	}
 
-	private void initArray(Integer[] values) {
+	private int getLocationFromDate(Date n2, Date doneDate)
+	{
+		Calendar end = Calendar.getInstance();
+		Calendar start = Calendar.getInstance();
+		end.setTime(n2);
+		start.setTime(doneDate);
+		end.add(Calendar.DAY_OF_WEEK, -start.get(Calendar.DAY_OF_WEEK));
+		return DAYS_IN_WEEK - end.get(Calendar.DAY_OF_WEEK) ;
+	}
+
+	private void initArray(Integer[] values)
+	{
 		for (int i = 0; i < DAYS_IN_WEEK; i++)
 			values[i] = 0;
 	}
 
-	public Integer[] getStatsLastXDays(Date today, int days) {
+	public Integer[] getStatsLastXDays(Date today, int days)
+	{
 		Date last = DateUtils.getMidnight(today);
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(last);
@@ -97,7 +119,8 @@ public class WorkStats extends Observable {
 
 	}
 
-	public void increase(Date d) {
+	public void increase(Date d)
+	{
 		Date u = DateUtils.getMidnight(d);
 		int old = 0;
 		if (statsMap.containsKey(u))
@@ -107,67 +130,82 @@ public class WorkStats extends Observable {
 		notifyObservers();
 	}
 
-	public void clear() {
+	public void clear()
+	{
 		statsMap.clear();
 	}
 
-	public void listenTo(final StudyItem it) {
+	public void listenTo(final StudyItem it)
+	{
 		final Date d = new Date();
-		it.onDone(new Action() {
+		it.onDone(new Action()
+		{
 
 			@Override
-			public void run() {
+			public void run()
+			{
 				increase(d);
 				getCourseItemSyncIntent(it);
 			}
 		});
 
-		it.onUnDone(new Action() {
+		it.onUnDone(new Action()
+		{
 
 			@Override
-			public void run() {
+			public void run()
+			{
 				decrease(d);
 				getCourseItemSyncIntent(it);
 			}
 		});
 	}
 
-	public double[] getLecturesStats() {
+	public double[] getLecturesStats()
+	{
 		return getStatsArray(Constants.LECTURE);
 	}
 
-	public double[] getTutorialsStats() {
+	public double[] getTutorialsStats()
+	{
 		return getStatsArray(Constants.TUTORIAL);
 	}
 
-	private double[] getStatsArray(String itemType) {
+	private double[] getStatsArray(String itemType)
+	{
 		double[] arr = new double[DAYS_IN_WEEK];
 		for (Course course : DataStore.coursesList)
 			for (StudyItem item : DataStore.getInstance()
 					.getAllCourseDoneItems(course.getId()))
-				try {
+				try
+				{
 					if (item.getItemType().equals(itemType))
 						arr[DateUtils.getDayOfWeekFromDate(item.getDoneDate())]++;
-				} catch (ItemNotDoneError e) {
+				} catch (ItemNotDoneError e)
+				{
 					// TODO Auto-generated catch block
 				}
 		return arr;
 	}
 
-	public double[] getTotalStats() {
+	public double[] getTotalStats()
+	{
 		double[] arr = new double[DAYS_IN_WEEK];
 		for (Course course : DataStore.coursesList)
 			for (StudyItem item : DataStore.getInstance()
 					.getAllCourseDoneItems(course.getId()))
-				try {
+				try
+				{
 					arr[DateUtils.getDayOfWeekFromDate(item.getDoneDate())]++;
-				} catch (ItemNotDoneError e) {
+				} catch (ItemNotDoneError e)
+				{
 					// TODO Auto-generated catch block
 				}
 		return arr;
 	}
 
-	private void getCourseItemSyncIntent(final StudyItem it) {
+	private void getCourseItemSyncIntent(final StudyItem it)
+	{
 		Context context = DataStore.getContext();
 		Intent intent = new Intent(context, TaskReciever.class);
 		Course course = it.getParent().getParent();
@@ -181,10 +219,12 @@ public class WorkStats extends Observable {
 		for (StudyItem studyItem : doneItems)
 			si.put(studyItem.toJson());
 		JSONObject json = new JSONObject();
-		try {
+		try
+		{
 			json.put("id", it.getParent().getParent().getId());
 			json.put("items", si);
-		} catch (JSONException e) {
+		} catch (JSONException e)
+		{
 			e.printStackTrace();
 		}
 		intent.putExtra(Constants.JSON_ADDON, json.toString());

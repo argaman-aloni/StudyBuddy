@@ -8,41 +8,45 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.technion.studybuddy.R;
 import com.technion.studybuddy.Views.Activities.CourseActivity;
 
-public class STBWidgetProvider extends AppWidgetProvider {
+public class STBWidgetProvider extends AppWidgetProvider
+{
 
 	public static String CLICK_ACTION = "com.technion.studybuddy.widget.CLICK";
 	public static String REFRESH_ACTION = "com.technion.studybuddy.widget.REFRESH";
 	private RemoteViews rv;
 
 	@Override
-	public void onEnabled(Context context) {
+	public void onEnabled(Context context)
+	{
 		context.getContentResolver();
 	}
 
 	@Override
-	public void onReceive(Context context, Intent intent) {
-		if (null != rv)
-			Log.d("reached to onRecive",
-					"I got here from..... " + intent.getStringExtra("Caller"));
+	public void onReceive(Context context, Intent intent)
+	{
+		// if (null != rv)
+		// Log.d("reached to onRecive",
+		// "I got here from..... " + intent.getStringExtra("Caller"));
 		super.onReceive(context, intent);
 	}
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
-			int[] appWidgetIds) {
+			int[] appWidgetIds)
+	{
 		ComponentName thisWidget = new ComponentName(context,
 				STBWidgetProvider.class);
 		int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-		for (int i : allWidgetIds) {
+		for (int i : allWidgetIds)
+		{
 			// TODO: update the widget's view if there is is an update to the
 			// data.
-			Log.d("whidget on update", "before calling the service.");
+			// Log.d("whidget on update", "before calling the service.");
 			Intent intent = new Intent(context, STBWidgetService.class);
 			intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, i);
 			intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
@@ -71,7 +75,8 @@ public class STBWidgetProvider extends AppWidgetProvider {
 	@Override
 	public void onAppWidgetOptionsChanged(Context context,
 			AppWidgetManager appWidgetManager, int appWidgetId,
-			Bundle newOptions) {
+			Bundle newOptions)
+	{
 		super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId,
 				newOptions);
 	}
