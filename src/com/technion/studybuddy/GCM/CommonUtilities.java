@@ -188,7 +188,7 @@ public final class CommonUtilities
 				asyncTask.execute();
 				break;
 			case Cell_only:
-				if (asyncTask.getTaskImportence() == NetworkTaskImportence.High)
+				if (asyncTask.getTaskImportence() == NetworkTaskImportence.Normal)
 				{
 					asyncTask.execute();
 					return;

@@ -55,7 +55,7 @@ public class NetworkDBAdapter
 
 	public SyncTask addTask(String json, String type)
 	{
-		return addTask(json, type, NetworkTaskImportence.Low);
+		return addTask(json, type, NetworkTaskImportence.Normal);
 	}
 
 	public void updateProgress(SyncTask task, SyncProgress progress)
